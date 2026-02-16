@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PDF converter: turn Markdown, DOCX, images into PDF. Merge, encrypt, and more – all in your browser. No uploads, 100% private.">
+    <title>ConvertPDF – Free Online PDF Converter | Markdown, DOCX, Images to PDF</title>
+    <!-- external libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.2.3/build/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- local styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-container" id="appContainer">
+    <!-- home section -->
+    <div id="homeSection">
+        <header>
+            <h1>ConvertPDF – Free Document & PDF Converter</h1>
+            <div class="sub">convert, merge, encrypt — now with layout controls</div>
+        </header>
+        <div class="home-grid" id="toolGrid"></div>
+        <p class="home-footer">⬇ click any card — opens in new tab</p>
+    </div>
+
+    <!-- tool panel (hidden by default) -->
+    <div id="toolPanel" class="hidden">
+        <div class="tool-header">
+            <button class="back-btn" id="backToHomeBtn">← All tools</button>
+            <h2 id="toolTitle">Tool name</h2>
+            <span class="pill" id="toolIdicator"></span>
+        </div>
+        <div id="toolContent" class="tool-panel"><!-- dynamic per tool --></div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
