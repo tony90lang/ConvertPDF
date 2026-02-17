@@ -99,6 +99,9 @@
 
     // ---------- IMPROVED: Markdown → PDF ----------
 if (toolId === 'md2pdf') {
+
+    console.log('✅ New Markdown tool loaded');
+
     area.innerHTML = `
         <h3>📂 Upload .md file</h3>
         <div class="flex-row">
