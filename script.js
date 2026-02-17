@@ -286,7 +286,7 @@ h2 {
 
             // Configure PDF options
             const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
+                margin: [0.75, 0.75, 0.75, 0.75],
                 filename: 'markdown-converted.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
