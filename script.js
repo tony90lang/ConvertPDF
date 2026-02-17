@@ -352,7 +352,7 @@
             });
         }
 
-        // ---------- DOCX to PDF via Print (professional + optional heading detection) ----------
+        // ---------- DOCX to PDF via Print (improved heading detection) ----------
 else if (toolId === 'docx2pdf') {
     area.innerHTML = `
         <h3>📂 Upload .docx</h3>
@@ -361,12 +361,9 @@ else if (toolId === 'docx2pdf') {
             <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
             <label>🔄 Orientation: <select id="docxOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
         </div>
-        <div style="margin: 1rem 0;">
-            <label>
-                <input type="checkbox" id="detectHeadings" checked> 
-                🔍 Detect headings (#, ##, ###) in plain text
-            </label>
-            <span style="font-size:0.9rem; color:#555; margin-left:1rem;">💡 For best results, use Word's built‑in heading styles.</span>
+        <div style="margin:1rem 0;">
+            <label><input type="checkbox" id="detectHeadings" checked> 🔍 Convert # style headings</label>
+            <span style="margin-left:1rem; font-size:0.9rem; color:#555;">💡 For best results, use Word's built‑in heading styles.</span>
         </div>
         <div class="preview-box"><div id="docxPreview">preview area</div></div>
         <button id="printDocxBtn" class="secondary">🖨️ Print / Save as PDF</button>
@@ -379,7 +376,7 @@ else if (toolId === 'docx2pdf') {
     const detectHeadings = document.getElementById('detectHeadings');
     const printBtn = document.getElementById('printDocxBtn');
 
-    // Professional print CSS (neutral, no colors)
+    // Professional CSS (grayscale, clean)
     const docxPrintStyles = `
         <style>
             body {
@@ -458,12 +455,11 @@ else if (toolId === 'docx2pdf') {
         </style>
     `;
 
-    // Helper to detect markdown-like headings
+    // Convert markdown-style headings inside HTML
     function enhanceHeadings(html) {
         if (!detectHeadings.checked) return html;
-        // Replace lines starting with #, ##, ### etc. that are not inside code blocks
-        // This simple regex is safe for typical documents – we assume no code blocks with # at line start
-        return html.replace(/^(#{1,6})\s+(.+)$/gm, (match, hashes, content) => {
+        // Replace <p># Heading</p> with <h1>Heading</h1> (and ## → h2, etc.)
+        return html.replace(/<p>(#{1,6})\s+(.*?)<\/p>/g, (match, hashes, content) => {
             const level = hashes.length;
             return `<h${level}>${content}</h${level}>`;
         });
@@ -507,10 +503,7 @@ else if (toolId === 'docx2pdf') {
 <body>
     <div class="docx-body">${html}</div>
     <script>
-        // Single, reliable print trigger
-        window.onload = function() {
-            setTimeout(function() { window.print(); }, 500);
-        };
+        window.onload = function() { setTimeout(function() { window.print(); }, 500); };
     <\/script>
 </body>
 </html>`;
@@ -525,7 +518,6 @@ else if (toolId === 'docx2pdf') {
             printWindow.document.write(fullHtml);
             printWindow.document.close();
 
-            // Reset button after a delay
             setTimeout(() => {
                 printBtn.disabled = false;
                 printBtn.innerHTML = '🖨️ Print / Save as PDF';
