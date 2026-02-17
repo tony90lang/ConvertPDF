@@ -352,49 +352,95 @@
             });
         }
 
-        // ---------- DOCX to PDF with orientation ----------
-        else if (toolId === 'docx2pdf') {
-            area.innerHTML = `
-                <h3>📂 Upload .docx</h3>
-                <div class="flex-row"><input type="file" id="docxFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
-                <div class="orientation-selector">
-                    <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
-                    <label>🔄 Orientation: <select id="docxOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
-                </div>
-                <button id="convertDocxBtn">📄→📑 Convert to PDF</button>
-                <div class="preview-box"><div id="docxPreview">preview area</div></div>
-                <button id="downloadDocxPdf" class="download-btn" disabled>⬇ Download PDF</button>
-            `;
-            const fileIn = document.getElementById('docxFile');
-            const convBtn = document.getElementById('convertDocxBtn');
-            const dldBtn = document.getElementById('downloadDocxPdf');
-            const previewDiv = document.getElementById('docxPreview');
-            const sizeSel = document.getElementById('docxPageSize');
-            const orientSel = document.getElementById('docxOrientation');
-            let pdfBlob = null;
+        // ---------- DOCX to PDF via Print (with preview) ----------
+else if (toolId === 'docx2pdf') {
+    area.innerHTML = `
+        <h3>📂 Upload .docx</h3>
+        <div class="flex-row"><input type="file" id="docxFile" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
+        <div class="orientation-selector">
+            <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
+            <label>🔄 Orientation: <select id="docxOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
+        </div>
+        <div class="preview-box"><div id="docxPreview">preview area</div></div>
+        <button id="printDocxBtn" class="secondary">🖨️ Print / Save as PDF</button>
+    `;
 
-            convBtn.addEventListener('click', async () => {
-                const f = fileIn.files[0];
-                if (!f) return;
-                const arrayBuf = await f.arrayBuffer();
-                const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
-                const styledHtml = printStyles + `<div class="docx-body">${html}</div>`;
-                previewDiv.innerHTML = styledHtml;
-                const wrapper = document.createElement('div');
-                wrapper.innerHTML = styledHtml;
-                try {
-                    const opt = {
-                        margin: [0.5, 0.5, 0.5, 0.5],
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, letterRendering: true },
-                        jsPDF: { unit: 'in', format: sizeSel.value, orientation: orientSel.value }
-                    };
-                    pdfBlob = await html2pdf().from(wrapper).set(opt).outputPdf('blob');
-                    dldBtn.disabled = false;
-                } catch { alert('pdf error'); }
-            });
-            dldBtn.addEventListener('click', ()=> { if(pdfBlob) downloadBlob(pdfBlob, 'document.pdf'); });
+    const fileIn = document.getElementById('docxFile');
+    const previewDiv = document.getElementById('docxPreview');
+    const sizeSel = document.getElementById('docxPageSize');
+    const orientSel = document.getElementById('docxOrientation');
+    const printBtn = document.getElementById('printDocxBtn');
+
+    // Print‑friendly CSS for DOCX output
+    const docxPrintStyles = `
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292e; max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
+            h1, h2, h3, h4, h5, h6 { margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; line-height: 1.25; color: inherit; }
+            h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3rem; }
+            h2 { font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
+            p { margin-top: 0; margin-bottom: 1rem; }
+            code, pre { font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace; font-size: 0.9rem; background: #f6f8fa; border-radius: 3px; }
+            code { padding: 0.2rem 0.4rem; color: #24292e; }
+            pre { padding: 1rem; overflow: auto; line-height: 1.45; background: #f6f8fa; border-radius: 6px; page-break-inside: avoid; }
+            pre code { background: none; padding: 0; color: #24292e; }
+            table { border-collapse: collapse; width: 100%; margin: 1rem 0; page-break-inside: avoid; }
+            th, td { border: 1px solid #dfe2e5; padding: 0.6rem 1rem; text-align: left; }
+            th { background: #f6f8fa; font-weight: 600; }
+            tr:nth-child(even) { background: #fafbfc; }
+            blockquote { margin: 0; padding: 0 1rem; color: #6a737d; border-left: 0.25rem solid #dfe2e5; }
+            img { max-width: 100%; height: auto; page-break-inside: avoid; }
+            ul, ol { padding-left: 2rem; margin: 1rem 0; }
+            li { margin: 0.25rem 0; }
+            hr { height: 0.25rem; padding: 0; margin: 2rem 0; background: #e1e4e8; border: 0; }
+            @media print { body { margin: 0; padding: 1.5cm; } pre, table { break-inside: avoid; } h1, h2, h3 { break-after: avoid; } }
+        </style>
+    `;
+
+    // Update preview when file is selected
+    fileIn.addEventListener('change', async () => {
+        const f = fileIn.files[0];
+        if (!f) return;
+        const arrayBuf = await f.arrayBuffer();
+        const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+        const styledHtml = docxPrintStyles + `<div class="docx-body">${html}</div>`;
+        previewDiv.innerHTML = styledHtml;
+    });
+
+    // Print button
+    printBtn.addEventListener('click', async () => {
+        const f = fileIn.files[0];
+        if (!f) { alert('Please select a DOCX file'); return; }
+        printBtn.disabled = true;
+        printBtn.innerHTML = '⏳ Preparing print...';
+        try {
+            const arrayBuf = await f.arrayBuffer();
+            const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+            const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <title>${f.name} - Print Preview</title>
+    ${docxPrintStyles}
+</head>
+<body>
+    <div class="docx-body">${html}</div>
+    <script>setTimeout(() => { window.print(); }, 500);<\/script>
+</body>
+</html>`;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(fullHtml);
+            printWindow.document.close();
+            setTimeout(() => {
+                printBtn.disabled = false;
+                printBtn.innerHTML = '🖨️ Print / Save as PDF';
+            }, 2000);
+        } catch (e) {
+            console.error(e);
+            alert('Error preparing document');
+            printBtn.disabled = false;
+            printBtn.innerHTML = '🖨️ Print / Save as PDF';
         }
+    });
+}
 
         // ---------- IMAGES to PDF with orientation ----------
         else if (toolId === 'img2pdf') {
@@ -578,80 +624,59 @@
             dBtn.addEventListener('click', ()=> { if(jpgUrl) { const a = document.createElement('a'); a.href = jpgUrl; a.download = 'page1.jpg'; a.click(); } });
         }
 
-        // ---------- IMG to PNG ----------
-        else if (toolId === 'img2png') {
-            area.innerHTML = `
-                <h3>🎨 Convert any image to PNG</h3>
-                <input type="file" id="anyImgInput" accept="image/*"><br><br>
-                <button id="toPngBtn">Convert to PNG</button>
-                <div class="preview-box"><img id="pngPreview" style="max-width:200px"></div>
-                <button id="downloadPngBtn" class="download-btn" disabled>⬇ Download PNG</button>
-            `;
-            const inp = document.getElementById('anyImgInput');
-            const conv = document.getElementById('toPngBtn');
-            const imgPrev = document.getElementById('pngPreview');
-            const dPng = document.getElementById('downloadPngBtn');
-            let pngBlob = null;
+        // ---------- HTML to PDF via Print (with preview) ----------
+else if (toolId === 'web2pdf') {
+    area.innerHTML = `
+        <h3>🌐 HTML snippet to PDF</h3>
+        <textarea id="htmlSnippet" rows="8" style="width:100%; border-radius:25px; padding:1rem;"><h1>Hello</h1><p>type HTML here</p></textarea><br><br>
+        <div class="orientation-selector">
+            <label>📐 Page size: <select id="htmlPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
+            <label>🔄 Orientation: <select id="htmlOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
+        </div>
+        <div class="preview-box"><div id="htmlRenderPreview"></div></div>
+        <button id="printHtmlBtn" class="secondary">🖨️ Print / Save as PDF</button>
+    `;
 
-            conv.addEventListener('click', () => {
-                const f = inp.files[0];
-                if (!f) return;
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = img.width; canvas.height = img.height;
-                        canvas.getContext('2d').drawImage(img, 0, 0);
-                        canvas.toBlob(blob => { pngBlob = blob; dPng.disabled = false; imgPrev.src = canvas.toDataURL(); }, 'image/png');
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(f);
-            });
-            dPng.addEventListener('click', ()=> { if(pngBlob) downloadBlob(pngBlob, 'image.png'); });
-        }
+    const textarea = document.getElementById('htmlSnippet');
+    const previewDiv = document.getElementById('htmlRenderPreview');
+    const sizeSel = document.getElementById('htmlPageSize');
+    const orientSel = document.getElementById('htmlOrientation');
+    const printBtn = document.getElementById('printHtmlBtn');
 
-        // ---------- HTML to PDF with orientation ----------
-        else if (toolId === 'web2pdf') {
-            area.innerHTML = `
-                <h3>🌐 HTML snippet to PDF</h3>
-                <textarea id="htmlSnippet" rows="8" style="width:100%; border-radius:25px; padding:1rem;"><h1>Hello</h1><p>type HTML here</p></textarea><br><br>
-                <div class="orientation-selector">
-                    <label>📐 Page size: <select id="htmlPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
-                    <label>🔄 Orientation: <select id="htmlOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
-                </div>
-                <button id="html2pdfBtn">Generate PDF</button>
-                <div class="preview-box"><div id="htmlRenderPreview"></div></div>
-                <button id="downloadHtmlPdf" class="download-btn" disabled>⬇ Download PDF</button>
-            `;
-            const textarea = document.getElementById('htmlSnippet');
-            const genBtn = document.getElementById('html2pdfBtn');
-            const previewDiv = document.getElementById('htmlRenderPreview');
-            const dldHtml = document.getElementById('downloadHtmlPdf');
-            const sizeSel = document.getElementById('htmlPageSize');
-            const orientSel = document.getElementById('htmlOrientation');
-            let htmlPdfBlob = null;
+    // Live preview
+    textarea.addEventListener('input', () => {
+        previewDiv.innerHTML = textarea.value;
+    });
 
-            genBtn.addEventListener('click', async () => {
-                const html = textarea.value;
-                const styled = printStyles + `<div class="html-content">${html}</div>`;
-                previewDiv.innerHTML = styled;
-                const wrapper = document.createElement('div');
-                wrapper.innerHTML = styled;
-                try {
-                    const opt = {
-                        margin: 0.5,
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2 },
-                        jsPDF: { unit: 'in', format: sizeSel.value, orientation: orientSel.value }
-                    };
-                    htmlPdfBlob = await html2pdf().from(wrapper).set(opt).outputPdf('blob');
-                    dldHtml.disabled = false;
-                } catch { alert('invalid html'); }
-            });
-            dldHtml.addEventListener('click', ()=>{ if(htmlPdfBlob) downloadBlob(htmlPdfBlob, 'web.pdf'); });
-        }
+    // Print button
+    printBtn.addEventListener('click', () => {
+        const html = textarea.value.trim();
+        if (!html) { alert('Please enter HTML'); return; }
+        printBtn.disabled = true;
+        printBtn.innerHTML = '⏳ Preparing print...';
+        const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Print Preview</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292e; max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
+        @media print { body { margin: 0; padding: 1.5cm; } }
+    </style>
+</head>
+<body>
+    ${html}
+    <script>setTimeout(() => { window.print(); }, 500);<\/script>
+</body>
+</html>`;
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(fullHtml);
+        printWindow.document.close();
+        setTimeout(() => {
+            printBtn.disabled = false;
+            printBtn.innerHTML = '🖨️ Print / Save as PDF';
+        }, 2000);
+    });
+}
 
         // ---------- QR maker ----------
         else if (toolId === 'qrmaker') {
