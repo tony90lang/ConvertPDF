@@ -134,6 +134,7 @@ if (toolId === 'md2pdf') {
             <div id="mdRendered"></div>
         </div>
         <button id="downloadMdPdf" class="download-btn" disabled>⬇ Download PDF</button>
+        <button id="printMdBtn" class="secondary">🖨️ Print / Save as PDF</button>
     `;
 
     const mdFile = document.getElementById('mdFile');
@@ -328,6 +329,82 @@ h2 {
     downloadBtn.addEventListener('click', () => { 
         if (generatedPdfBlob) {
             downloadBlob(generatedPdfBlob, 'markdown-converted.pdf');
+        }
+    });
+
+        // ---------- PRINT BUTTON (Save as PDF via browser print) ----------
+    const printBtn = document.createElement('button');
+    printBtn.id = 'printMdBtn';
+    printBtn.className = 'secondary';
+    printBtn.innerHTML = '🖨️ Print / Save as PDF';
+    area.appendChild(printBtn);
+
+    printBtn.addEventListener('click', async () => {
+        const file = mdFile.files[0];
+        if (!file) {
+            alert('Please select a markdown file');
+            return;
+        }
+
+        // Show loading state
+        printBtn.disabled = true;
+        printBtn.innerHTML = '⏳ Preparing print...';
+
+        try {
+            const text = await file.text();
+            const theme = themeSelect.value;
+            
+            // Configure marked
+            marked.setOptions({
+                gfm: true,
+                breaks: true,
+                headerIds: true
+            });
+            
+            const htmlContent = marked.parse(text);
+            
+            // Build full HTML with print styles
+            const fullHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <title>${file.name} - Print Preview</title>
+    ${printStyles(theme)}
+    <style>
+        @media print {
+            body { margin: 1.5cm; }
+            pre, table { break-inside: avoid; }
+            h1, h2, h3, h4, h5, h6 { color: inherit; }
+        }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        ${htmlContent}
+    </div>
+    <script>
+        window.onload = function() { 
+            setTimeout(() => { window.print(); }, 500);
+        };
+    <\/script>
+</body>
+</html>`;
+
+            // Open new window and write content
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(fullHtml);
+            printWindow.document.close();
+            
+            // Reset button state after a delay
+            setTimeout(() => {
+                printBtn.disabled = false;
+                printBtn.innerHTML = '🖨️ Print / Save as PDF';
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Print error:', error);
+            alert('Failed to prepare print preview');
+            printBtn.disabled = false;
+            printBtn.innerHTML = '🖨️ Print / Save as PDF';
         }
     });
 }
