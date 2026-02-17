@@ -98,7 +98,7 @@
         container.appendChild(area);
 
     // ---------- IMPROVED: Markdown → PDF ----------
-else if (toolId === 'md2pdf') {
+if (toolId === 'md2pdf') {
     area.innerHTML = `
         <h3>📂 Upload .md file</h3>
         <div class="flex-row">
@@ -683,3 +683,4 @@ else if (toolId === 'md2pdf') {
     }
 
 })();
+
