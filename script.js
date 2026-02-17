@@ -161,12 +161,6 @@ if (toolId === 'md2pdf') {
                 line-height: 1.25;
                 color: ${theme === 'dark' ? '#58a6ff' : '#1e2b4f'};
             }
-            h1 { 
-                page-break-before: always; 
-                font-size: 2em;
-                border-bottom: 1px solid ${theme === 'dark' ? '#30363d' : '#eaecef'};
-                padding-bottom: 0.3rem;
-            }
             h2 { 
                 font-size: 1.5em;
                 border-bottom: 1px solid ${theme === 'dark' ? '#30363d' : '#eaecef'};
@@ -242,7 +236,6 @@ if (toolId === 'md2pdf') {
             @media print {
                 body { margin: 0; padding: 1.5cm; }
                 pre, table { break-inside: avoid; }
-                h1 { break-before: page; }
                 h2, h3 { break-after: avoid; }
             }
         </style>
