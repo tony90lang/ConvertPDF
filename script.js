@@ -97,56 +97,253 @@
         area.className = 'area';
         container.appendChild(area);
 
-        // ---------- MD to PDF with orientation/size ----------
-        if (toolId === 'md2pdf') {
-            area.innerHTML = `
-                <h3>📂 Upload .md file</h3>
-                <div class="flex-row"><input type="file" id="mdFile" accept=".md,text/markdown"></div>
-                <div class="orientation-selector">
-                    <label>📐 Page size: <select id="mdPageSize">
-                        <option value="a4">A4</option><option value="letter">Letter</option><option value="legal">Legal</option>
-                    </select></label>
-                    <label>🔄 Orientation: <select id="mdOrientation">
-                        <option value="portrait">Portrait</option><option value="landscape">Landscape</option>
-                    </select></label>
-                </div>
-                <button id="convertMdBtn">✨ Convert to PDF</button>
-                <div class="preview-box"><div id="mdPreview" class="preview-title">Markdown preview</div><div id="mdRendered"></div></div>
-                <button id="downloadMdPdf" class="download-btn" disabled>⬇ Download PDF</button>
-            `;
-            const mdFile = document.getElementById('mdFile');
-            const convertBtn = document.getElementById('convertMdBtn');
-            const downloadBtn = document.getElementById('downloadMdPdf');
-            const mdRendered = document.getElementById('mdRendered');
-            const sizeSelect = document.getElementById('mdPageSize');
-            const orientSelect = document.getElementById('mdOrientation');
-            let generatedPdfBlob = null;
+    // ---------- IMPROVED: Markdown → PDF ----------
+else if (toolId === 'md2pdf') {
+    area.innerHTML = `
+        <h3>📂 Upload .md file</h3>
+        <div class="flex-row">
+            <input type="file" id="mdFile" accept=".md,text/markdown">
+        </div>
+        <div class="orientation-selector">
+            <label>📐 Page size: 
+                <select id="mdPageSize">
+                    <option value="a4">A4</option>
+                    <option value="letter">Letter</option>
+                    <option value="legal">Legal</option>
+                </select>
+            </label>
+            <label>🔄 Orientation: 
+                <select id="mdOrientation">
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                </select>
+            </label>
+            <label>🎨 Theme: 
+                <select id="mdTheme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </label>
+        </div>
+        <button id="convertMdBtn" class="primary">✨ Convert to PDF</button>
+        <div class="preview-box">
+            <div class="preview-title">Markdown preview</div>
+            <div id="mdRendered"></div>
+        </div>
+        <button id="downloadMdPdf" class="download-btn" disabled>⬇ Download PDF</button>
+    `;
 
-            convertBtn.addEventListener('click', async () => {
-                const file = mdFile.files[0];
-                if (!file) return alert('select a markdown file');
-                const text = await file.text();
-                const htmlContent = marked.parse(text);
-                const fullHtml = printStyles + `<div class="markdown-body">${htmlContent}</div>`;
-                mdRendered.innerHTML = fullHtml;
-                const element = document.createElement('div');
-                element.innerHTML = fullHtml;
-                mdRendered.appendChild(element);
+    const mdFile = document.getElementById('mdFile');
+    const convertBtn = document.getElementById('convertMdBtn');
+    const downloadBtn = document.getElementById('downloadMdPdf');
+    const mdRendered = document.getElementById('mdRendered');
+    const sizeSelect = document.getElementById('mdPageSize');
+    const orientSelect = document.getElementById('mdOrientation');
+    const themeSelect = document.getElementById('mdTheme');
+    let generatedPdfBlob = null;
 
-                try {
-                    const opt = {
-                        margin: [0.5, 0.5, 0.5, 0.5],
-                        filename: 'converted.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, letterRendering: true },
-                        jsPDF: { unit: 'in', format: sizeSelect.value, orientation: orientSelect.value }
-                    };
-                    generatedPdfBlob = await html2pdf().from(element).set(opt).outputPdf('blob');
-                    downloadBtn.disabled = false;
-                } catch (e) { alert('PDF conversion failed: ' + e.message); }
-            });
-            downloadBtn.addEventListener('click', () => { if (generatedPdfBlob) downloadBlob(generatedPdfBlob, 'markdown.pdf'); });
+    // Enhanced print CSS with better formatting
+    const printStyles = (theme) => `
+        <style>
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
+                background: ${theme === 'dark' ? '#1e1e1e' : 'white'};
+                max-width: 900px;
+                margin: 2rem auto;
+                padding: 0 2rem;
+            }
+            h1, h2, h3, h4, h5, h6 { 
+                margin-top: 1.5rem;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                line-height: 1.25;
+                color: ${theme === 'dark' ? '#58a6ff' : '#1e2b4f'};
+            }
+            h1 { 
+                page-break-before: always; 
+                font-size: 2em;
+                border-bottom: 1px solid ${theme === 'dark' ? '#30363d' : '#eaecef'};
+                padding-bottom: 0.3rem;
+            }
+            h2 { 
+                font-size: 1.5em;
+                border-bottom: 1px solid ${theme === 'dark' ? '#30363d' : '#eaecef'};
+                padding-bottom: 0.3rem;
+            }
+            p { margin-top: 0; margin-bottom: 1rem; }
+            code, pre { 
+                font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+                font-size: 0.9rem;
+                background: ${theme === 'dark' ? '#2d2d2d' : '#f6f8fa'};
+                border-radius: 3px;
+            }
+            code {
+                padding: 0.2rem 0.4rem;
+                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
+            }
+            pre {
+                padding: 1rem;
+                overflow: auto;
+                line-height: 1.45;
+                background: ${theme === 'dark' ? '#2d2d2d' : '#f6f8fa'};
+                border-radius: 6px;
+                page-break-inside: avoid;
+            }
+            pre code {
+                background: none;
+                padding: 0;
+                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 1rem 0;
+                page-break-inside: avoid;
+            }
+            th, td {
+                border: 1px solid ${theme === 'dark' ? '#444c56' : '#dfe2e5'};
+                padding: 0.6rem 1rem;
+                text-align: left;
+            }
+            th {
+                background: ${theme === 'dark' ? '#2d333b' : '#f6f8fa'};
+                font-weight: 600;
+            }
+            tr:nth-child(even) {
+                background: ${theme === 'dark' ? '#22272e' : '#fafbfc'};
+            }
+            blockquote {
+                margin: 0;
+                padding: 0 1rem;
+                color: ${theme === 'dark' ? '#8b949e' : '#6a737d'};
+                border-left: 0.25rem solid ${theme === 'dark' ? '#3b434b' : '#dfe2e5'};
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+                page-break-inside: avoid;
+            }
+            ul, ol {
+                padding-left: 2rem;
+                margin: 1rem 0;
+            }
+            li {
+                margin: 0.25rem 0;
+            }
+            hr {
+                height: 0.25rem;
+                padding: 0;
+                margin: 2rem 0;
+                background: ${theme === 'dark' ? '#30363d' : '#e1e4e8'};
+                border: 0;
+            }
+            @media print {
+                body { margin: 0; padding: 1.5cm; }
+                pre, table { break-inside: avoid; }
+                h1 { break-before: page; }
+                h2, h3 { break-after: avoid; }
+            }
+        </style>
+    `;
+
+    // Configure marked for better output
+    marked.setOptions({
+        gfm: true,                 // GitHub Flavored Markdown
+        breaks: true,              // Convert line breaks to <br>
+        headerIds: true,            // Add IDs to headers
+        highlight: function(code, lang) {
+            // Prism will handle highlighting in the browser
+            return code;
         }
+    });
+
+    convertBtn.addEventListener('click', async () => {
+        const file = mdFile.files[0];
+        if (!file) {
+            alert('Please select a markdown file');
+            return;
+        }
+
+        // Show loading state
+        convertBtn.disabled = true;
+        convertBtn.innerHTML = '⏳ Converting...';
+        mdRendered.innerHTML = '<div class="loading">Processing...</div>';
+
+        try {
+            const text = await file.text();
+            
+            // Parse markdown to HTML
+            const htmlContent = marked.parse(text);
+            
+            // Apply theme
+            const theme = themeSelect.value;
+            const fullHtml = printStyles(theme) + `
+                <div class="markdown-body">
+                    ${htmlContent}
+                </div>
+            `;
+            
+            // Update preview with highlighted code
+            mdRendered.innerHTML = fullHtml;
+            
+            // Apply syntax highlighting to preview
+            if (window.Prism) {
+                Prism.highlightAllUnder(mdRendered);
+            }
+
+            // Create element for PDF generation
+            const element = document.createElement('div');
+            element.innerHTML = fullHtml;
+
+            // Configure PDF options
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: 'markdown-converted.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    letterRendering: true,
+                    useCORS: true,
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: sizeSelect.value, 
+                    orientation: orientSelect.value 
+                },
+                pagebreak: { 
+                    mode: ['css', 'legacy'],  // Respect CSS page breaks
+                    before: '.page-break-before',
+                    after: '.page-break-after',
+                    avoid: 'pre, table, img'
+                }
+            };
+
+            // Generate PDF
+            generatedPdfBlob = await html2pdf().from(element).set(opt).outputPdf('blob');
+            
+            downloadBtn.disabled = false;
+            
+            // Reset button state
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = '✨ Convert to PDF';
+            
+        } catch (error) {
+            console.error('Conversion error:', error);
+            mdRendered.innerHTML = `<div class="error">Error: ${error.message || 'Conversion failed'}</div>`;
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = '✨ Convert to PDF';
+        }
+    });
+
+    downloadBtn.addEventListener('click', () => { 
+        if (generatedPdfBlob) {
+            downloadBlob(generatedPdfBlob, 'markdown-converted.pdf');
+        }
+    });
+}
 
         // ---------- DOCX to PDF with orientation ----------
         else if (toolId === 'docx2pdf') {
@@ -484,4 +681,5 @@
             dQr.addEventListener('click', ()=> { if(qrBlob) downloadBlob(qrBlob, 'qrcode.png'); });
         }
     }
+
 })();
