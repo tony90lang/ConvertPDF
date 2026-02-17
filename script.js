@@ -145,27 +145,18 @@ if (toolId === 'md2pdf') {
     // Enhanced print CSS with better formatting
     const printStyles = (theme) => `
         <style>
-            body { 
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-                line-height: 1.6;
-                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
-                background: ${theme === 'dark' ? '#1e1e1e' : 'white'};
-                max-width: 900px;
-                margin: 2rem auto;
-                padding: 0 2rem;
-            }
             h1, h2, h3, h4, h5, h6 { 
-                margin-top: 1.5rem;
-                margin-bottom: 1rem;
-                font-weight: 600;
-                line-height: 1.25;
-                color: ${theme === 'dark' ? '#58a6ff' : '#1e2b4f'};
-            }
-            h2 { 
-                font-size: 1.5em;
-                border-bottom: 1px solid ${theme === 'dark' ? '#30363d' : '#eaecef'};
-                padding-bottom: 0.3rem;
-            }
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: inherit; /* Use the same color as body text */
+}
+h2 { 
+    font-size: 1.5em;
+    border-bottom: 1px solid ${theme === 'dark' ? '#444' : '#ccc'}; /* Neutral border */
+    padding-bottom: 0.3rem;
+}
             p { margin-top: 0; margin-bottom: 1rem; }
             code, pre { 
                 font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
