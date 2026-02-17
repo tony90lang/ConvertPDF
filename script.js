@@ -134,7 +134,6 @@ if (toolId === 'md2pdf') {
             <div id="mdRendered"></div>
         </div>
         <button id="downloadMdPdf" class="download-btn" disabled>⬇ Download PDF</button>
-        <button id="printMdBtn" class="secondary">🖨️ Print / Save as PDF</button>
     `;
 
     const mdFile = document.getElementById('mdFile');
