@@ -294,13 +294,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
-        onload="renderMathInElement(document.body, { delimiters: [
+    onload="renderMathInElement(document.body, {
+        delimiters: [
             {left: '$$', right: '$$', display: true},
             {left: '$', right: '$', display: false},
             {left: '\\\\[', right: '\\\\]', display: true},
             {left: '\\\\(', right: '\\\\)', display: false}
-        ] });"></script>
-    <style>
+        ]
+    }); window.print();"></script>
         @media print {
             body { margin: 1.5cm; }
             pre, table { break-inside: avoid; }
@@ -312,9 +313,9 @@
     <div class="markdown-body">
         ${htmlContent}
     </div>
+    <!-- Fallback in case onload doesn't fire -->
     <script>
-        // Fallback: if KaTeX auto-render doesn't fire, manually call it
-        setTimeout(() => {
+        setTimeout(function() {
             if (typeof renderMathInElement === 'function') {
                 renderMathInElement(document.body, {
                     delimiters: [
@@ -325,7 +326,8 @@
                     ]
                 });
             }
-        }, 100);
+            window.print();
+        }, 500);
     <\/script>
 </body>
 </html>`;
