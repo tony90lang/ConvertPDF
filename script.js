@@ -352,7 +352,7 @@
             });
         }
 
-        // ---------- DOCX to PDF via Print (improved heading detection) ----------
+        // ---------- DOCX to PDF via Print (professional formatting) ----------
 else if (toolId === 'docx2pdf') {
     area.innerHTML = `
         <h3>📂 Upload .docx</h3>
@@ -376,81 +376,120 @@ else if (toolId === 'docx2pdf') {
     const detectHeadings = document.getElementById('detectHeadings');
     const printBtn = document.getElementById('printDocxBtn');
 
-    // Professional CSS (grayscale, clean)
+    // Professional CSS (grayscale, clean, with page‑break control)
     const docxPrintStyles = `
         <style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            .docx-body {
+                font-family: 'Calibri', 'Segoe UI', Roboto, -apple-system, sans-serif;
                 line-height: 1.6;
-                color: #1e1e1e;
-                max-width: 900px;
-                margin: 2rem auto;
-                padding: 0 2rem;
+                color: #2c3e50;
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: 2rem;
             }
-            h1, h2, h3, h4, h5, h6 {
-                margin-top: 1.8rem;
-                margin-bottom: 1rem;
-                font-weight: 600;
-                line-height: 1.3;
-                color: #111;
+            .docx-body h1 {
+                font-size: 28px;
+                color: #1e2b4f;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 10px;
+                margin-top: 30px;
+                margin-bottom: 20px;
                 page-break-after: avoid;
             }
-            h1 { font-size: 2.2em; border-bottom: 1px solid #aaa; padding-bottom: 0.3rem; }
-            h2 { font-size: 1.8em; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem; }
-            h3 { font-size: 1.5em; }
-            h4 { font-size: 1.3em; }
-            p { margin: 0 0 1rem; orphans: 3; widows: 3; }
-            code, pre {
-                font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
-                font-size: 0.9rem;
-                background: #f5f5f5;
-                border-radius: 4px;
+            .docx-body h2 {
+                font-size: 24px;
+                color: #2c3e50;
+                border-bottom: 1px solid #bdc3c7;
+                padding-bottom: 8px;
+                margin-top: 25px;
+                margin-bottom: 15px;
+                page-break-after: avoid;
             }
-            code { padding: 0.2rem 0.4rem; color: #1e1e1e; }
-            pre {
-                padding: 1rem;
-                overflow: auto;
-                line-height: 1.45;
-                background: #f5f5f5;
-                border-radius: 6px;
+            .docx-body h3 {
+                font-size: 20px;
+                color: #34495e;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                page-break-after: avoid;
+            }
+            .docx-body p {
+                margin: 0 0 1rem;
+                orphans: 3;
+                widows: 3;
+            }
+            .docx-body code, .docx-body pre {
+                font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                background-color: #f4f4f4;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+                font-size: 0.9em;
+            }
+            .docx-body code {
+                padding: 2px 4px;
+            }
+            .docx-body pre {
+                padding: 15px;
+                overflow-x: auto;
+                line-height: 1.4;
                 page-break-inside: avoid;
             }
-            pre code { background: none; padding: 0; }
-            table {
+            .docx-body table {
                 border-collapse: collapse;
                 width: 100%;
-                margin: 1.5rem 0;
+                margin: 20px 0;
                 page-break-inside: avoid;
+                box-shadow: 0 2px 3px rgba(0,0,0,0.1);
             }
-            th, td {
-                border: 1px solid #aaa;
-                padding: 0.6rem 1rem;
+            .docx-body th {
+                background-color: #3498db;
+                color: white;
+                font-weight: 600;
+                padding: 12px;
                 text-align: left;
+                border: 1px solid #2980b9;
+            }
+            .docx-body td {
+                padding: 10px 12px;
+                border: 1px solid #ddd;
                 vertical-align: top;
             }
-            th { background: #f0f0f0; font-weight: 600; }
-            tr:nth-child(even) { background: #fafafa; }
-            blockquote {
+            .docx-body tr:nth-child(even) {
+                background-color: #f8f9fa;
+            }
+            .docx-body blockquote {
                 margin: 0 0 1rem;
                 padding: 0 1rem;
-                color: #444;
-                border-left: 0.25rem solid #ccc;
+                color: #555;
+                border-left: 4px solid #ccc;
             }
-            img { max-width: 100%; height: auto; page-break-inside: avoid; }
-            ul, ol { padding-left: 2rem; margin: 1rem 0; }
-            li { margin: 0.25rem 0; }
-            hr {
+            .docx-body img {
+                max-width: 100%;
+                height: auto;
+                page-break-inside: avoid;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            .docx-body ul, .docx-body ol {
+                padding-left: 2rem;
+                margin: 1rem 0;
+            }
+            .docx-body li {
+                margin: 0.25rem 0;
+            }
+            .docx-body hr {
                 height: 1px;
                 padding: 0;
                 margin: 2rem 0;
                 background: #ccc;
                 border: 0;
             }
-            @page { size: auto; margin: 1.5cm; } /* removes browser header/footer */
+            @page {
+                margin: 2cm;
+                size: auto;
+            }
             @media print {
-                body { margin: 0; padding: 0; }
-                pre, table { break-inside: avoid; }
-                h1, h2, h3 { break-after: avoid; }
+                body { margin: 0; padding: 0; background: white; }
+                .docx-body h1, .docx-body h2, .docx-body h3 { break-after: avoid; }
+                .docx-body pre, .docx-body table, .docx-body img { break-inside: avoid; }
             }
         </style>
     `;
@@ -532,98 +571,152 @@ else if (toolId === 'docx2pdf') {
     });
 }
 
-        // ---------- IMAGES to PDF with orientation ----------
-        else if (toolId === 'img2pdf') {
-            area.innerHTML = `
-                <h3>🖼️ Select images (multiple)</h3>
-                <div class="flex-row"><input type="file" id="imgFiles" accept="image/*" multiple></div>
-                <div class="orientation-selector">
-                    <label>📐 Page size: <select id="imgPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
-                    <label>🔄 Page orientation: <select id="imgOrientation"><option value="auto">Auto (fit image)</option><option value="portrait">Force portrait</option><option value="landscape">Force landscape</option></select></label>
+        // ---------- IMPROVED: PDF Password Encryption ----------
+else if (toolId === 'pdfencrypt') {
+    area.innerHTML = `
+        <h3>🔐 Protect PDF with Password</h3>
+        
+        <div class="encrypt-controls">
+            <div class="form-group">
+                <label>📄 Select PDF:</label>
+                <input type="file" id="pdfToEncrypt" accept=".pdf">
+            </div>
+            
+            <div class="form-group">
+                <label>🔑 Password:</label>
+                <input type="password" id="pdfPassword" placeholder="Enter password">
+            </div>
+            
+            <div class="form-group">
+                <label>🔑 Confirm Password:</label>
+                <input type="password" id="pdfConfirmPassword" placeholder="Confirm password">
+            </div>
+            
+            <div class="form-group">
+                <label>⚙️ Permissions:</label>
+                <div class="permissions-grid">
+                    <label><input type="checkbox" id="permPrint" checked> Allow Printing</label>
+                    <label><input type="checkbox" id="permCopy" checked> Allow Copying</label>
+                    <label><input type="checkbox" id="permModify"> Allow Modifying</label>
                 </div>
-                <button id="convertImgBtn">📸→📁 Generate PDF</button>
-                <div class="preview-box" id="imgPreviewList">image previews</div>
-                <button id="downloadImgPdf" class="download-btn" disabled>⬇ Download PDF</button>
-            `;
-            const input = document.getElementById('imgFiles');
-            const conv = document.getElementById('convertImgBtn');
-            const down = document.getElementById('downloadImgPdf');
-            const preview = document.getElementById('imgPreviewList');
-            const sizeSel = document.getElementById('imgPageSize');
-            const orientSel = document.getElementById('imgOrientation');
-            let finalPdfBlob = null;
+            </div>
+            
+            <div id="passwordStrength" class="password-strength"></div>
+        </div>
+        
+        <button id="encryptPdfBtn" class="primary">🔒 Encrypt PDF</button>
+        
+        <div class="preview-box">
+            <p class="note">Encrypted PDF preview not available (password protected)</p>
+        </div>
+    `;
 
-            conv.addEventListener('click', async () => {
-                const files = Array.from(input.files);
-                if (!files.length) return;
-                const { PDFDocument } = PDFLib;
-                const pdfDoc = await PDFDocument.create();
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const imgBytes = await file.arrayBuffer();
-                    let image;
-                    if (file.type === 'image/png') image = await pdfDoc.embedPng(imgBytes);
-                    else image = await pdfDoc.embedJpg(imgBytes);
-                    const dims = image.scale(1);
-                    const pageWidth = dims.width;
-                    const pageHeight = dims.height;
-                    let orientation = orientSel.value;
-                    if (orientation === 'auto') {
-                        orientation = pageWidth > pageHeight ? 'landscape' : 'portrait';
-                    }
-                    const stdSizes = { a4: [595, 842], letter: [612, 792] };
-                    let stdWidth = stdSizes[sizeSel.value][0];
-                    let stdHeight = stdSizes[sizeSel.value][1];
-                    if (orientation === 'landscape') {
-                        if (stdWidth < stdHeight) [stdWidth, stdHeight] = [stdHeight, stdWidth];
-                    } else {
-                        if (stdWidth > stdHeight) [stdWidth, stdHeight] = [stdHeight, stdWidth];
-                    }
-                    const page = pdfDoc.addPage([stdWidth, stdHeight]);
-                    const scaled = image.scaleToFit(stdWidth, stdHeight);
-                    page.drawImage(image, {
-                        x: (stdWidth - scaled.width) / 2,
-                        y: (stdHeight - scaled.height) / 2,
-                        width: scaled.width,
-                        height: scaled.height,
-                    });
-                    const dataUrl = URL.createObjectURL(file);
-                    const thumb = document.createElement('img');
-                    thumb.src = dataUrl;
-                    thumb.style.width = '70px'; thumb.style.margin='5px';
-                    preview.appendChild(thumb);
-                }
-                const pdfBytes = await pdfDoc.save();
-                finalPdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-                down.disabled = false;
-            });
-            down.addEventListener('click', ()=>{ if(finalPdfBlob) downloadBlob(finalPdfBlob, 'images.pdf'); });
+    const pdfFile = document.getElementById('pdfToEncrypt');
+    const pdfPassword = document.getElementById('pdfPassword');
+    const pdfConfirm = document.getElementById('pdfConfirmPassword');
+    const permPrint = document.getElementById('permPrint');
+    const permCopy = document.getElementById('permCopy');
+    const permModify = document.getElementById('permModify');
+    const encryptBtn = document.getElementById('encryptPdfBtn');
+    const strengthDiv = document.getElementById('passwordStrength');
+    
+    // Password strength checker
+    pdfPassword.addEventListener('input', () => {
+        const pwd = pdfPassword.value;
+        let strength = 0;
+        
+        if (pwd.length >= 8) strength++;
+        if (pwd.match(/[a-z]/)) strength++;
+        if (pwd.match(/[A-Z]/)) strength++;
+        if (pwd.match(/[0-9]/)) strength++;
+        if (pwd.match(/[^a-zA-Z0-9]/)) strength++;
+        
+        const messages = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+        const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
+        
+        strengthDiv.textContent = `Password Strength: ${messages[strength]}`;
+        strengthDiv.style.color = colors[strength];
+    });
+    
+    encryptBtn.addEventListener('click', async () => {
+        const file = pdfFile.files[0];
+        const pwd = pdfPassword.value;
+        const confirm = pdfConfirm.value;
+        
+        // Validation
+        if (!file) {
+            alert('Please select a PDF file');
+            return;
         }
-
-        // ---------- PDF ENCRYPT ----------
-        else if (toolId === 'pdfencrypt') {
-            area.innerHTML = `
-                <h3>🔐 Upload PDF & set password</h3>
-                <input type="file" id="pdfToEncrypt" accept=".pdf"><br><br>
-                <input type="text" id="pdfPassword" placeholder="enter password" style="padding:0.7rem; width:250px; border-radius:40px; border:1px solid #b9cbee;">
-                <button id="encryptPdfBtn">🔒 Encrypt & download</button>
-                <div class="preview-box">encrypted pdf preview not available (password protected)</div>
-            `;
-            const fileE = document.getElementById('pdfToEncrypt');
-            const pass = document.getElementById('pdfPassword');
-            const encryptBtn = document.getElementById('encryptPdfBtn');
-            encryptBtn.addEventListener('click', async () => {
-                const f = fileE.files[0]; const pwd = pass.value;
-                if (!f || !pwd) return alert('need file and password');
-                const arrayBuf = await f.arrayBuffer();
-                const { PDFDocument } = PDFLib;
-                const pdfDoc = await PDFDocument.load(arrayBuf);
-                pdfDoc.encrypt({ userPassword: pwd, ownerPassword: pwd, permissions: { printing: 'highResolution', modifying: false } });
-                const encryptedBytes = await pdfDoc.save();
-                const blob = new Blob([encryptedBytes], { type: 'application/pdf' });
-                downloadBlob(blob, 'protected.pdf');
-            });
+        
+        if (!pwd) {
+            alert('Please enter a password');
+            return;
         }
+        
+        if (pwd !== confirm) {
+            alert('Passwords do not match');
+            return;
+        }
+        
+        if (pwd.length < 6) {
+            alert('Password must be at least 6 characters');
+            return;
+        }
+        
+        encryptBtn.disabled = true;
+        encryptBtn.innerHTML = '⏳ Encrypting...';
+        
+        try {
+            const arrayBuf = await file.arrayBuffer();
+            const { PDFDocument } = PDFLib;
+            
+            // Load PDF
+            let pdfDoc;
+            try {
+                pdfDoc = await PDFDocument.load(arrayBuf);
+            } catch (e) {
+                throw new Error('Invalid or corrupted PDF file');
+            }
+            
+            // Check if already encrypted
+            if (pdfDoc.isEncrypted) {
+                throw new Error('PDF is already encrypted');
+            }
+            
+            // Set permissions
+            const permissions = {
+                printing: permPrint.checked ? 'highResolution' : 'none',
+                modifying: permModify.checked,
+                copying: permCopy.checked,
+                annotating: false,
+                fillingForms: false,
+                contentAccessibility: true,
+                documentAssembly: false
+            };
+            
+            // Encrypt
+            pdfDoc.encrypt({
+                userPassword: pwd,
+                ownerPassword: pwd,
+                permissions: permissions
+            });
+            
+            const encryptedBytes = await pdfDoc.save();
+            const blob = new Blob([encryptedBytes], { type: 'application/pdf' });
+            
+            // Download
+            downloadBlob(blob, `protected-${file.name}`);
+            
+        } catch (error) {
+            console.error('Encryption error:', error);
+            alert('Encryption failed: ' + error.message);
+        } finally {
+            encryptBtn.disabled = false;
+            encryptBtn.innerHTML = '🔒 Encrypt PDF';
+        }
+    });
+}
 
         // ---------- MERGE PDF ----------
         else if (toolId === 'mergepdf') {
@@ -651,36 +744,175 @@ else if (toolId === 'docx2pdf') {
             });
         }
 
-        // ---------- TXT to DOCX ----------
-        else if (toolId === 'txt2docx') {
-            area.innerHTML = `
-                <h3>📄 Upload .txt</h3>
-                <input type="file" id="txtFile" accept=".txt"><br><br>
-                <button id="convertTxtBtn">📝 → 📘 to DOCX</button>
-                <div class="preview-box" id="txtPreview">text preview</div>
-                <button id="downloadDocxBtn" class="download-btn" disabled>⬇ Download DOCX</button>
-            `;
-            const txtInp = document.getElementById('txtFile');
-            const convTxt = document.getElementById('convertTxtBtn');
-            const downTxt = document.getElementById('downloadDocxBtn');
-            const previewTxt = document.getElementById('txtPreview');
-            let docxBlob = null;
+        // ---------- IMPROVED: TXT to DOCX with formatting ----------
+else if (toolId === 'txt2docx') {
+    area.innerHTML = `
+        <h3>📄 Upload .txt file</h3>
+        <div class="flex-row">
+            <input type="file" id="txtFile" accept=".txt">
+        </div>
+        
+        <div class="formatting-controls">
+            <h4>Formatting Options</h4>
+            <div class="formatting-grid">
+                <div class="format-option">
+                    <label>Font:</label>
+                    <select id="txtFont">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Calibri" selected>Calibri</option>
+                        <option value="Courier New">Courier New</option>
+                    </select>
+                </div>
+                
+                <div class="format-option">
+                    <label>Size:</label>
+                    <select id="txtFontSize">
+                        <option value="10">10pt</option>
+                        <option value="11" selected>11pt</option>
+                        <option value="12">12pt</option>
+                        <option value="14">14pt</option>
+                    </select>
+                </div>
+                
+                <div class="format-option">
+                    <label>Line Spacing:</label>
+                    <select id="txtLineSpacing">
+                        <option value="1.0">Single</option>
+                        <option value="1.15">1.15</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2.0">Double</option>
+                    </select>
+                </div>
+                
+                <div class="format-option">
+                    <label>Detect Headings:</label>
+                    <input type="checkbox" id="txtDetectHeadings" checked>
+                </div>
+            </div>
+        </div>
+        
+        <button id="convertTxtBtn" class="primary">📝 → 📘 Convert to DOCX</button>
+        
+        <div class="preview-box">
+            <div class="preview-title">Preview</div>
+            <pre id="txtPreview" style="white-space: pre-wrap; font-family: inherit;"></pre>
+        </div>
+        
+        <button id="downloadDocxBtn" class="download-btn" disabled>⬇ Download DOCX</button>
+    `;
 
-            convTxt.addEventListener('click', async () => {
-                const f = txtInp.files[0];
-                if (!f) return;
-                const text = await f.text();
-                previewTxt.innerText = text.slice(0, 500) + (text.length>500?'...':'');
-                const { Document, Packer, Paragraph, TextRun } = docx;
-                const doc = new Document({ sections: [{
-                    properties: {}, children: [new Paragraph({ children: [new TextRun(text) ] })]
-                }] });
-                const blob = await Packer.toBlob(doc);
-                docxBlob = blob;
-                downTxt.disabled = false;
-            });
-            downTxt.addEventListener('click', () => { if (docxBlob) downloadBlob(docxBlob, 'output.docx'); });
+    const txtFile = document.getElementById('txtFile');
+    const txtFont = document.getElementById('txtFont');
+    const txtFontSize = document.getElementById('txtFontSize');
+    const txtLineSpacing = document.getElementById('txtLineSpacing');
+    const txtDetectHeadings = document.getElementById('txtDetectHeadings');
+    const convertBtn = document.getElementById('convertTxtBtn');
+    const downloadBtn = document.getElementById('downloadDocxBtn');
+    const previewTxt = document.getElementById('txtPreview');
+    
+    let currentDocxBlob = null;
+    let currentText = '';
+    
+    txtFile.addEventListener('change', async () => {
+        const file = txtFile.files[0];
+        if (!file) return;
+        currentText = await file.text();
+        previewTxt.textContent = currentText.slice(0, 1000) + (currentText.length > 1000 ? '...' : '');
+    });
+    
+    convertBtn.addEventListener('click', async () => {
+        if (!currentText) {
+            alert('Please select a text file first');
+            return;
         }
+        
+        convertBtn.disabled = true;
+        convertBtn.innerHTML = '⏳ Converting...';
+        
+        try {
+            // Split text into paragraphs
+            const paragraphs = currentText.split(/\n\s*\n/);
+            
+            // Create document with sections
+            const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = docx;
+            
+            const children = [];
+            
+            paragraphs.forEach(para => {
+                const lines = para.split('\n');
+                
+                lines.forEach(line => {
+                    line = line.trim();
+                    if (!line) return;
+                    
+                    // Detect headings if enabled
+                    if (txtDetectHeadings.checked) {
+                        if (line.startsWith('# ')) {
+                            children.push(
+                                new Paragraph({
+                                    text: line.substring(2),
+                                    heading: HeadingLevel.HEADING_1,
+                                    spacing: { after: 200 }
+                                })
+                            );
+                            return;
+                        } else if (line.startsWith('## ')) {
+                            children.push(
+                                new Paragraph({
+                                    text: line.substring(3),
+                                    heading: HeadingLevel.HEADING_2,
+                                    spacing: { after: 200 }
+                                })
+                            );
+                            return;
+                        }
+                    }
+                    
+                    // Regular paragraph
+                    children.push(
+                        new Paragraph({
+                            children: [
+                                new TextRun({
+                                    text: line,
+                                    font: txtFont.value,
+                                    size: parseInt(txtFontSize.value) * 2, // docx uses half-points
+                                })
+                            ],
+                            spacing: {
+                                line: Math.round(parseFloat(txtLineSpacing.value) * 240), // docx line spacing in twips
+                                after: 120
+                            }
+                        })
+                    );
+                });
+            });
+            
+            const doc = new Document({
+                sections: [{
+                    properties: {},
+                    children: children
+                }]
+            });
+            
+            currentDocxBlob = await Packer.toBlob(doc);
+            downloadBtn.disabled = false;
+            
+        } catch (error) {
+            console.error('DOCX conversion error:', error);
+            alert('Conversion failed: ' + error.message);
+        } finally {
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = '📝 → 📘 Convert to DOCX';
+        }
+    });
+    
+    downloadBtn.addEventListener('click', () => {
+        if (currentDocxBlob) {
+            downloadBlob(currentDocxBlob, 'converted.docx');
+        }
+    });
+}
 
         // ---------- PDF to JPG ----------
         else if (toolId === 'pdf2jpg') {
@@ -768,32 +1000,197 @@ else if (toolId === 'web2pdf') {
     });
 }
 
-        // ---------- QR maker ----------
-        else if (toolId === 'qrmaker') {
-            area.innerHTML = `
-                <h3>🔳 Text / URL to QR</h3>
-                <input type="text" id="qrText" placeholder="enter text or link" style="width:70%; padding:0.7rem; border-radius:50px; border:1px solid #aaa;"><br><br>
-                <button id="qrGenBtn">Generate QR</button>
-                <div class="preview-box"><div id="qrPreview"></div></div>
-                <button id="downloadQrBtn" class="download-btn" disabled>⬇ Download PNG</button>
-            `;
-            const qrInput = document.getElementById('qrText');
-            const genQr = document.getElementById('qrGenBtn');
-            const qrDiv = document.getElementById('qrPreview');
-            const dQr = document.getElementById('downloadQrBtn');
-            let qrBlob = null;
+    // ---------- PROFESSIONAL QR CODE GENERATOR ----------
+else if (toolId === 'qrmaker') {
+    area.innerHTML = `
+        <h3>🔳 Professional QR Code Generator</h3>
+        <div class="qr-controls">
+            <input type="text" id="qrText" placeholder="Enter text or URL" value="https://convert-pdf.vercel.app">
+            
+            <div class="qr-options-grid">
+                <div class="qr-option">
+                    <label>Size:</label>
+                    <select id="qrSize">
+                        <option value="200">Small (200px)</option>
+                        <option value="300" selected>Medium (300px)</option>
+                        <option value="500">Large (500px)</option>
+                        <option value="1024">Print Quality (1024px)</option>
+                    </select>
+                </div>
+                
+                <div class="qr-option">
+                    <label>Error Correction:</label>
+                    <select id="qrErrorLevel">
+                        <option value="L">Low (7%)</option>
+                        <option value="M" selected>Medium (15%)</option>
+                        <option value="Q">Quartile (25%)</option>
+                        <option value="H">High (30%)</option>
+                    </select>
+                </div>
+                
+                <div class="qr-option">
+                    <label>Foreground:</label>
+                    <input type="color" id="qrDarkColor" value="#000000">
+                </div>
+                
+                <div class="qr-option">
+                    <label>Background:</label>
+                    <input type="color" id="qrLightColor" value="#ffffff">
+                </div>
+                
+                <div class="qr-option">
+                    <label>Logo (optional):</label>
+                    <input type="file" id="qrLogo" accept="image/*">
+                </div>
+                
+                <div class="qr-option">
+                    <label>Format:</label>
+                    <select id="qrFormat">
+                        <option value="png">PNG (raster)</option>
+                        <option value="svg">SVG (vector)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button id="generateQrBtn" class="primary">✨ Generate QR Code</button>
+        </div>
+        
+        <div class="preview-box" id="qrPreviewContainer">
+            <div class="preview-title">Preview</div>
+            <div id="qrPreview" class="qr-preview-area"></div>
+        </div>
+        
+        <button id="downloadQrBtn" class="download-btn" disabled>⬇ Download QR Code</button>
+    `;
 
-            genQr.addEventListener('click', () => {
-                qrDiv.innerHTML = '';
-                const val = qrInput.value.trim() || 'https://fileforge.demo';
-                new QRCode(qrDiv, { text: val, width: 200, height: 200, colorDark: '#1e2b4f' });
-                setTimeout(() => {
-                    const canvas = qrDiv.querySelector('canvas');
-                    if (canvas) canvas.toBlob(blob => { qrBlob = blob; dQr.disabled = false; }, 'image/png');
-                }, 300);
-            });
-            dQr.addEventListener('click', ()=> { if(qrBlob) downloadBlob(qrBlob, 'qrcode.png'); });
+    const qrText = document.getElementById('qrText');
+    const qrSize = document.getElementById('qrSize');
+    const qrErrorLevel = document.getElementById('qrErrorLevel');
+    const qrDarkColor = document.getElementById('qrDarkColor');
+    const qrLightColor = document.getElementById('qrLightColor');
+    const qrLogo = document.getElementById('qrLogo');
+    const qrFormat = document.getElementById('qrFormat');
+    const generateBtn = document.getElementById('generateQrBtn');
+    const downloadBtn = document.getElementById('downloadQrBtn');
+    const qrPreview = document.getElementById('qrPreview');
+    
+    let currentQrDataUrl = null;
+    
+    generateBtn.addEventListener('click', async () => {
+        const text = qrText.value.trim();
+        if (!text) {
+            alert('Please enter text or URL');
+            return;
         }
+        
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '⏳ Generating...';
+        
+        try {
+            // Clear previous preview
+            qrPreview.innerHTML = '';
+            
+            // Create canvas for QR code
+            const canvas = document.createElement('canvas');
+            const size = parseInt(qrSize.value);
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Use QRCode library with options
+            await new Promise((resolve, reject) => {
+                try {
+                    // @ts-ignore - QRCode is loaded globally
+                    QRCode.toCanvas(
+                        canvas,
+                        text,
+                        {
+                            width: size,
+                            margin: 2,
+                            color: {
+                                dark: qrDarkColor.value,
+                                light: qrLightColor.value
+                            },
+                            errorCorrectionLevel: qrErrorLevel.value
+                        },
+                        (error) => {
+                            if (error) reject(error);
+                            else resolve();
+                        }
+                    );
+                } catch (e) {
+                    reject(e);
+                }
+            });
+            
+            // Add logo if provided
+            if (qrLogo.files[0]) {
+                const logo = await loadImage(qrLogo.files[0]);
+                const ctx = canvas.getContext('2d');
+                const logoSize = size * 0.2; // Logo takes 20% of QR size
+                ctx.drawImage(
+                    logo,
+                    (size - logoSize) / 2,
+                    (size - logoSize) / 2,
+                    logoSize,
+                    logoSize
+                );
+            }
+            
+            // Store data URL
+            currentQrDataUrl = canvas.toDataURL('image/png');
+            
+            // Show preview
+            const previewImg = document.createElement('img');
+            previewImg.src = currentQrDataUrl;
+            previewImg.style.maxWidth = '300px';
+            previewImg.style.border = '1px solid #ccc';
+            previewImg.style.borderRadius = '8px';
+            qrPreview.appendChild(previewImg);
+            
+            downloadBtn.disabled = false;
+            
+        } catch (error) {
+            console.error('QR generation error:', error);
+            alert('Failed to generate QR code: ' + error.message);
+        } finally {
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '✨ Generate QR Code';
+        }
+    });
+    
+    // Helper to load image from file
+    function loadImage(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = e.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+    
+    downloadBtn.addEventListener('click', () => {
+        if (!currentQrDataUrl) return;
+        
+        const format = qrFormat.value;
+        const ext = format === 'svg' ? 'svg' : 'png';
+        
+        if (format === 'svg') {
+            // Convert canvas to SVG (simplified - in production use a proper library)
+            alert('SVG download requires additional library. Using PNG instead.');
+        }
+        
+        // Download as PNG
+        const link = document.createElement('a');
+        link.download = `qrcode-${Date.now()}.png`;
+        link.href = currentQrDataUrl;
+        link.click();
+    });
+}
     }
 
 })();
