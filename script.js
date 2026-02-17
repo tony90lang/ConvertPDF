@@ -352,7 +352,7 @@
             });
         }
 
-        // ---------- DOCX to PDF via Print (with preview) ----------
+        // ---------- DOCX to PDF via Print (improved) ----------
 else if (toolId === 'docx2pdf') {
     area.innerHTML = `
         <h3>📂 Upload .docx</h3>
@@ -363,6 +363,7 @@ else if (toolId === 'docx2pdf') {
         </div>
         <div class="preview-box"><div id="docxPreview">preview area</div></div>
         <button id="printDocxBtn" class="secondary">🖨️ Print / Save as PDF</button>
+        <p class="note" style="font-size:0.9rem; margin-top:0.5rem;">💡 For best results, use Word's built‑in heading styles (Heading 1, Heading 2).</p>
     `;
 
     const fileIn = document.getElementById('docxFile');
@@ -371,28 +372,17 @@ else if (toolId === 'docx2pdf') {
     const orientSel = document.getElementById('docxOrientation');
     const printBtn = document.getElementById('printDocxBtn');
 
-    // Print‑friendly CSS for DOCX output
+    // Print‑friendly CSS (with page‑break control)
     const docxPrintStyles = `
         <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292e; max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
-            h1, h2, h3, h4, h5, h6 { margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; line-height: 1.25; color: inherit; }
+            h1, h2, h3, h4, h5, h6 { margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; line-height: 1.25; color: inherit; page-break-after: avoid; }
             h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3rem; }
             h2 { font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
-            p { margin-top: 0; margin-bottom: 1rem; }
-            code, pre { font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace; font-size: 0.9rem; background: #f6f8fa; border-radius: 3px; }
-            code { padding: 0.2rem 0.4rem; color: #24292e; }
-            pre { padding: 1rem; overflow: auto; line-height: 1.45; background: #f6f8fa; border-radius: 6px; page-break-inside: avoid; }
-            pre code { background: none; padding: 0; color: #24292e; }
-            table { border-collapse: collapse; width: 100%; margin: 1rem 0; page-break-inside: avoid; }
-            th, td { border: 1px solid #dfe2e5; padding: 0.6rem 1rem; text-align: left; }
-            th { background: #f6f8fa; font-weight: 600; }
-            tr:nth-child(even) { background: #fafbfc; }
-            blockquote { margin: 0; padding: 0 1rem; color: #6a737d; border-left: 0.25rem solid #dfe2e5; }
+            p, li { page-break-inside: avoid; }
+            pre, table { page-break-inside: avoid; }
             img { max-width: 100%; height: auto; page-break-inside: avoid; }
-            ul, ol { padding-left: 2rem; margin: 1rem 0; }
-            li { margin: 0.25rem 0; }
-            hr { height: 0.25rem; padding: 0; margin: 2rem 0; background: #e1e4e8; border: 0; }
-            @media print { body { margin: 0; padding: 1.5cm; } pre, table { break-inside: avoid; } h1, h2, h3 { break-after: avoid; } }
+            @media print { body { margin: 0; padding: 1.5cm; } }
         </style>
     `;
 
@@ -400,21 +390,27 @@ else if (toolId === 'docx2pdf') {
     fileIn.addEventListener('change', async () => {
         const f = fileIn.files[0];
         if (!f) return;
-        const arrayBuf = await f.arrayBuffer();
-        const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
-        const styledHtml = docxPrintStyles + `<div class="docx-body">${html}</div>`;
-        previewDiv.innerHTML = styledHtml;
+        try {
+            const arrayBuf = await f.arrayBuffer();
+            const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+            previewDiv.innerHTML = docxPrintStyles + `<div class="docx-body">${html}</div>`;
+        } catch (e) {
+            previewDiv.innerHTML = `<p style="color:red;">Error reading file: ${e.message}</p>`;
+        }
     });
 
     // Print button
     printBtn.addEventListener('click', async () => {
         const f = fileIn.files[0];
         if (!f) { alert('Please select a DOCX file'); return; }
+
         printBtn.disabled = true;
         printBtn.innerHTML = '⏳ Preparing print...';
+
         try {
             const arrayBuf = await f.arrayBuffer();
             const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+
             const fullHtml = `<!DOCTYPE html>
 <html>
 <head>
@@ -423,19 +419,34 @@ else if (toolId === 'docx2pdf') {
 </head>
 <body>
     <div class="docx-body">${html}</div>
-    <script>setTimeout(() => { window.print(); }, 500);<\/script>
+    <script>
+        // Ensure print dialog opens only once after everything is loaded
+        window.onload = function() {
+            setTimeout(function() { window.print(); }, 500);
+        };
+    <\/script>
 </body>
 </html>`;
+
             const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                alert('Pop‑up blocked! Please allow pop‑ups for this site.');
+                printBtn.disabled = false;
+                printBtn.innerHTML = '🖨️ Print / Save as PDF';
+                return;
+            }
             printWindow.document.write(fullHtml);
             printWindow.document.close();
+
+            // Reset button after a delay (the print dialog may take time)
             setTimeout(() => {
                 printBtn.disabled = false;
                 printBtn.innerHTML = '🖨️ Print / Save as PDF';
-            }, 2000);
+            }, 3000);
+
         } catch (e) {
             console.error(e);
-            alert('Error preparing document');
+            alert('Error preparing document: ' + e.message);
             printBtn.disabled = false;
             printBtn.innerHTML = '🖨️ Print / Save as PDF';
         }
