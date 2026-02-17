@@ -352,7 +352,7 @@
             });
         }
 
-        // ---------- DOCX to PDF via Print (improved) ----------
+        // ---------- DOCX to PDF via Print (professional + optional heading detection) ----------
 else if (toolId === 'docx2pdf') {
     area.innerHTML = `
         <h3>📂 Upload .docx</h3>
@@ -361,30 +361,113 @@ else if (toolId === 'docx2pdf') {
             <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
             <label>🔄 Orientation: <select id="docxOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
         </div>
+        <div style="margin: 1rem 0;">
+            <label>
+                <input type="checkbox" id="detectHeadings" checked> 
+                🔍 Detect headings (#, ##, ###) in plain text
+            </label>
+            <span style="font-size:0.9rem; color:#555; margin-left:1rem;">💡 For best results, use Word's built‑in heading styles.</span>
+        </div>
         <div class="preview-box"><div id="docxPreview">preview area</div></div>
         <button id="printDocxBtn" class="secondary">🖨️ Print / Save as PDF</button>
-        <p class="note" style="font-size:0.9rem; margin-top:0.5rem;">💡 For best results, use Word's built‑in heading styles (Heading 1, Heading 2).</p>
     `;
 
     const fileIn = document.getElementById('docxFile');
     const previewDiv = document.getElementById('docxPreview');
     const sizeSel = document.getElementById('docxPageSize');
     const orientSel = document.getElementById('docxOrientation');
+    const detectHeadings = document.getElementById('detectHeadings');
     const printBtn = document.getElementById('printDocxBtn');
 
-    // Print‑friendly CSS (with page‑break control)
+    // Professional print CSS (neutral, no colors)
     const docxPrintStyles = `
         <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; line-height: 1.6; color: #24292e; max-width: 900px; margin: 2rem auto; padding: 0 2rem; }
-            h1, h2, h3, h4, h5, h6 { margin-top: 1.5rem; margin-bottom: 1rem; font-weight: 600; line-height: 1.25; color: inherit; page-break-after: avoid; }
-            h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3rem; }
-            h2 { font-size: 1.5em; border-bottom: 1px solid #ccc; padding-bottom: 0.3rem; }
-            p, li { page-break-inside: avoid; }
-            pre, table { page-break-inside: avoid; }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                line-height: 1.6;
+                color: #1e1e1e;
+                max-width: 900px;
+                margin: 2rem auto;
+                padding: 0 2rem;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                margin-top: 1.8rem;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                line-height: 1.3;
+                color: #111;
+                page-break-after: avoid;
+            }
+            h1 { font-size: 2.2em; border-bottom: 1px solid #aaa; padding-bottom: 0.3rem; }
+            h2 { font-size: 1.8em; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem; }
+            h3 { font-size: 1.5em; }
+            h4 { font-size: 1.3em; }
+            p { margin: 0 0 1rem; orphans: 3; widows: 3; }
+            code, pre {
+                font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+                font-size: 0.9rem;
+                background: #f5f5f5;
+                border-radius: 4px;
+            }
+            code { padding: 0.2rem 0.4rem; color: #1e1e1e; }
+            pre {
+                padding: 1rem;
+                overflow: auto;
+                line-height: 1.45;
+                background: #f5f5f5;
+                border-radius: 6px;
+                page-break-inside: avoid;
+            }
+            pre code { background: none; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 1.5rem 0;
+                page-break-inside: avoid;
+            }
+            th, td {
+                border: 1px solid #aaa;
+                padding: 0.6rem 1rem;
+                text-align: left;
+                vertical-align: top;
+            }
+            th { background: #f0f0f0; font-weight: 600; }
+            tr:nth-child(even) { background: #fafafa; }
+            blockquote {
+                margin: 0 0 1rem;
+                padding: 0 1rem;
+                color: #444;
+                border-left: 0.25rem solid #ccc;
+            }
             img { max-width: 100%; height: auto; page-break-inside: avoid; }
-            @media print { body { margin: 0; padding: 1.5cm; } }
+            ul, ol { padding-left: 2rem; margin: 1rem 0; }
+            li { margin: 0.25rem 0; }
+            hr {
+                height: 1px;
+                padding: 0;
+                margin: 2rem 0;
+                background: #ccc;
+                border: 0;
+            }
+            @page { size: auto; margin: 1.5cm; } /* removes browser header/footer */
+            @media print {
+                body { margin: 0; padding: 0; }
+                pre, table { break-inside: avoid; }
+                h1, h2, h3 { break-after: avoid; }
+            }
         </style>
     `;
+
+    // Helper to detect markdown-like headings
+    function enhanceHeadings(html) {
+        if (!detectHeadings.checked) return html;
+        // Replace lines starting with #, ##, ### etc. that are not inside code blocks
+        // This simple regex is safe for typical documents – we assume no code blocks with # at line start
+        return html.replace(/^(#{1,6})\s+(.+)$/gm, (match, hashes, content) => {
+            const level = hashes.length;
+            return `<h${level}>${content}</h${level}>`;
+        });
+    }
 
     // Update preview when file is selected
     fileIn.addEventListener('change', async () => {
@@ -392,7 +475,9 @@ else if (toolId === 'docx2pdf') {
         if (!f) return;
         try {
             const arrayBuf = await f.arrayBuffer();
-            const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+            const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+            let html = result.value;
+            html = enhanceHeadings(html);
             previewDiv.innerHTML = docxPrintStyles + `<div class="docx-body">${html}</div>`;
         } catch (e) {
             previewDiv.innerHTML = `<p style="color:red;">Error reading file: ${e.message}</p>`;
@@ -409,7 +494,9 @@ else if (toolId === 'docx2pdf') {
 
         try {
             const arrayBuf = await f.arrayBuffer();
-            const { value: html } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+            const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+            let html = result.value;
+            html = enhanceHeadings(html);
 
             const fullHtml = `<!DOCTYPE html>
 <html>
@@ -420,7 +507,7 @@ else if (toolId === 'docx2pdf') {
 <body>
     <div class="docx-body">${html}</div>
     <script>
-        // Ensure print dialog opens only once after everything is loaded
+        // Single, reliable print trigger
         window.onload = function() {
             setTimeout(function() { window.print(); }, 500);
         };
@@ -438,7 +525,7 @@ else if (toolId === 'docx2pdf') {
             printWindow.document.write(fullHtml);
             printWindow.document.close();
 
-            // Reset button after a delay (the print dialog may take time)
+            // Reset button after a delay
             setTimeout(() => {
                 printBtn.disabled = false;
                 printBtn.innerHTML = '🖨️ Print / Save as PDF';
