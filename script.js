@@ -90,6 +90,10 @@
         if (toolId === 'md2pdf') {
             area.innerHTML = `
                 <h3>📂 Upload .md file</h3>
+                <p class="tool-description">
+    Convert Markdown to PDF with LaTeX math, syntax highlighting, and custom page breaks.
+    Perfect for technical documentation, research papers, and coding notes.
+</p>
                 <div class="flex-row">
                     <input type="file" id="mdFile" accept=".md,text/markdown">
                 </div>
@@ -221,6 +225,10 @@
         else if (toolId === 'docx2pdf') {
             area.innerHTML = `
                 <h3>📂 Upload .docx</h3>
+                <p class="tool-description">
+    Convert Word documents to PDF while preserving formatting, tables, and images.
+    Ideal for sharing resumes, reports, and contracts securely.
+</p>
                 <div class="flex-row"><input type="file" id="docxFile" accept=".docx"></div>
                 <div class="orientation-selector">
                     <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
@@ -293,6 +301,10 @@
         else if (toolId === 'img2pdf') {
             area.innerHTML = `
                 <h3>🖼️ Select images (multiple)</h3>
+                <p class="tool-description">
+    Combine multiple images into a single PDF. Automatically adjusts orientation and page size.
+    Great for creating portfolios, presentations, or scanned document collections.
+</p>
                 <div class="flex-row"><input type="file" id="imgFiles" accept="image/*" multiple></div>
                 <div class="orientation-selector">
                     <label>📐 Page size: <select id="imgPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
@@ -344,6 +356,10 @@
 else if (toolId === 'pdfencrypt') {
     area.innerHTML = `
         <h3>🔐 Protect PDF with Password</h3>
+        <p class="tool-description">
+    Protect your PDFs with a password. Set permissions for printing, copying, or modifying.
+    Keep sensitive documents secure before sharing.
+</p>
         <div style="display:flex; flex-direction:column; gap:1rem; max-width:500px;">
             <input type="file" id="pdfToEncrypt" accept=".pdf">
             <input type="password" id="pdfPassword" placeholder="Enter password">
@@ -456,6 +472,10 @@ else if (toolId === 'pdfencrypt') {
         else if (toolId === 'mergepdf') {
             area.innerHTML = `
                 <h3>📚 Select multiple PDFs</h3>
+                <p class="tool-description">
+    Combine multiple PDF files into one. Drag to reorder pages before merging.
+    Perfect for consolidating reports, invoices, or research papers.
+</p>
                 <input type="file" id="pdfMergeInput" accept=".pdf" multiple><br><br>
                 <ul id="mergeFileList" class="file-list"></ul>
                 <button id="mergePdfBtn">🔗 Merge & download</button>
@@ -522,6 +542,10 @@ else if (toolId === 'pdfencrypt') {
         else if (toolId === 'txt2docx') {
             area.innerHTML = `
                 <h3>📄 Upload .txt file</h3>
+                <p class="tool-description">
+    Convert plain text to a formatted Word document. Choose font, size, and line spacing.
+    Great for preparing drafts or converting code comments to documentation.
+</p>
                 <div class="flex-row"><input type="file" id="txtFile" accept=".txt"></div>
                 <div class="formatting-controls">
                     <h4>Formatting Options</h4>
@@ -594,6 +618,10 @@ else if (toolId === 'pdfencrypt') {
         else if (toolId === 'pdf2jpg') {
             area.innerHTML = `
                 <h3>📸 PDF → JPG</h3>
+                <p class="tool-description">
+    Extract images from PDF pages. Choose first page, all pages, or a custom range.
+    Download individual images or a ZIP file. Perfect for presentations or social media.
+</p>
                 <input type="file" id="pdf2jpgInput" accept=".pdf"><br><br>
                 <div style="margin:1rem 0;">
                     <label><input type="radio" name="pageRange" value="first" checked> First page only</label><br>
@@ -703,6 +731,10 @@ else if (toolId === 'pdfencrypt') {
         else if (toolId === 'img2png') {
             area.innerHTML = `
                 <h3>🎨 Convert any image to PNG</h3>
+                <p class="tool-description">
+    Convert any image (JPG, GIF, BMP) to PNG format. Lossless and high quality.
+    Ideal for web graphics, logos, and transparent images.
+</p>
                 <div class="flex-row"><input type="file" id="anyImgInput" accept="image/*"></div>
                 <button id="toPngBtn" class="primary">Convert to PNG</button>
                 <div class="preview-box"><img id="pngPreview" style="max-width:200px; max-height:200px;"></div>
@@ -737,6 +769,9 @@ else if (toolId === 'pdfencrypt') {
         else if (toolId === 'web2pdf') {
             area.innerHTML = `
                 <h3>🌐 HTML snippet to PDF</h3>
+                <p class="tool-description">
+    Turn HTML code into a printable PDF. Full CSS support – perfect for invoices, reports, or saving web content.
+</p>
                 <textarea id="htmlSnippet" rows="8" style="width:100%; border-radius:25px; padding:1rem;"><h1>Hello</h1><p>type HTML here</p></textarea><br><br>
                 <div class="orientation-selector">
                     <label>📐 Page size: <select id="htmlPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
@@ -768,6 +803,10 @@ else if (toolId === 'pdfencrypt') {
         else if (toolId === 'qrmaker') {
             area.innerHTML = `
                 <h3>🔳 Professional QR Code Generator</h3>
+                <p class="tool-description">
+    Create custom QR codes with your own colors, logo, and error correction level.
+    Download as PNG for web or SVG for print. Great for marketing, business cards, and links.
+</p>
                 <div class="qr-controls">
                     <input type="text" id="qrText" placeholder="Enter text or URL" value="https://convert-pdf.vercel.app">
                     <div class="qr-options-grid">
