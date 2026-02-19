@@ -347,8 +347,8 @@ button:disabled {
     color: #52658f;
     font-size: 1.1rem;
     letter-spacing: 0.5px;
-    border-top: 1px solid #d0ddeb;
-    padding-top: 1.5rem;
+    border-bottom: 1px solid #d0ddeb;
+    padding-bottom: 1.5rem;
 }
 
 /* page range input */
@@ -480,4 +480,119 @@ button:disabled {
 iframe, canvas, img {
     max-width: 100%;
     border-radius: 12px;
+}
+
+/* ---------- Content Sections (Homepage) ---------- */
+.content-section {
+    background: white;
+    border-radius: 30px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    border: 1px solid #e2eafc;
+}
+
+.content-section h2 {
+    font-size: 2rem;
+    color: #1e2b4f;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.content-section h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin: 1.5rem 0 1rem;
+    font-weight: 500;
+}
+
+.content-section p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #2d3e50;
+    margin-bottom: 1.2rem;
+}
+
+.content-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.content-section li {
+    background: #f8faff;
+    padding: 1rem 1.2rem;
+    border-radius: 16px;
+    border-left: 4px solid #3498db;
+    font-size: 1rem;
+    color: #1e2b4f;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: all 0.2s;
+}
+
+.content-section li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(52,152,219,0.1);
+}
+
+.content-section li strong {
+    color: #1e2b4f;
+    font-weight: 600;
+}
+
+/* ---------- Tool Descriptions (inside each tool panel) ---------- */
+.tool-description {
+    background: #f0f7ff;
+    border-radius: 20px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0 1.5rem 0;
+    border-left: 5px solid #3498db;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #2c3e50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.tool-description code {
+    background: #d4e2f0;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 0.9rem;
+    color: #1e2b4f;
+}
+
+.tool-description a {
+    color: #1e2b4f;
+    text-decoration: underline;
+    text-decoration-color: #3498db;
+    text-underline-offset: 2px;
+    font-weight: 500;
+}
+
+.tool-description a:hover {
+    color: #2c3e6e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .content-section {
+        padding: 1.5rem;
+    }
+    .content-section h2 {
+        font-size: 1.6rem;
+    }
+    .content-section ul {
+        grid-template-columns: 1fr;
+    }
+    .tool-description {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
 }
