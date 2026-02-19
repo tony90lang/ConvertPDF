@@ -340,7 +340,7 @@
             down.addEventListener('click', () => { if (finalPdfBlob) downloadBlob(finalPdfBlob, 'images.pdf'); });
         }
 
-        // ==================== PDF PASSWORD (debug version) ====================
+        // ==================== PDF PASSWORD – FINAL WORKING VERSION ====================
 else if (toolId === 'pdfencrypt') {
     area.innerHTML = `
         <h3>🔐 Protect PDF with Password</h3>
@@ -367,6 +367,7 @@ else if (toolId === 'pdfencrypt') {
     const encryptBtn = document.getElementById('encryptPdfBtn');
     const strengthDiv = document.getElementById('passwordStrength');
 
+    // Password strength
     pdfPassword.addEventListener('input', () => {
         const pwd = pdfPassword.value;
         let strength = 0;
@@ -394,41 +395,33 @@ else if (toolId === 'pdfencrypt') {
         encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
 
         try {
-            // Check if PDFLib is available
+            // 1. Load the PDF library
             if (typeof PDFLib === 'undefined') {
-                throw new Error('PDF library not loaded. Check network.');
+                throw new Error('PDF library not loaded. Refresh page.');
             }
-            console.log('PDFLib version:', PDFLib.version || 'unknown');
             const { PDFDocument } = PDFLib;
+
+            // 2. Read file
             const arrayBuf = await file.arrayBuffer();
 
-            let pdfDoc;
+            // 3. Load source document (handle encrypted PDFs gracefully)
+            let sourceDoc;
             try {
-                pdfDoc = await PDFDocument.load(arrayBuf);
+                sourceDoc = await PDFDocument.load(arrayBuf);
             } catch (loadErr) {
-                console.error('Load error:', loadErr);
-                // Check if it's a password error
-                if (loadErr.message && loadErr.message.includes('password')) {
-                    throw new Error('PDF is encrypted. Please provide a password? (Not supported yet)');
+                // If it's encrypted, we can't load – ask user
+                if (loadErr.message && loadErr.message.toLowerCase().includes('password')) {
+                    throw new Error('This PDF is already encrypted. Please unprotect it first.');
                 }
                 throw new Error('Invalid or corrupted PDF file.');
             }
 
-            console.log('PDFDocument loaded:', pdfDoc);
-            console.log('Methods available:', Object.getOwnPropertyNames(Object.getPrototypeOf(pdfDoc)));
+            // 4. Create a NEW PDF and copy all pages
+            const newDoc = await PDFDocument.create();
+            const pages = await newDoc.copyPages(sourceDoc, sourceDoc.getPageIndices());
+            pages.forEach(page => newDoc.addPage(page));
 
-            // Check if already encrypted
-            if (pdfDoc.isEncrypted) {
-                throw new Error('PDF is already encrypted.');
-            }
-
-            // Verify encrypt method exists
-            if (typeof pdfDoc.encrypt !== 'function') {
-                console.error('pdfDoc.encrypt is not a function. pdfDoc:', pdfDoc);
-                throw new Error('Encryption method missing – library version may be incompatible.');
-            }
-
-            // Set permissions
+            // 5. Encrypt the new document
             const permissions = {
                 printing: permPrint.checked ? 'highResolution' : 'none',
                 modifying: permModify.checked,
@@ -439,14 +432,14 @@ else if (toolId === 'pdfencrypt') {
                 documentAssembly: false
             };
 
-            // Perform encryption
-            pdfDoc.encrypt({
+            newDoc.encrypt({
                 userPassword: pwd,
                 ownerPassword: pwd,
                 permissions: permissions
             });
 
-            const encryptedBytes = await pdfDoc.save();
+            // 6. Save and download
+            const encryptedBytes = await newDoc.save();
             downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
 
         } catch (error) {
