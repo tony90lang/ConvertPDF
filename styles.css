@@ -44,45 +44,27 @@ h1 {
 /* home grid */
 .home-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(5, 1fr); /* 5 columns on desktop */
     gap: 1rem;
     margin-top: 2rem;
 }
 
-.tool-card {
-    background: white;
-    border-radius: 20px;
-    padding: 1.5rem 1rem;
-    box-shadow: 0 10px 20px rgba(0,20,40,0.1);
-    transition: all 0.2s;
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+@media (max-width: 800px) {
+    .home-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
-.tool-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 25px rgba(30,43,79,0.15);
+@media (max-width: 600px) {
+    .home-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.tool-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.tool-name {
-    font-weight: 600;
-    font-size: 1rem;
-    color: #1e2b4f;
-    margin-bottom: 0.2rem;
-}
-
-.tool-desc {
-    color: #4a5568;
-    font-size: 0.8rem;
+@media (max-width: 400px) {
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* tool panel */

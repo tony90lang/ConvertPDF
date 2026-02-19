@@ -341,79 +341,100 @@
         }
 
         // ==================== PDF PASSWORD ====================
-        else if (toolId === 'pdfencrypt') {
-            area.innerHTML = `
-                <h3>🔐 Protect PDF with Password</h3>
-                <div style="display:flex; flex-direction:column; gap:1rem; max-width:500px;">
-                    <input type="file" id="pdfToEncrypt" accept=".pdf">
-                    <input type="password" id="pdfPassword" placeholder="Enter password">
-                    <input type="password" id="pdfConfirmPassword" placeholder="Confirm password">
-                    <div class="permissions-grid" style="display:flex; gap:1rem; flex-wrap:wrap;">
-                        <label><input type="checkbox" id="permPrint" checked> Allow Printing</label>
-                        <label><input type="checkbox" id="permCopy" checked> Allow Copying</label>
-                        <label><input type="checkbox" id="permModify"> Allow Modifying</label>
-                    </div>
-                    <div id="passwordStrength" class="password-strength"></div>
-                    <button id="encryptPdfBtn" class="primary" style="align-self:flex-start;">🔒 Encrypt & Download</button>
-                </div>
-            `;
+else if (toolId === 'pdfencrypt') {
+    area.innerHTML = `
+        <h3>🔐 Protect PDF with Password</h3>
+        <div style="display:flex; flex-direction:column; gap:1rem; max-width:500px;">
+            <input type="file" id="pdfToEncrypt" accept=".pdf">
+            <input type="password" id="pdfPassword" placeholder="Enter password">
+            <input type="password" id="pdfConfirmPassword" placeholder="Confirm password">
+            <div class="permissions-grid" style="display:flex; gap:1rem; flex-wrap:wrap;">
+                <label><input type="checkbox" id="permPrint" checked> Allow Printing</label>
+                <label><input type="checkbox" id="permCopy" checked> Allow Copying</label>
+                <label><input type="checkbox" id="permModify"> Allow Modifying</label>
+            </div>
+            <div id="passwordStrength" class="password-strength"></div>
+            <button id="encryptPdfBtn" class="primary" style="align-self:flex-start;">🔒 Encrypt & Download</button>
+        </div>
+    `;
 
-            const pdfFile = document.getElementById('pdfToEncrypt');
-            const pdfPassword = document.getElementById('pdfPassword');
-            const pdfConfirm = document.getElementById('pdfConfirmPassword');
-            const permPrint = document.getElementById('permPrint');
-            const permCopy = document.getElementById('permCopy');
-            const permModify = document.getElementById('permModify');
-            const encryptBtn = document.getElementById('encryptPdfBtn');
-            const strengthDiv = document.getElementById('passwordStrength');
+    const pdfFile = document.getElementById('pdfToEncrypt');
+    const pdfPassword = document.getElementById('pdfPassword');
+    const pdfConfirm = document.getElementById('pdfConfirmPassword');
+    const permPrint = document.getElementById('permPrint');
+    const permCopy = document.getElementById('permCopy');
+    const permModify = document.getElementById('permModify');
+    const encryptBtn = document.getElementById('encryptPdfBtn');
+    const strengthDiv = document.getElementById('passwordStrength');
 
-            pdfPassword.addEventListener('input', () => {
-                const pwd = pdfPassword.value;
-                let strength = 0;
-                if (pwd.length >= 8) strength++;
-                if (/[a-z]/.test(pwd)) strength++;
-                if (/[A-Z]/.test(pwd)) strength++;
-                if (/[0-9]/.test(pwd)) strength++;
-                if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
-                const msgs = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
-                const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
-                strengthDiv.textContent = `Password Strength: ${msgs[strength]}`;
-                strengthDiv.style.color = colors[strength];
+    pdfPassword.addEventListener('input', () => {
+        const pwd = pdfPassword.value;
+        let strength = 0;
+        if (pwd.length >= 8) strength++;
+        if (/[a-z]/.test(pwd)) strength++;
+        if (/[A-Z]/.test(pwd)) strength++;
+        if (/[0-9]/.test(pwd)) strength++;
+        if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
+        const msgs = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+        const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
+        const index = Math.min(strength, msgs.length - 1);
+        strengthDiv.textContent = `Password Strength: ${msgs[index]}`;
+        strengthDiv.style.color = colors[index];
+    });
+
+    encryptBtn.addEventListener('click', async () => {
+        const file = pdfFile.files[0];
+        const pwd = pdfPassword.value;
+        const confirm = pdfConfirm.value;
+        if (!file) { alert('Select a PDF file'); return; }
+        if (!pwd) { alert('Enter password'); return; }
+        if (pwd !== confirm) { alert('Passwords do not match'); return; }
+        if (pwd.length < 6) { alert('Password must be at least 6 characters'); return; }
+
+        encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
+        try {
+            const arrayBuf = await file.arrayBuffer();
+            const { PDFDocument } = PDFLib;
+            let pdfDoc;
+            try {
+                pdfDoc = await PDFDocument.load(arrayBuf);
+            } catch (loadErr) {
+                throw new Error('Invalid or corrupted PDF file');
+            }
+            // Check if already encrypted (property may be missing in older versions)
+            if (pdfDoc.isEncrypted) {
+                throw new Error('PDF is already encrypted');
+            }
+            // Verify that encrypt method exists
+            if (typeof pdfDoc.encrypt !== 'function') {
+                throw new Error('Encryption not supported in this version');
+            }
+            // Set permissions
+            const permissions = {
+                printing: permPrint.checked ? 'highResolution' : 'none',
+                modifying: permModify.checked,
+                copying: permCopy.checked,
+                annotating: false,
+                fillingForms: false,
+                contentAccessibility: true,
+                documentAssembly: false
+            };
+            // Encrypt
+            pdfDoc.encrypt({
+                userPassword: pwd,
+                ownerPassword: pwd,
+                permissions: permissions
             });
-
-            encryptBtn.addEventListener('click', async () => {
-                const file = pdfFile.files[0];
-                const pwd = pdfPassword.value;
-                const confirm = pdfConfirm.value;
-                if (!file) { alert('Select a PDF file'); return; }
-                if (!pwd) { alert('Enter password'); return; }
-                if (pwd !== confirm) { alert('Passwords do not match'); return; }
-                if (pwd.length < 6) { alert('Password must be at least 6 characters'); return; }
-
-                encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
-                try {
-                    const arrayBuf = await file.arrayBuffer();
-                    const { PDFDocument } = PDFLib;
-                    let pdfDoc;
-                    try { pdfDoc = await PDFDocument.load(arrayBuf); } catch { throw new Error('Invalid PDF'); }
-                    if (pdfDoc.isEncrypted) throw new Error('PDF is already encrypted');
-                    const permissions = {
-                        printing: permPrint.checked ? 'highResolution' : 'none',
-                        modifying: permModify.checked,
-                        copying: permCopy.checked,
-                        annotating: false,
-                        fillingForms: false,
-                        contentAccessibility: true,
-                        documentAssembly: false
-                    };
-                    pdfDoc.encrypt({ userPassword: pwd, ownerPassword: pwd, permissions });
-                    const encryptedBytes = await pdfDoc.save();
-                    downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
-                } catch (e) { alert('Encryption failed: ' + e.message); } finally {
-                    encryptBtn.disabled = false; encryptBtn.innerHTML = '🔒 Encrypt & Download';
-                }
-            });
+            const encryptedBytes = await pdfDoc.save();
+            downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
+        } catch (e) {
+            console.error(e);
+            alert('Encryption failed: ' + e.message);
+        } finally {
+            encryptBtn.disabled = false; encryptBtn.innerHTML = '🔒 Encrypt & Download';
         }
+    });
+}
 
         // ==================== MERGE PDF ====================
         else if (toolId === 'mergepdf') {
