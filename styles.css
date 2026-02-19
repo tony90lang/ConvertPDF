@@ -41,31 +41,6 @@ h1 {
     font-size: 1rem;
 }
 
-/* home grid */
-.home-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns on desktop */
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-@media (max-width: 800px) {
-    .home-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .home-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 400px) {
-    .home-grid {
-        grid-template-columns: 1fr;
-    }
-}
 
 /* tool panel */
 .tool-header {
@@ -271,6 +246,43 @@ button:disabled {
 .qr-option label {
     font-weight: 500;
     color: #1e2b4f;
+}
+
+/* Home grid – exactly 5 columns on desktop (2 rows of 5) */
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+@media (max-width: 800px) {
+    .home-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .home-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Footer quote – centered, good spacing */
+.home-footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: #52658f;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    border-top: 1px solid #d0ddeb;
+    padding-top: 1.5rem;
 }
 
 /* page range input */

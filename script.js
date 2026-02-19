@@ -340,7 +340,7 @@
             down.addEventListener('click', () => { if (finalPdfBlob) downloadBlob(finalPdfBlob, 'images.pdf'); });
         }
 
-        // ==================== PDF PASSWORD ====================
+        // ==================== PDF PASSWORD (fixed) ====================
 else if (toolId === 'pdfencrypt') {
     area.innerHTML = `
         <h3>🔐 Protect PDF with Password</h3>
@@ -367,6 +367,7 @@ else if (toolId === 'pdfencrypt') {
     const encryptBtn = document.getElementById('encryptPdfBtn');
     const strengthDiv = document.getElementById('passwordStrength');
 
+    // Password strength indicator
     pdfPassword.addEventListener('input', () => {
         const pwd = pdfPassword.value;
         let strength = 0;
@@ -392,23 +393,33 @@ else if (toolId === 'pdfencrypt') {
         if (pwd.length < 6) { alert('Password must be at least 6 characters'); return; }
 
         encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
+
         try {
-            const arrayBuf = await file.arrayBuffer();
+            // Check if PDFLib is loaded
+            if (typeof PDFLib === 'undefined') {
+                throw new Error('PDF library not loaded. Please refresh the page.');
+            }
             const { PDFDocument } = PDFLib;
+            const arrayBuf = await file.arrayBuffer();
+
             let pdfDoc;
             try {
                 pdfDoc = await PDFDocument.load(arrayBuf);
             } catch (loadErr) {
-                throw new Error('Invalid or corrupted PDF file');
+                throw new Error('Invalid or corrupted PDF file (may be encrypted).');
             }
-            // Check if already encrypted (property may be missing in older versions)
+
+            // Additional safety checks
+            if (!pdfDoc || typeof pdfDoc.encrypt !== 'function') {
+                console.error('pdfDoc object:', pdfDoc);
+                throw new Error('Encryption method missing – library version may be incompatible.');
+            }
+
+            // Check if already encrypted
             if (pdfDoc.isEncrypted) {
-                throw new Error('PDF is already encrypted');
+                throw new Error('PDF is already encrypted.');
             }
-            // Verify that encrypt method exists
-            if (typeof pdfDoc.encrypt !== 'function') {
-                throw new Error('Encryption not supported in this version');
-            }
+
             // Set permissions
             const permissions = {
                 printing: permPrint.checked ? 'highResolution' : 'none',
@@ -419,19 +430,23 @@ else if (toolId === 'pdfencrypt') {
                 contentAccessibility: true,
                 documentAssembly: false
             };
-            // Encrypt
+
+            // Perform encryption
             pdfDoc.encrypt({
                 userPassword: pwd,
                 ownerPassword: pwd,
                 permissions: permissions
             });
+
             const encryptedBytes = await pdfDoc.save();
             downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
-        } catch (e) {
-            console.error(e);
-            alert('Encryption failed: ' + e.message);
+
+        } catch (error) {
+            console.error('Encryption error:', error);
+            alert('Encryption failed: ' + error.message);
         } finally {
-            encryptBtn.disabled = false; encryptBtn.innerHTML = '🔒 Encrypt & Download';
+            encryptBtn.disabled = false;
+            encryptBtn.innerHTML = '🔒 Encrypt & Download';
         }
     });
 }
