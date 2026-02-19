@@ -254,10 +254,14 @@ if (toolId === 'md2pdf') {
                 padding: 0;
             }
             @media print {
-                body { margin: 0; padding: 1.5cm; }
-                pre, table, img, ul, ol { break-inside: avoid; }
-                h1, h2, h3, h4, h5, h6 { break-after: avoid; }
-            }
+    body {
+        margin: 2.54cm !important;
+        padding: 0 !important;
+        background: white;
+    }
+    pre, table, img, ul, ol { break-inside: avoid; }
+    h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+}
         </style>
     `;
 
@@ -515,14 +519,17 @@ else if (toolId === 'docx2pdf') {
                 border: 0;
             }
             @page {
-                margin: 2cm;
-                size: auto;
-            }
-            @media print {
-                body { margin: 0; padding: 0; background: white; }
-                .docx-body h1, .docx-body h2, .docx-body h3 { break-after: avoid; }
-                .docx-body pre, .docx-body table, .docx-body img { break-inside: avoid; }
-            }
+    margin: 2.54cm;
+    size: auto;
+}
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+    /* ... */
+}
         </style>
     `;
 
