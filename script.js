@@ -97,44 +97,46 @@
         area.className = 'area';
         container.appendChild(area);
 
-        // ---------- IMPROVED: Markdown → PDF (with page breaks + better readability) ----------
+        // ---------- PROFESSIONAL: Markdown → PDF (Academic + TOC + Numbering) ----------
 if (toolId === 'md2pdf') {
-    console.log('✅ New Markdown tool loaded');
+    console.log('✅ Professional Markdown tool loaded');
 
     area.innerHTML = `
         <h3>📂 Upload .md file</h3>
         <div class="flex-row">
             <input type="file" id="mdFile" accept=".md,text/markdown">
         </div>
+
         <div class="orientation-selector">
-            <label>📐 Page size: 
+            <label>📐 Page size:
                 <select id="mdPageSize">
                     <option value="a4">A4</option>
                     <option value="letter">Letter</option>
                     <option value="legal">Legal</option>
                 </select>
             </label>
-            <label>🔄 Orientation: 
+            <label>🔄 Orientation:
                 <select id="mdOrientation">
                     <option value="portrait">Portrait</option>
                     <option value="landscape">Landscape</option>
                 </select>
             </label>
-            <label>🎨 Theme: 
+            <label>🎨 Theme:
                 <select id="mdTheme">
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
                 </select>
             </label>
         </div>
+
         <div class="preview-box">
             <div class="preview-title">Markdown preview</div>
             <div id="mdRendered"></div>
         </div>
-        <button id="printMdBtn" class="secondary">🖨️ Print / Save as PDF</button>
-        <p class="note" style="font-size:0.9rem; margin-top:0.5rem;">
-            💡 Insert page breaks using <code>\\newpage</code> or <code>&lt;!-- pagebreak --&gt;</code> in your Markdown.
-        </p>
+
+        <button id="printMdBtn" class="secondary">
+            🖨️ Print / Save as PDF
+        </button>
     `;
 
     const mdFile = document.getElementById('mdFile');
@@ -144,244 +146,209 @@ if (toolId === 'md2pdf') {
     const themeSelect = document.getElementById('mdTheme');
     const printBtn = document.getElementById('printMdBtn');
 
-    // Enhanced print CSS with better page‑break control and readability
-    const printStyles = (theme) => `
+    // -------------------- PAGE BREAK PROCESSING --------------------
+    function preprocessMarkdown(text) {
+        text = text.replace(/\\newpage/g, '<div class="page-break"></div>');
+        text = text.replace(/<!--\\s*pagebreak\\s*-->/g, '<div class="page-break"></div>');
+        return text;
+    }
+
+    // -------------------- SECTION NUMBERING --------------------
+    function addSectionNumbers(container) {
+        let h1 = 0, h2 = 0, h3 = 0;
+
+        container.querySelectorAll("h1, h2, h3").forEach(el => {
+            if (el.tagName === "H1") {
+                h1++; h2 = 0; h3 = 0;
+                el.innerHTML = `${h1}. ${el.innerHTML}`;
+            }
+            if (el.tagName === "H2") {
+                h2++; h3 = 0;
+                el.innerHTML = `${h1}.${h2} ${el.innerHTML}`;
+            }
+            if (el.tagName === "H3") {
+                h3++;
+                el.innerHTML = `${h1}.${h2}.${h3} ${el.innerHTML}`;
+            }
+        });
+    }
+
+    // -------------------- AUTO TOC --------------------
+    function generateTOC(container) {
+        const headings = container.querySelectorAll("h1, h2, h3");
+        if (!headings.length) return;
+
+        let toc = document.createElement("div");
+        toc.className = "toc";
+        toc.innerHTML = "<h2>Table of Contents</h2><ul></ul>";
+        const ul = toc.querySelector("ul");
+
+        headings.forEach((h, i) => {
+            const id = "sec-" + i;
+            h.id = id;
+
+            const li = document.createElement("li");
+            li.style.marginLeft =
+                h.tagName === "H2" ? "15px" :
+                h.tagName === "H3" ? "30px" : "0px";
+
+            li.innerHTML = `<a href="#${id}">${h.innerText}</a>`;
+            ul.appendChild(li);
+        });
+
+        container.insertBefore(toc, container.firstChild);
+    }
+
+    // -------------------- PROFESSIONAL PRINT STYLES --------------------
+    function printStyles(theme) {
+        const isDark = theme === 'dark';
+
+        return `
         <style>
-            body { 
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-                line-height: 1.6;
-                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
-                background: ${theme === 'dark' ? '#1e1e1e' : 'white'};
+            body {
+                font-family: 'Times New Roman', serif;
+                line-height: 1.7;
+                font-size: 12pt;
+                color: ${isDark ? '#eaeaea' : '#111'};
+                background: ${isDark ? '#1e1e1e' : 'white'};
                 max-width: 900px;
-                margin: 2rem auto;
-                padding: 0 2rem;
+                margin: auto;
+                padding: 2rem;
             }
-            h1, h2, h3, h4, h5, h6 { 
-                margin-top: 1.5rem;
-                margin-bottom: 1rem;
-                font-weight: 600;
-                line-height: 1.25;
-                color: inherit;
-                page-break-after: avoid; /* Keep heading with following content */
+
+            h1, h2, h3 {
+                margin-top: 2rem;
+                page-break-after: avoid;
             }
-            h1 { 
-                font-size: 2em;
-                border-bottom: 1px solid ${theme === 'dark' ? '#30363d' : '#eaecef'};
-                padding-bottom: 0.3rem;
+
+            h1 {
+                font-size: 24pt;
+                border-bottom: 2px solid #999;
+                padding-bottom: 5px;
             }
-            h2 { 
-                font-size: 1.5em;
-                border-bottom: 1px solid ${theme === 'dark' ? '#444' : '#ccc'};
-                padding-bottom: 0.3rem;
+
+            h2 {
+                font-size: 18pt;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 3px;
             }
+
+            h3 { font-size: 14pt; }
+
             p {
-                margin: 0 0 1rem;
-                orphans: 3;        /* Minimum lines at bottom of page */
-                widows: 3;         /* Minimum lines at top of page */
+                text-align: justify;
+                margin-bottom: 1rem;
+                orphans: 3;
+                widows: 3;
             }
-            code, pre { 
-                font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
-                font-size: 0.9rem;
-                background: ${theme === 'dark' ? '#2d2d2d' : '#f6f8fa'};
-                border-radius: 3px;
+
+            .toc {
+                border: 1px solid #ccc;
+                padding: 20px;
+                margin-bottom: 30px;
+                page-break-after: always;
             }
-            code {
-                padding: 0.2rem 0.4rem;
-                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
+
+            .page-break {
+                page-break-before: always;
             }
+
             pre {
+                background: ${isDark ? '#2d2d2d' : '#f4f4f4'};
                 padding: 1rem;
-                overflow: auto;
-                line-height: 1.45;
-                background: ${theme === 'dark' ? '#2d2d2d' : '#f6f8fa'};
-                border-radius: 6px;
-                page-break-inside: avoid; /* Don't split code blocks */
+                border-radius: 5px;
+                overflow-x: auto;
+                page-break-inside: avoid;
             }
-            pre code {
-                background: none;
-                padding: 0;
-                color: ${theme === 'dark' ? '#e6e6e6' : '#24292e'};
-            }
+
             table {
                 border-collapse: collapse;
                 width: 100%;
                 margin: 1rem 0;
-                page-break-inside: avoid; /* Don't split tables */
+                page-break-inside: avoid;
             }
+
             th, td {
-                border: 1px solid ${theme === 'dark' ? '#444c56' : '#dfe2e5'};
-                padding: 0.6rem 1rem;
-                text-align: left;
+                border: 1px solid #999;
+                padding: 8px;
             }
-            th {
-                background: ${theme === 'dark' ? '#2d333b' : '#f6f8fa'};
-                font-weight: 600;
-            }
-            tr:nth-child(even) {
-                background: ${theme === 'dark' ? '#22272e' : '#fafbfc'};
-            }
-            blockquote {
-                margin: 0;
-                padding: 0 1rem;
-                color: ${theme === 'dark' ? '#8b949e' : '#6a737d'};
-                border-left: 0.25rem solid ${theme === 'dark' ? '#3b434b' : '#dfe2e5'};
-            }
-            img {
-                max-width: 100%;
-                height: auto;
-                page-break-inside: avoid; /* Don't split images */
-            }
-            ul, ol {
-                padding-left: 2rem;
-                margin: 1rem 0;
-                page-break-inside: avoid; /* Try to keep lists together */
-            }
-            li {
-                margin: 0.25rem 0;
-            }
-            hr {
-                height: 0.25rem;
-                padding: 0;
-                margin: 2rem 0;
-                background: ${theme === 'dark' ? '#30363d' : '#e1e4e8'};
-                border: 0;
-            }
-            /* Page break marker – invisible and forces a break */
-            .page-break {
-                page-break-before: always;
-                height: 0;
-                margin: 0;
-                padding: 0;
-            }
+
             @media print {
-                body { margin: 0; padding: 1.5cm; }
-                pre, table, img, ul, ol { break-inside: avoid; }
-                h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+                body { margin: 1.5cm; }
+                h1, h2, h3 { break-after: avoid; }
+                pre, table, img { break-inside: avoid; }
             }
         </style>
-    `;
-
-    // Preprocess Markdown to insert page break markers
-    function preprocessMarkdown(text) {
-        // Replace \newpage with page-break div
-        text = text.replace(/\\newpage/g, '<div class="page-break"></div>');
-        // Replace HTML comment <!-- pagebreak --> with page-break div
-        text = text.replace(/<!--\s*pagebreak\s*-->/g, '<div class="page-break"></div>');
-        return text;
+        `;
     }
 
-    // Configure marked for better output (allow HTML for page break divs)
+    // -------------------- MARKED CONFIG --------------------
     marked.setOptions({
         gfm: true,
         breaks: true,
         headerIds: true,
-        html: true,               // Allow raw HTML (needed for our page-break div)
-        highlight: function(code, lang) {
-            return code; // Prism will handle highlighting
-        }
+        mangle: false
     });
 
-    // Update preview when file is selected
+    // -------------------- PREVIEW --------------------
     mdFile.addEventListener('change', async () => {
         const file = mdFile.files[0];
         if (!file) return;
+
         const text = await file.text();
-        const processedText = preprocessMarkdown(text);
-        const htmlContent = marked.parse(processedText);
-        const theme = themeSelect.value;
-        const fullHtml = printStyles(theme) + `<div class="markdown-body">${htmlContent}</div>`;
-        mdRendered.innerHTML = fullHtml;
-        if (window.Prism) Prism.highlightAllUnder(mdRendered);
+        const processed = preprocessMarkdown(text);
+        const html = marked.parse(processed);
+
+        mdRendered.innerHTML =
+            printStyles(themeSelect.value) +
+            `<div class="markdown-body">${html}</div>`;
+
+        addSectionNumbers(mdRendered);
+        generateTOC(mdRendered);
+
+        if (window.renderMathInElement) {
+            renderMathInElement(mdRendered, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        }
     });
 
-    // Print button: opens new window with formatted content + KaTeX
-    printBtn.addEventListener('click', async () => {
-        const file = mdFile.files[0];
-        if (!file) {
-            alert('Please select a markdown file');
+    // -------------------- PRINT --------------------
+    printBtn.addEventListener('click', () => {
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+            alert("Pop-up blocked!");
             return;
         }
 
-        printBtn.disabled = true;
-        printBtn.innerHTML = '⏳ Preparing print...';
-
-        try {
-            const text = await file.text();
-            const processedText = preprocessMarkdown(text);
-            const htmlContent = marked.parse(processedText);
-            const theme = themeSelect.value;
-
-            const fullHtml = `<!DOCTYPE html>
-<html>
-<head>
-    <title>${file.name} - Print Preview</title>
-    ${printStyles(theme)}
-    <!-- KaTeX CSS and JS for math rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
-        onload="renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\\\[', right: '\\\\]', display: true},
-                {left: '\\\\(', right: '\\\\)', display: false}
-            ]
-        }); window.print();"></script>
-    <style>
-        @media print {
-            body { margin: 1.5cm; }
-            pre, table, img, ul, ol { break-inside: avoid; }
-            h1, h2, h3, h4, h5, h6 { break-after: avoid; }
-        }
-    </style>
-</head>
-<body>
-    <div class="markdown-body">
-        ${htmlContent}
-    </div>
-    <!-- Fallback in case onload doesn't fire -->
-    <script>
-        setTimeout(function() {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false},
-                        {left: '\\\\[', right: '\\\\]', display: true},
-                        {left: '\\\\(', right: '\\\\)', display: false}
+        printWindow.document.write(`
+            <html>
+            <head>
+                ${printStyles(themeSelect.value)}
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+                <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+                <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"
+                onload="renderMathInElement(document.body,{
+                    delimiters:[
+                        {left:'$$',right:'$$',display:true},
+                        {left:'$',right:'$',display:false}
                     ]
-                });
-            }
-            window.print();
-        }, 500);
-    <\/script>
-</body>
-</html>`;
+                }); window.print();">
+                </script>
+            </head>
+            <body>
+                ${mdRendered.innerHTML}
+            </body>
+            </html>
+        `);
 
-            const printWindow = window.open('', '_blank');
-            if (!printWindow) {
-                alert('Pop‑up blocked! Please allow pop‑ups for this site.');
-                printBtn.disabled = false;
-                printBtn.innerHTML = '🖨️ Print / Save as PDF';
-                return;
-            }
-            printWindow.document.write(fullHtml);
-            printWindow.document.close();
-
-            setTimeout(() => {
-                printBtn.disabled = false;
-                printBtn.innerHTML = '🖨️ Print / Save as PDF';
-            }, 3000);
-
-        } catch (error) {
-            console.error('Print error:', error);
-            alert('Failed to prepare print preview: ' + error.message);
-            printBtn.disabled = false;
-            printBtn.innerHTML = '🖨️ Print / Save as PDF';
-        }
+        printWindow.document.close();
     });
 }
+
 
         // ---------- DOCX to PDF via Print (professional formatting) ----------
 else if (toolId === 'docx2pdf') {
