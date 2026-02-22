@@ -1,4 +1,4 @@
-// script.js – final version with all fixes
+// script.js – final version with all SEO fixes
 (function() {
     // ---------- TOOL DEFINITIONS ----------
     const tools = [
@@ -75,16 +75,16 @@
     }
 
     // ---------- SEO HELPERS ----------
-function updateMetaDescription(desc) {
-    let meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-        meta.setAttribute('content', desc);
+    function updateMetaDescription(desc) {
+        let meta = document.querySelector('meta[name="description"]');
+        if (meta) {
+            meta.setAttribute('content', desc);
+        }
     }
-}
 
-function updatePageTitle(title) {
-    document.title = title + " – ConvertPDF";
-}
+    function updatePageTitle(title) {
+        document.title = title + " – ConvertPDF";
+    }
 
     // ---------- PDF.js worker setup ----------
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -100,12 +100,31 @@ function updatePageTitle(title) {
 
         // ==================== MARKDOWN → PDF ====================
         if (toolId === 'md2pdf') {
+            updateMetaDescription("Convert Markdown to PDF with LaTeX math, syntax highlighting, and custom page breaks. 100% private, no uploads.");
+            updatePageTitle("Markdown to PDF Converter");
+
             area.innerHTML = `
                 <h3>📂 Upload .md file</h3>
                 <p class="tool-description">
     Convert Markdown to PDF with LaTeX math, syntax highlighting, and custom page breaks.
     Perfect for technical documentation, research papers, and coding notes.
+    After conversion, you can also <a href="#tool=pdf2jpg" target="_self">extract images</a> from the PDF or <a href="#tool=qrmaker" target="_self">generate a QR code</a> for your document.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                    <details>
+                        <summary>Can I use LaTeX math?</summary>
+                        <p>Yes, we support KaTeX. Use $...$ for inline and $$...$$ for display math.</p>
+                    </details>
+                    <details>
+                        <summary>How do I insert a page break?</summary>
+                        <p>Use <code>\\newpage</code> or <code>&lt;!-- pagebreak --&gt;</code> in your Markdown.</p>
+                    </details>
+                </div>
                 <div class="flex-row">
                     <input type="file" id="mdFile" accept=".md,text/markdown">
                 </div>
@@ -235,12 +254,27 @@ function updatePageTitle(title) {
 
         // ==================== DOCX → PDF ====================
         else if (toolId === 'docx2pdf') {
+            updateMetaDescription("Convert Word documents to PDF with perfect formatting – preserves tables, images, and headings. 100% private, no uploads.");
+            updatePageTitle("DOCX to PDF Converter");
+
             area.innerHTML = `
                 <h3>📂 Upload .docx</h3>
                 <p class="tool-description">
     Convert Word documents to PDF while preserving formatting, tables, and images.
     Ideal for sharing resumes, reports, and contracts securely.
+    After conversion, you can also <a href="#tool=pdf2jpg" target="_self">extract images</a> from the resulting PDF.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                    <details>
+                        <summary>Will my formatting be preserved?</summary>
+                        <p>Yes, we use Mammoth.js to preserve tables, images, and headings as closely as possible.</p>
+                    </details>
+                </div>
                 <div class="flex-row"><input type="file" id="docxFile" accept=".docx"></div>
                 <div class="orientation-selector">
                     <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
@@ -311,12 +345,27 @@ function updatePageTitle(title) {
 
         // ==================== IMAGES → PDF ====================
         else if (toolId === 'img2pdf') {
+            updateMetaDescription("Combine multiple JPG/PNG images into a single PDF. Auto‑orientation and page size control. 100% private, no uploads.");
+            updatePageTitle("Images to PDF Converter");
+
             area.innerHTML = `
                 <h3>🖼️ Select images (multiple)</h3>
                 <p class="tool-description">
     Combine multiple images into a single PDF. Automatically adjusts orientation and page size.
     Great for creating portfolios, presentations, or scanned document collections.
+    After creating your PDF, you can also <a href="#tool=pdfencrypt" target="_self">password‑protect</a> it.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                    <details>
+                        <summary>What image formats are supported?</summary>
+                        <p>JPG and PNG are fully supported. Other formats may be converted automatically.</p>
+                    </details>
+                </div>
                 <div class="flex-row"><input type="file" id="imgFiles" accept="image/*" multiple></div>
                 <div class="orientation-selector">
                     <label>📐 Page size: <select id="imgPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
@@ -361,133 +410,145 @@ function updatePageTitle(title) {
                 finalPdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
                 down.disabled = false;
             });
-            down.addEventListener('click', () => { if (finalPdfBlob) downloadBlob(finalPdfBlob, 'images.pdf'); });
+            down.addEventListener('click', () => { if (finalPdfBlob) downloadBlob(finalPdfBlob, 'combined-images.pdf'); });
         }
 
-        // ==================== PDF PASSWORD – FINAL WORKING VERSION ====================
-else if (toolId === 'pdfencrypt') {
-    area.innerHTML = `
-        <h3>🔐 Protect PDF with Password</h3>
-        <p class="tool-description">
+        // ==================== PDF PASSWORD ====================
+        else if (toolId === 'pdfencrypt') {
+            updateMetaDescription("Protect your PDFs with a password. Set permissions for printing, copying, and modifying. 100% private, no uploads.");
+            updatePageTitle("PDF Password Protector");
+
+            area.innerHTML = `
+                <h3>🔐 Protect PDF with Password</h3>
+                <p class="tool-description">
     Protect your PDFs with a password. Set permissions for printing, copying, or modifying.
     Keep sensitive documents secure before sharing.
+    After encrypting, you may also want to <a href="#tool=mergepdf" target="_self">merge</a> it with other files.
 </p>
-        <div style="display:flex; flex-direction:column; gap:1rem; max-width:500px;">
-            <input type="file" id="pdfToEncrypt" accept=".pdf">
-            <input type="password" id="pdfPassword" placeholder="Enter password">
-            <input type="password" id="pdfConfirmPassword" placeholder="Confirm password">
-            <div class="permissions-grid" style="display:flex; gap:1rem; flex-wrap:wrap;">
-                <label><input type="checkbox" id="permPrint" checked> Allow Printing</label>
-                <label><input type="checkbox" id="permCopy" checked> Allow Copying</label>
-                <label><input type="checkbox" id="permModify"> Allow Modifying</label>
-            </div>
-            <div id="passwordStrength" class="password-strength"></div>
-            <button id="encryptPdfBtn" class="primary" style="align-self:flex-start;">🔒 Encrypt & Download</button>
-        </div>
-    `;
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                    <details>
+                        <summary>What encryption is used?</summary>
+                        <p>We use standard PDF encryption (AES‑256) via PDF‑Lib.</p>
+                    </details>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:1rem; max-width:500px;">
+                    <input type="file" id="pdfToEncrypt" accept=".pdf">
+                    <input type="password" id="pdfPassword" placeholder="Enter password">
+                    <input type="password" id="pdfConfirmPassword" placeholder="Confirm password">
+                    <div class="permissions-grid" style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <label><input type="checkbox" id="permPrint" checked> Allow Printing</label>
+                        <label><input type="checkbox" id="permCopy" checked> Allow Copying</label>
+                        <label><input type="checkbox" id="permModify"> Allow Modifying</label>
+                    </div>
+                    <div id="passwordStrength" class="password-strength"></div>
+                    <button id="encryptPdfBtn" class="primary" style="align-self:flex-start;">🔒 Encrypt & Download</button>
+                </div>
+            `;
 
-    const pdfFile = document.getElementById('pdfToEncrypt');
-    const pdfPassword = document.getElementById('pdfPassword');
-    const pdfConfirm = document.getElementById('pdfConfirmPassword');
-    const permPrint = document.getElementById('permPrint');
-    const permCopy = document.getElementById('permCopy');
-    const permModify = document.getElementById('permModify');
-    const encryptBtn = document.getElementById('encryptPdfBtn');
-    const strengthDiv = document.getElementById('passwordStrength');
+            const pdfFile = document.getElementById('pdfToEncrypt');
+            const pdfPassword = document.getElementById('pdfPassword');
+            const pdfConfirm = document.getElementById('pdfConfirmPassword');
+            const permPrint = document.getElementById('permPrint');
+            const permCopy = document.getElementById('permCopy');
+            const permModify = document.getElementById('permModify');
+            const encryptBtn = document.getElementById('encryptPdfBtn');
+            const strengthDiv = document.getElementById('passwordStrength');
 
-    // Password strength
-    pdfPassword.addEventListener('input', () => {
-        const pwd = pdfPassword.value;
-        let strength = 0;
-        if (pwd.length >= 8) strength++;
-        if (/[a-z]/.test(pwd)) strength++;
-        if (/[A-Z]/.test(pwd)) strength++;
-        if (/[0-9]/.test(pwd)) strength++;
-        if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
-        const msgs = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
-        const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
-        const index = Math.min(strength, msgs.length - 1);
-        strengthDiv.textContent = `Password Strength: ${msgs[index]}`;
-        strengthDiv.style.color = colors[index];
-    });
-
-    encryptBtn.addEventListener('click', async () => {
-        const file = pdfFile.files[0];
-        const pwd = pdfPassword.value;
-        const confirm = pdfConfirm.value;
-        if (!file) { alert('Select a PDF file'); return; }
-        if (!pwd) { alert('Enter password'); return; }
-        if (pwd !== confirm) { alert('Passwords do not match'); return; }
-        if (pwd.length < 6) { alert('Password must be at least 6 characters'); return; }
-
-        encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
-
-        try {
-            // 1. Load the PDF library
-            if (typeof PDFLib === 'undefined') {
-                throw new Error('PDF library not loaded. Refresh page.');
-            }
-            const { PDFDocument } = PDFLib;
-
-            // 2. Read file
-            const arrayBuf = await file.arrayBuffer();
-
-            // 3. Load source document (handle encrypted PDFs gracefully)
-            let sourceDoc;
-            try {
-                sourceDoc = await PDFDocument.load(arrayBuf);
-            } catch (loadErr) {
-                // If it's encrypted, we can't load – ask user
-                if (loadErr.message && loadErr.message.toLowerCase().includes('password')) {
-                    throw new Error('This PDF is already encrypted. Please unprotect it first.');
-                }
-                throw new Error('Invalid or corrupted PDF file.');
-            }
-
-            // 4. Create a NEW PDF and copy all pages
-            const newDoc = await PDFDocument.create();
-            const pages = await newDoc.copyPages(sourceDoc, sourceDoc.getPageIndices());
-            pages.forEach(page => newDoc.addPage(page));
-
-            // 5. Encrypt the new document
-            const permissions = {
-                printing: permPrint.checked ? 'highResolution' : 'none',
-                modifying: permModify.checked,
-                copying: permCopy.checked,
-                annotating: false,
-                fillingForms: false,
-                contentAccessibility: true,
-                documentAssembly: false
-            };
-
-            newDoc.encrypt({
-                userPassword: pwd,
-                ownerPassword: pwd,
-                permissions: permissions
+            pdfPassword.addEventListener('input', () => {
+                const pwd = pdfPassword.value;
+                let strength = 0;
+                if (pwd.length >= 8) strength++;
+                if (/[a-z]/.test(pwd)) strength++;
+                if (/[A-Z]/.test(pwd)) strength++;
+                if (/[0-9]/.test(pwd)) strength++;
+                if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
+                const msgs = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+                const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
+                const index = Math.min(strength, msgs.length - 1);
+                strengthDiv.textContent = `Password Strength: ${msgs[index]}`;
+                strengthDiv.style.color = colors[index];
             });
 
-            // 6. Save and download
-            const encryptedBytes = await newDoc.save();
-            downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
+            encryptBtn.addEventListener('click', async () => {
+                const file = pdfFile.files[0];
+                const pwd = pdfPassword.value;
+                const confirm = pdfConfirm.value;
+                if (!file) { alert('Select a PDF file'); return; }
+                if (!pwd) { alert('Enter password'); return; }
+                if (pwd !== confirm) { alert('Passwords do not match'); return; }
+                if (pwd.length < 6) { alert('Password must be at least 6 characters'); return; }
 
-        } catch (error) {
-            console.error('Encryption error:', error);
-            alert('Encryption failed: ' + error.message);
-        } finally {
-            encryptBtn.disabled = false;
-            encryptBtn.innerHTML = '🔒 Encrypt & Download';
+                encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
+
+                try {
+                    if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Refresh page.');
+                    const { PDFDocument } = PDFLib;
+                    const arrayBuf = await file.arrayBuffer();
+                    let sourceDoc;
+                    try {
+                        sourceDoc = await PDFDocument.load(arrayBuf);
+                    } catch (loadErr) {
+                        if (loadErr.message && loadErr.message.toLowerCase().includes('password')) {
+                            throw new Error('This PDF is already encrypted. Please unprotect it first.');
+                        }
+                        throw new Error('Invalid or corrupted PDF file.');
+                    }
+                    const newDoc = await PDFDocument.create();
+                    const pages = await newDoc.copyPages(sourceDoc, sourceDoc.getPageIndices());
+                    pages.forEach(page => newDoc.addPage(page));
+
+                    const permissions = {
+                        printing: permPrint.checked ? 'highResolution' : 'none',
+                        modifying: permModify.checked,
+                        copying: permCopy.checked,
+                        annotating: false,
+                        fillingForms: false,
+                        contentAccessibility: true,
+                        documentAssembly: false
+                    };
+
+                    newDoc.encrypt({
+                        userPassword: pwd,
+                        ownerPassword: pwd,
+                        permissions: permissions
+                    });
+
+                    const encryptedBytes = await newDoc.save();
+                    downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
+                } catch (error) {
+                    console.error('Encryption error:', error);
+                    alert('Encryption failed: ' + error.message);
+                } finally {
+                    encryptBtn.disabled = false;
+                    encryptBtn.innerHTML = '🔒 Encrypt & Download';
+                }
+            });
         }
-    });
-}
 
         // ==================== MERGE PDF ====================
         else if (toolId === 'mergepdf') {
+            updateMetaDescription("Combine multiple PDF files into one with drag‑to‑reorder. 100% private, no uploads.");
+            updatePageTitle("Merge PDFs Online");
+
             area.innerHTML = `
                 <h3>📚 Select multiple PDFs</h3>
                 <p class="tool-description">
     Combine multiple PDF files into one. Drag to reorder pages before merging.
     Perfect for consolidating reports, invoices, or research papers.
+    After merging, you can also <a href="#tool=pdfencrypt" target="_self">password‑protect</a> the result.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                </div>
                 <input type="file" id="pdfMergeInput" accept=".pdf" multiple><br><br>
                 <ul id="mergeFileList" class="file-list"></ul>
                 <button id="mergePdfBtn">🔗 Merge & download</button>
@@ -543,7 +604,7 @@ else if (toolId === 'pdfencrypt') {
                         copied.forEach(p => merged.addPage(p));
                     }
                     const mergedBytes = await merged.save();
-                    downloadBlob(new Blob([mergedBytes]), 'merged.pdf');
+                    downloadBlob(new Blob([mergedBytes]), 'merged-document.pdf');
                 } catch (e) { alert('Merge failed: ' + e.message); } finally {
                     mergeBtn.disabled = false; mergeBtn.innerHTML = '🔗 Merge & download';
                 }
@@ -552,12 +613,23 @@ else if (toolId === 'pdfencrypt') {
 
         // ==================== TXT → DOCX ====================
         else if (toolId === 'txt2docx') {
+            updateMetaDescription("Convert plain text to formatted Word documents with custom fonts, size, and line spacing. 100% private, no uploads.");
+            updatePageTitle("TXT to DOCX Converter");
+
             area.innerHTML = `
                 <h3>📄 Upload .txt file</h3>
                 <p class="tool-description">
     Convert plain text to a formatted Word document. Choose font, size, and line spacing.
     Great for preparing drafts or converting code comments to documentation.
+    After conversion, you can also <a href="#tool=web2pdf" target="_self">turn it into PDF</a>.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                </div>
                 <div class="flex-row"><input type="file" id="txtFile" accept=".txt"></div>
                 <div class="formatting-controls">
                     <h4>Formatting Options</h4>
@@ -623,17 +695,28 @@ else if (toolId === 'pdfencrypt') {
                 }
             });
 
-            downloadBtn.addEventListener('click', () => { if (currentDocxBlob) downloadBlob(currentDocxBlob, 'converted.docx'); });
+            downloadBtn.addEventListener('click', () => { if (currentDocxBlob) downloadBlob(currentDocxBlob, 'text-to-word.docx'); });
         }
 
         // ==================== PDF → JPG ====================
         else if (toolId === 'pdf2jpg') {
+            updateMetaDescription("Extract images from PDF pages. Choose first page, all pages, or a custom range. Download as ZIP. 100% private, no uploads.");
+            updatePageTitle("PDF to JPG Converter");
+
             area.innerHTML = `
                 <h3>📸 PDF → JPG</h3>
                 <p class="tool-description">
     Extract images from PDF pages. Choose first page, all pages, or a custom range.
     Download individual images or a ZIP file. Perfect for presentations or social media.
+    After extraction, you can also <a href="#tool=img2png" target="_self">convert images to PNG</a>.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                </div>
                 <input type="file" id="pdf2jpgInput" accept=".pdf"><br><br>
                 <div style="margin:1rem 0;">
                     <label><input type="radio" name="pageRange" value="first" checked> First page only</label><br>
@@ -729,24 +812,35 @@ else if (toolId === 'pdfencrypt') {
             downloadBtn.addEventListener('click', async () => {
                 if (generatedBlobs.length === 0) return;
                 if (generatedBlobs.length === 1) {
-                    downloadBlob(generatedBlobs[0].blob, `page-${generatedBlobs[0].pageNum}.jpg`);
+                    downloadBlob(generatedBlobs[0].blob, `pdf-page-${generatedBlobs[0].pageNum}.jpg`);
                 } else {
                     const zip = new JSZip();
                     generatedBlobs.forEach(({blob, pageNum}) => zip.file(`page-${pageNum}.jpg`, blob));
                     const content = await zip.generateAsync({ type: 'blob' });
-                    downloadBlob(content, 'images.zip');
+                    downloadBlob(content, 'pdf-pages.zip');
                 }
             });
         }
 
         // ==================== IMAGE → PNG ====================
         else if (toolId === 'img2png') {
+            updateMetaDescription("Convert any image (JPG, GIF, BMP) to PNG format with lossless quality. 100% private, no uploads.");
+            updatePageTitle("Image to PNG Converter");
+
             area.innerHTML = `
                 <h3>🎨 Convert any image to PNG</h3>
                 <p class="tool-description">
     Convert any image (JPG, GIF, BMP) to PNG format. Lossless and high quality.
     Ideal for web graphics, logos, and transparent images.
+    After conversion, you can also <a href="#tool=web2pdf" target="_self">turn it into PDF</a>.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                </div>
                 <div class="flex-row"><input type="file" id="anyImgInput" accept="image/*"></div>
                 <button id="toPngBtn" class="primary">Convert to PNG</button>
                 <div class="preview-box"><img id="pngPreview" style="max-width:200px; max-height:200px;"></div>
@@ -774,16 +868,27 @@ else if (toolId === 'pdfencrypt') {
                 };
                 reader.readAsDataURL(f);
             });
-            dPng.addEventListener('click', () => { if (pngBlob) downloadBlob(pngBlob, 'image.png'); });
+            dPng.addEventListener('click', () => { if (pngBlob) downloadBlob(pngBlob, 'converted-image.png'); });
         }
 
         // ==================== HTML → PDF ====================
         else if (toolId === 'web2pdf') {
+            updateMetaDescription("Turn HTML code into a printable PDF with full CSS support. 100% private, no uploads.");
+            updatePageTitle("HTML to PDF Converter");
+
             area.innerHTML = `
                 <h3>🌐 HTML snippet to PDF</h3>
                 <p class="tool-description">
     Turn HTML code into a printable PDF. Full CSS support – perfect for invoices, reports, or saving web content.
+    After generating your PDF, you can also <a href="#tool=pdfencrypt" target="_self">password‑protect</a> it.
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my file uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your files never leave your device.</p>
+                    </details>
+                </div>
                 <textarea id="htmlSnippet" rows="8" style="width:100%; border-radius:25px; padding:1rem;"><h1>Hello</h1><p>type HTML here</p></textarea><br><br>
                 <div class="orientation-selector">
                     <label>📐 Page size: <select id="htmlPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
@@ -813,12 +918,23 @@ else if (toolId === 'pdfencrypt') {
 
         // ==================== QR CODE ====================
         else if (toolId === 'qrmaker') {
+            updateMetaDescription("Create custom QR codes with colors, error correction, and optional logo. Download as PNG or SVG. 100% private, no uploads.");
+            updatePageTitle("QR Code Generator");
+
             area.innerHTML = `
                 <h3>🔳 Professional QR Code Generator</h3>
                 <p class="tool-description">
     Create custom QR codes with your own colors, logo, and error correction level.
     Download as PNG for web or SVG for print. Great for marketing, business cards, and links.
+    After generating, you can also <a href="#tool=img2png" target="_self">convert the QR to PNG</a> (if needed).
 </p>
+                <div class="faq-section">
+                    <h4>Frequently Asked Questions</h4>
+                    <details>
+                        <summary>Is my data uploaded to a server?</summary>
+                        <p>No! All processing happens locally in your browser. Your data never leaves your device.</p>
+                    </details>
+                </div>
                 <div class="qr-controls">
                     <input type="text" id="qrText" placeholder="Enter text or URL" value="https://convert-pdf.vercel.app">
                     <div class="qr-options-grid">
@@ -899,7 +1015,7 @@ else if (toolId === 'pdfencrypt') {
                     alert('SVG download requires additional library. Using PNG.');
                 }
                 const link = document.createElement('a');
-                link.download = `qrcode-${Date.now()}.png`;
+                link.download = 'custom-qrcode.png';
                 link.href = currentQrDataUrl;
                 link.click();
             });
