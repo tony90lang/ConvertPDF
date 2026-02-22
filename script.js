@@ -74,6 +74,18 @@
         URL.revokeObjectURL(link.href);
     }
 
+    // ---------- SEO HELPERS ----------
+function updateMetaDescription(desc) {
+    let meta = document.querySelector('meta[name="description"]');
+    if (meta) {
+        meta.setAttribute('content', desc);
+    }
+}
+
+function updatePageTitle(title) {
+    document.title = title + " – ConvertPDF";
+}
+
     // ---------- PDF.js worker setup ----------
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
