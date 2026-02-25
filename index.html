@@ -7,6 +7,48 @@
     <meta name="google-adsense-account" content="ca-pub-1745874358886453">
     <meta name="google-site-verification" content="HxFFLIRH-qhkVXIcmvcBW20DwdRnlt-GKaQiGHWpOsQ" />
     <title>ConvertPDF – Private, Client‑Side PDF Converter</title>
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="ConvertPDF – Free, Private PDF Converter">
+    <meta property="og:description" content="Convert documents to PDF privately in your browser. No uploads, 100% client‑side.">
+    <meta property="og:url" content="https://convert-pdf-tool.netlify.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://convert-pdf-tool.netlify.app/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ConvertPDF – Free, Private PDF Converter">
+    <meta name="twitter:description" content="Convert documents to PDF privately in your browser. No uploads, 100% client‑side.">
+    <meta name="twitter:image" content="https://convert-pdf-tool.netlify.app/og-image.png">
+
+    <!-- Structured Data (JSON‑LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ConvertPDF",
+      "url": "https://convert-pdf-tool.netlify.app/",
+      "description": "Free, private PDF converter that runs entirely in your browser. Convert Markdown, DOCX, images to PDF, merge, encrypt, and more.",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Markdown to PDF with LaTeX",
+        "DOCX to PDF",
+        "Images to PDF",
+        "PDF password protection",
+        "Merge PDFs",
+        "TXT to DOCX",
+        "PDF to JPG",
+        "Image to PNG",
+        "HTML to PDF",
+        "QR code generator"
+      ]
+    }
+    </script>
+
     <!-- Core libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -14,7 +56,7 @@
     <script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <!-- QR code library (correct one) -->
+    <!-- QR code library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <!-- Syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -24,28 +66,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-    <!-- AdSense (optional, keep if you have account) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453"
-     crossorigin="anonymous"></script>
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
     <!-- Local styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
 
-    
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7FVBKG4BEH');
-</script>
-
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7FVBKG4BEH');
+    </script>
 </head>
 <body>
 <div class="app-container" id="appContainer">
-    <!-- home section -->
     <div id="homeSection">
         <header>
             <h1>ConvertPDF – Free Document & PDF Converter</h1>
@@ -55,7 +92,6 @@
         <p class="home-footer">Having INFINITY is another flex !!!</p>
     </div>
 
-    <!-- tool panel (hidden by default) -->
     <div id="toolPanel" class="hidden">
         <div class="tool-header">
             <button class="back-btn" id="backToHomeBtn">← All tools</button>
@@ -66,26 +102,38 @@
     </div>
 
     <div class="content-section">
-    <h2>Why Choose ConvertPDF?</h2>
-    <p>ConvertPDF is a completely free, privacy‑focused document toolkit. Unlike other online converters, your files never leave your device – all conversions happen locally in your browser. This means your sensitive documents stay private and secure.</p>
-    <p>Whether you're a student converting Markdown notes to PDF, a professional merging multiple PDFs, or a developer generating QR codes, ConvertPDF provides fast, reliable tools without any server uploads.</p>
-    <h3>Our Tools:</h3>
-    <ul>
-        <li><strong>Markdown → PDF:</strong> Perfect for developers and writers. Supports LaTeX math, syntax highlighting, and custom page breaks.</li>
-        <li><strong>DOCX → PDF:</strong> Convert Word documents to PDF with perfect formatting – preserves tables, images, and headings.</li>
-        <li><strong>Images → PDF:</strong> Combine multiple JPG/PNG images into a single PDF, with auto‑orientation and page size control.</li>
-        <li><strong>PDF Password:</strong> Protect your PDFs with encryption. Set permissions for printing, copying, and modifying.</li>
-        <li><strong>Merge PDFs:</strong> Combine multiple PDF files into one, with drag‑and‑drop reordering.</li>
-        <li><strong>TXT → DOCX:</strong> Convert plain text to formatted Word documents with custom fonts and line spacing.</li>
-        <li><strong>PDF → JPG:</strong> Extract images from PDF pages. Choose first page, all pages, or a custom range – download as ZIP.</li>
-        <li><strong>Image → PNG:</strong> Convert any image to PNG format with lossless quality.</li>
-        <li><strong>HTML → PDF:</strong> Turn HTML snippets into printable PDFs with full CSS support.</li>
-        <li><strong>QR Code Generator:</strong> Create custom QR codes with colors, logos, and error correction – download as PNG or SVG.</li>
-    </ul>
-    <p>All tools are 100% free, with no sign‑up required. Your privacy is our priority – no files are ever uploaded to any server.</p>
+        <h2>Why Choose ConvertPDF?</h2>
+        <p>ConvertPDF is a completely free, privacy‑focused document toolkit. Unlike other online converters, your files never leave your device – all conversions happen locally in your browser. This means your sensitive documents stay private and secure.</p>
+        <p>Whether you're a student converting Markdown notes to PDF, a professional merging multiple PDFs, or a developer generating QR codes, ConvertPDF provides fast, reliable tools without any server uploads.</p>
+        <h3>Our Tools:</h3>
+        <ul>
+            <li><strong>Markdown → PDF:</strong> Perfect for developers and writers. Supports LaTeX math, syntax highlighting, and custom page breaks.</li>
+            <li><strong>DOCX → PDF:</strong> Convert Word documents to PDF with perfect formatting – preserves tables, images, and headings.</li>
+            <li><strong>Images → PDF:</strong> Combine multiple JPG/PNG images into a single PDF, with auto‑orientation and page size control.</li>
+            <li><strong>PDF Password:</strong> Protect your PDFs with encryption. Set permissions for printing, copying, and modifying.</li>
+            <li><strong>Merge PDFs:</strong> Combine multiple PDF files into one, with drag‑and‑drop reordering.</li>
+            <li><strong>TXT → DOCX:</strong> Convert plain text to formatted Word documents with custom fonts and line spacing.</li>
+            <li><strong>PDF → JPG:</strong> Extract images from PDF pages. Choose first page, all pages, or a custom range – download as ZIP.</li>
+            <li><strong>Image → PNG:</strong> Convert any image to PNG format with lossless quality.</li>
+            <li><strong>HTML → PDF:</strong> Turn HTML snippets into printable PDFs with full CSS support.</li>
+            <li><strong>QR Code Generator:</strong> Create custom QR codes with colors, logos, and error correction – download as PNG or SVG.</li>
+        </ul>
+        <p>All tools are 100% free, with no sign‑up required. Your privacy is our priority – no files are ever uploaded to any server.</p>
+    </div>
 </div>
 
-</div>
+<!-- Scripts in order: utils, tools, main -->
+<script src="utils.js"></script>
+<script src="tools/md2pdf.js"></script>
+<script src="tools/docx2pdf.js"></script>
+<script src="tools/img2pdf.js"></script>
+<script src="tools/pdfencrypt.js"></script>
+<script src="tools/mergepdf.js"></script>
+<script src="tools/txt2docx.js"></script>
+<script src="tools/pdf2jpg.js"></script>
+<script src="tools/img2png.js"></script>
+<script src="tools/web2pdf.js"></script>
+<script src="tools/qrmaker.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
