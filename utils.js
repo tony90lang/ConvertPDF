@@ -38,3 +38,36 @@ function loadImage(file) {
         reader.readAsDataURL(file);
     });
 }
+
+// ---------- DYNAMIC SCRIPT LOADER ----------
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+            resolve();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+        document.head.appendChild(script);
+    });
+}
+
+// ---------- DYNAMIC STYLESHEET LOADER ----------
+function loadStylesheet(href) {
+    return new Promise((resolve, reject) => {
+        const existing = document.querySelector(`link[href="${href}"]`);
+        if (existing) {
+            resolve();
+            return;
+        }
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = resolve;
+        link.onerror = () => reject(new Error(`Failed to load stylesheet: ${href}`));
+        document.head.appendChild(link);
+    });
+}

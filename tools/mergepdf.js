@@ -1,5 +1,7 @@
 // mergepdf.js
-function rendermergepdf(container) {
+async function rendermergepdf(container) {
+    await loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js');
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';

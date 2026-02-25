@@ -1,5 +1,7 @@
 // txt2docx.js
-function rendertxt2docx(container) {
+async function rendertxt2docx(container) {
+    await loadScript('https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.min.js');
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';

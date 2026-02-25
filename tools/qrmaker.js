@@ -1,5 +1,7 @@
 // qrmaker.js
-function renderqrmaker(container) {
+async function renderqrmaker(container) {
+    await loadScript('https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js');
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';
@@ -61,7 +63,6 @@ function renderqrmaker(container) {
 
         try {
             if (qrFormat.value === 'svg') {
-                // Generate SVG
                 QRCode.toString(text, {
                     type: 'svg',
                     width: parseInt(qrSize.value),
@@ -77,7 +78,6 @@ function renderqrmaker(container) {
                     downloadBtn.disabled = false;
                 });
             } else {
-                // Generate PNG via canvas
                 const canvas = document.createElement('canvas');
                 const size = parseInt(qrSize.value);
                 canvas.width = size; canvas.height = size;

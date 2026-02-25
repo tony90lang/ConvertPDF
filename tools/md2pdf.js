@@ -1,5 +1,16 @@
 // md2pdf.js
-function rendermd2pdf(container) {
+async function rendermd2pdf(container) {
+    // Load required libraries
+    await Promise.all([
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js'),
+        loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js'),
+        loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js'),
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js'),
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js')
+    ]);
+    await loadStylesheet('https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css');
+    await loadStylesheet('https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css');
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';

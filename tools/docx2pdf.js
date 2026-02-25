@@ -1,5 +1,7 @@
 // docx2pdf.js
-function renderdocx2pdf(container) {
+async function renderdocx2pdf(container) {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';

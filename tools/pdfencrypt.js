@@ -1,5 +1,7 @@
 // pdfencrypt.js
-function renderpdfencrypt(container) {
+async function renderpdfencrypt(container) {
+    await loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js');
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';
@@ -89,14 +91,11 @@ function renderpdfencrypt(container) {
                 throw new Error('Invalid or corrupted PDF file.');
             }
 
-            // Create a new PDF and copy pages
             const newDoc = await PDFDocument.create();
             const pages = await newDoc.copyPages(sourceDoc, sourceDoc.getPageIndices());
             pages.forEach(page => newDoc.addPage(page));
 
-            // Check if encrypt exists (should, but fallback just in case)
             if (typeof newDoc.encrypt !== 'function') {
-                // Fallback: try to use sourceDoc.encrypt if available and not encrypted
                 if (typeof sourceDoc.encrypt === 'function' && !sourceDoc.isEncrypted) {
                     console.warn('Using sourceDoc for encryption as fallback.');
                     sourceDoc.encrypt({
@@ -118,7 +117,6 @@ function renderpdfencrypt(container) {
                     throw new Error('Encryption method missing. Please update pdf-lib or try again.');
                 }
             } else {
-                // Normal encryption
                 const permissions = {
                     printing: permPrint.checked ? 'highResolution' : 'none',
                     modifying: permModify.checked,

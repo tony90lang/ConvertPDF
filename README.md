@@ -2,7 +2,7 @@
 
 🚀 **Convert PDFs, documents, and images entirely in your browser – no uploads, no servers, no privacy risks.**
 
-👉 **Live site:** [convert-pdf-self.vercel.app](https://convert-pdf-self.vercel.app)
+👉 **Live site:** [convert-pdf-tool.netlify.app](https://convert-pdf-tool.netlify.app)
 
 ---
 

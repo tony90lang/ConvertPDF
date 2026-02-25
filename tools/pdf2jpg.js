@@ -1,5 +1,10 @@
 // pdf2jpg.js
-function renderpdf2jpg(container) {
+async function renderpdf2jpg(container) {
+    await Promise.all([
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'),
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
+    ]);
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';
