@@ -5,6 +5,10 @@ async function renderpdf2jpg(container) {
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
     ]);
 
+    // pdf2jpg.js – inside renderpdf2jpg, after loadScript
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
     container.innerHTML = '';
     const area = document.createElement('div');
     area.className = 'area';

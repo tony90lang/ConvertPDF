@@ -21,9 +21,6 @@ function updatePageTitle(title) {
     document.title = title + " – ConvertPDF";
 }
 
-// ---------- PDF.js WORKER ----------
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
 // ---------- LOAD IMAGE FROM FILE ----------
 function loadImage(file) {
     return new Promise((resolve, reject) => {
