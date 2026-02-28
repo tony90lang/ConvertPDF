@@ -12,7 +12,7 @@ function renderweb2pdf(container) {
         <h3>🌐 HTML snippet to PDF</h3>
         <p class="tool-description">
             Turn HTML code into a printable PDF. Full CSS support – perfect for invoices, reports, or saving web content.
-            After generating your PDF, you can also <a href="#tool=pdfencrypt" target="_self">password‑protect</a> it.
+            After generating your PDF, you can also <a href="pdfencrypt.html" target="_self">password‑protect</a> it.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

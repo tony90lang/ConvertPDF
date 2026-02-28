@@ -1,6 +1,5 @@
 // md2pdf.js
 async function rendermd2pdf(container) {
-    // Load required libraries
     await Promise.all([
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js'),
         loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js'),
@@ -24,7 +23,7 @@ async function rendermd2pdf(container) {
         <p class="tool-description">
             Convert Markdown to PDF with LaTeX math, syntax highlighting, and custom page breaks.
             Perfect for technical documentation, research papers, and coding notes.
-            After conversion, you can also <a href="#tool=pdf2jpg" target="_self">extract images</a> from the PDF or <a href="#tool=qrmaker" target="_self">generate a QR code</a> for your document.
+            After conversion, you can also <a href="pdf2jpg.html" target="_self">extract images</a> from the PDF or <a href="qrmaker.html" target="_self">generate a QR code</a> for your document.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

@@ -15,7 +15,7 @@ async function rendertxt2docx(container) {
         <p class="tool-description">
             Convert plain text to a formatted Word document. Choose font, size, and line spacing.
             Great for preparing drafts or converting code comments to documentation.
-            After conversion, you can also <a href="#tool=web2pdf" target="_self">turn it into PDF</a>.
+            After conversion, you can also <a href="web2pdf.html" target="_self">turn it into PDF</a>.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

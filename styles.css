@@ -56,6 +56,8 @@ h1 {
     text-align: center;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
+    color: inherit;
 }
 
 .tool-card::before {
@@ -133,6 +135,7 @@ h1 {
     cursor: pointer;
     transition: 0.1s;
     border: 1px solid #b3c7e7;
+    text-decoration: none;
 }
 
 .back-btn:hover {
@@ -492,7 +495,7 @@ iframe, canvas, img {
     margin: 2rem 0;
     box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
     border: 1px solid #e2eafc;
-    min-height: 600px;
+    min-height: 600px; /* added to prevent layout shift */
 }
 
 .content-section h2 {

@@ -15,7 +15,7 @@ async function renderdocx2pdf(container) {
         <p class="tool-description">
             Convert Word documents to PDF while preserving formatting, tables, and images.
             Ideal for sharing resumes, reports, and contracts securely.
-            After conversion, you can also <a href="#tool=pdf2jpg" target="_self">extract images</a> from the resulting PDF.
+            After conversion, you can also <a href="pdf2jpg.html" target="_self">extract images</a> from the resulting PDF.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

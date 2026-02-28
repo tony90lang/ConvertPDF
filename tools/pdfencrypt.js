@@ -15,7 +15,7 @@ async function renderpdfencrypt(container) {
         <p class="tool-description">
             Protect your PDFs with a password. Set permissions for printing, copying, or modifying.
             Keep sensitive documents secure before sharing.
-            After encrypting, you may also want to <a href="#tool=mergepdf" target="_self">merge</a> it with other files.
+            After encrypting, you may also want to <a href="mergepdf.html" target="_self">merge</a> it with other files.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>
@@ -80,6 +80,7 @@ async function renderpdfencrypt(container) {
         try {
             if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Refresh page.');
             const { PDFDocument } = PDFLib;
+
             const arrayBuf = await file.arrayBuffer();
             let sourceDoc;
             try {
@@ -91,30 +92,34 @@ async function renderpdfencrypt(container) {
                 throw new Error('Invalid or corrupted PDF file.');
             }
 
+            // Create a new PDF and copy pages
             const newDoc = await PDFDocument.create();
             const pages = await newDoc.copyPages(sourceDoc, sourceDoc.getPageIndices());
             pages.forEach(page => newDoc.addPage(page));
 
+            // Check if encrypt exists
             if (typeof newDoc.encrypt !== 'function') {
+                // Fallback: try sourceDoc.encrypt if available and not encrypted
                 if (typeof sourceDoc.encrypt === 'function' && !sourceDoc.isEncrypted) {
                     console.warn('Using sourceDoc for encryption as fallback.');
+                    const permissions = {
+                        printing: permPrint.checked ? 'highResolution' : 'none',
+                        modifying: permModify.checked,
+                        copying: permCopy.checked,
+                        annotating: false,
+                        fillingForms: false,
+                        contentAccessibility: true,
+                        documentAssembly: false
+                    };
                     sourceDoc.encrypt({
                         userPassword: pwd,
                         ownerPassword: pwd,
-                        permissions: {
-                            printing: permPrint.checked ? 'highResolution' : 'none',
-                            modifying: permModify.checked,
-                            copying: permCopy.checked,
-                            annotating: false,
-                            fillingForms: false,
-                            contentAccessibility: true,
-                            documentAssembly: false
-                        }
+                        permissions: permissions
                     });
                     const encryptedBytes = await sourceDoc.save();
                     downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
                 } else {
-                    throw new Error('Encryption method missing. Please update pdf-lib or try again.');
+                    throw new Error('Encryption not supported in this PDF. Please try a different file.');
                 }
             } else {
                 const permissions = {

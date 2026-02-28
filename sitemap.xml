@@ -2,67 +2,91 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://convert-pdf-tool.netlify.app/</loc>
-    <lastmod>2026-02-23</lastmod>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=md2pdf</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/about.html</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://convert-pdf-tool.netlify.app/contact.html</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://convert-pdf-tool.netlify.app/terms.html</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://convert-pdf-tool.netlify.app/privacy.html</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://convert-pdf-tool.netlify.app/pages/md2pdf.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=docx2pdf</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/docx2pdf.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=img2pdf</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/img2pdf.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=pdfencrypt</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/pdfencrypt.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=mergepdf</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/mergepdf.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=txt2docx</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/txt2docx.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=pdf2jpg</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/pdf2jpg.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=img2png</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/img2png.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=web2pdf</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/web2pdf.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://convert-pdf-tool.netlify.app/#tool=qrmaker</loc>
-    <lastmod>2026-02-23</lastmod>
+    <loc>https://convert-pdf-tool.netlify.app/pages/qrmaker.html</loc>
+    <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

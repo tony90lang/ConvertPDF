@@ -15,7 +15,7 @@ async function rendermergepdf(container) {
         <p class="tool-description">
             Combine multiple PDF files into one. Drag to reorder pages before merging.
             Perfect for consolidating reports, invoices, or research papers.
-            After merging, you can also <a href="#tool=pdfencrypt" target="_self">password‑protect</a> the result.
+            After merging, you can also <a href="pdfencrypt.html" target="_self">password‑protect</a> the result.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

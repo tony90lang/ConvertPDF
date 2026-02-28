@@ -15,7 +15,7 @@ async function renderqrmaker(container) {
         <p class="tool-description">
             Create custom QR codes with your own colors, logo, and error correction level.
             Download as PNG for web or SVG for print. Great for marketing, business cards, and links.
-            After generating, you can also <a href="#tool=img2png" target="_self">convert the QR to PNG</a> (if needed).
+            After generating, you can also <a href="img2png.html" target="_self">convert the QR to PNG</a> (if needed).
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

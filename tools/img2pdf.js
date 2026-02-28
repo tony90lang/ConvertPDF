@@ -15,7 +15,7 @@ async function renderimg2pdf(container) {
         <p class="tool-description">
             Combine multiple images into a single PDF. Automatically adjusts orientation and page size.
             Great for creating portfolios, presentations, or scanned document collections.
-            After creating your PDF, you can also <a href="#tool=pdfencrypt" target="_self">password‑protect</a> it.
+            After creating your PDF, you can also <a href="pdfencrypt.html" target="_self">password‑protect</a> it.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

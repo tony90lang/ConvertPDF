@@ -5,8 +5,6 @@ async function renderpdf2jpg(container) {
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
     ]);
 
-    // pdf2jpg.js – inside renderpdf2jpg, after loadScript
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     container.innerHTML = '';
@@ -22,7 +20,7 @@ async function renderpdf2jpg(container) {
         <p class="tool-description">
             Extract images from PDF pages. Choose first page, all pages, or a custom range.
             Download individual images or a ZIP file. Perfect for presentations or social media.
-            After extraction, you can also <a href="#tool=img2png" target="_self">convert images to PNG</a>.
+            After extraction, you can also <a href="img2png.html" target="_self">convert images to PNG</a>.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>

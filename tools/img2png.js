@@ -13,7 +13,7 @@ function renderimg2png(container) {
         <p class="tool-description">
             Convert any image (JPG, GIF, BMP) to PNG format. Lossless and high quality.
             Ideal for web graphics, logos, and transparent images.
-            After conversion, you can also <a href="#tool=web2pdf" target="_self">turn it into PDF</a>.
+            After conversion, you can also <a href="web2pdf.html" target="_self">turn it into PDF</a>.
         </p>
         <div class="faq-section">
             <h4>Frequently Asked Questions</h4>
