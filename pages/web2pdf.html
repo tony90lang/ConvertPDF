@@ -7,59 +7,99 @@
     <title>HTML to PDF Converter – ConvertPDF</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" href="../data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7FVBKG4BEH');
-    </script>
 </head>
 <body>
+    <!-- New header menu -->
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="all-tools.html">All Tools</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 <main>
     <div class="app-container">
         <div style="margin-bottom: 2rem;">
             <a href="../index.html" class="back-btn">← Back to Home</a>
         </div>
 
-        <div class="content-section" style="margin-top: 0;">
-            <h2>HTML to PDF Converter</h2>
-            <p>Convert any HTML snippet into a printable PDF. Full CSS support makes it perfect for invoices, reports, or saving web content as a document.</p>
-
-            <h3>Features</h3>
-            <ul>
-                <li><strong>Full CSS support:</strong> Your styles are preserved in the PDF.</li>
-                <li><strong>Page size control:</strong> Choose A4 or Letter, portrait or landscape.</li>
-                <li><strong>Live preview:</strong> See your HTML rendered as you type.</li>
-                <li><strong>Private & fast:</strong> All processing is local – no uploads.</li>
-            </ul>
-
-            <h3>How to Use</h3>
-            <ol>
-                <li>Paste your HTML code into the text area.</li>
-                <li>Select page size and orientation.</li>
-                <li>Click <strong>"Print / Save as PDF"</strong> – a print preview opens.</li>
-                <li>Use the browser's print dialog to save as PDF.</li>
-            </ol>
-
-            <p>After generating your PDF, you can also <a href="pdfencrypt.html">password‑protect</a> it.</p>
-        </div>
-
         <div id="toolContainer" class="tool-panel"></div>
+
+        <!-- Extended description above footer -->
+        <div class="content-section" style="margin-top: 3rem;">
+            <h2>HTML to PDF – Save Web Content as a Printable Document</h2>
+            <p>
+                Whether you need to archive a webpage, create an invoice from HTML, or save a styled report,
+                ConvertPDF’s HTML to PDF tool renders your code with full CSS support – directly in your browser,
+                with no server involved.
+            </p>
+            <h3>What Makes It Powerful</h3>
+            <p>
+                <strong>Full CSS support:</strong> All your styles, fonts, and layouts are preserved.
+                <strong>Page size & orientation:</strong> Choose A4 or Letter, portrait or landscape.
+                <strong>Live preview:</strong> See the rendered HTML as you type. <strong>Privacy:</strong>
+                Your HTML snippet never leaves your device – perfect for sensitive content like internal dashboards.
+            </p>
+            <p>
+                After generating the PDF, you can <a href="pdfencrypt.html">protect it with a password</a> or
+                <a href="mergepdf.html">merge it</a> with other documents.
+            </p>
+        </div>
     </div>
 </main>
 
-<footer style="text-align: center; padding: 2rem; border-top: 1px solid #d0ddeb; margin-top: 3rem;">
-    <a href="../index.html">Home</a> |
-    <a href="../about.html">About</a> |
-    <a href="../contact.html">Contact</a> |
-    <a href="../privacy.html">Privacy</a> |
-    <a href="../terms.html">Terms</a> |
-    <a href="../blog/">Blog</a>
-    <p style="margin-top:1rem;">&copy; 2026 ConvertPDF. All rights reserved.</p>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>📄 ConvertPDF</h4>
+            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+            <div class="social-links">
+                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                <a href="#" title="Twitter (coming soon)">🐦</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                <li><a href="pages/qrmaker.html">QR Generator</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <p>Have questions or feedback? We'd love to hear from you.</p>
+            <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
+    </div>
 </footer>
 
 <script src="../utils.js"></script>
@@ -68,6 +108,14 @@
     document.addEventListener('DOMContentLoaded', function() {
         renderweb2pdf(document.getElementById('toolContainer'));
     });
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7FVBKG4BEH');
 </script>
 </body>
 </html>

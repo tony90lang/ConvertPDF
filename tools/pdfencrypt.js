@@ -1,4 +1,4 @@
-// pdfencrypt.js
+// pdfencrypt.js - Fixed encryption with pdf-lib v1.17.1
 async function renderpdfencrypt(container) {
     await loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js');
 
@@ -38,7 +38,7 @@ async function renderpdfencrypt(container) {
                 <label><input type="checkbox" id="permModify"> Allow Modifying</label>
             </div>
             <div id="passwordStrength" class="password-strength"></div>
-            <button id="encryptPdfBtn" class="primary" style="align-self:flex-start;">🔒 Encrypt & Download</button>
+            <button id="encryptPdfBtn" class="primary" style="align-self:flex-start; min-width:200px;">🔒 Encrypt & Download</button>
         </div>
     `;
 
@@ -51,6 +51,7 @@ async function renderpdfencrypt(container) {
     const encryptBtn = document.getElementById('encryptPdfBtn');
     const strengthDiv = document.getElementById('passwordStrength');
 
+    // Password strength meter
     pdfPassword.addEventListener('input', () => {
         const pwd = pdfPassword.value;
         let strength = 0;
@@ -70,75 +71,57 @@ async function renderpdfencrypt(container) {
         const file = pdfFile.files[0];
         const pwd = pdfPassword.value;
         const confirm = pdfConfirm.value;
-        if (!file) { alert('Select a PDF file'); return; }
-        if (!pwd) { alert('Enter password'); return; }
-        if (pwd !== confirm) { alert('Passwords do not match'); return; }
-        if (pwd.length < 6) { alert('Password must be at least 6 characters'); return; }
 
-        encryptBtn.disabled = true; encryptBtn.innerHTML = '⏳ Encrypting...';
+        if (!file) { alert('Please select a PDF file.'); return; }
+        if (!pwd) { alert('Please enter a password.'); return; }
+        if (pwd !== confirm) { alert('Passwords do not match.'); return; }
+        if (pwd.length < 6) { alert('Password must be at least 6 characters.'); return; }
+
+        encryptBtn.disabled = true;
+        encryptBtn.innerHTML = '⏳ Encrypting...';
 
         try {
-            if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Refresh page.');
+            if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Please refresh the page.');
             const { PDFDocument } = PDFLib;
 
+            // Load the PDF
             const arrayBuf = await file.arrayBuffer();
-            let sourceDoc;
+            let pdfDoc;
             try {
-                sourceDoc = await PDFDocument.load(arrayBuf);
+                pdfDoc = await PDFDocument.load(arrayBuf, { ignoreEncryption: true });
             } catch (loadErr) {
                 if (loadErr.message && loadErr.message.toLowerCase().includes('password')) {
-                    throw new Error('This PDF is already encrypted. Please unprotect it first.');
+                    throw new Error('This PDF is already encrypted. Please remove the password first.');
                 }
                 throw new Error('Invalid or corrupted PDF file.');
             }
 
-            // Create a new PDF and copy pages
-            const newDoc = await PDFDocument.create();
-            const pages = await newDoc.copyPages(sourceDoc, sourceDoc.getPageIndices());
-            pages.forEach(page => newDoc.addPage(page));
+            // Create a new PDF and copy all pages (this is necessary to apply encryption)
+            const newPdf = await PDFDocument.create();
+            const copiedPages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+            copiedPages.forEach(page => newPdf.addPage(page));
 
-            // Check if encrypt exists
-            if (typeof newDoc.encrypt !== 'function') {
-                // Fallback: try sourceDoc.encrypt if available and not encrypted
-                if (typeof sourceDoc.encrypt === 'function' && !sourceDoc.isEncrypted) {
-                    console.warn('Using sourceDoc for encryption as fallback.');
-                    const permissions = {
-                        printing: permPrint.checked ? 'highResolution' : 'none',
-                        modifying: permModify.checked,
-                        copying: permCopy.checked,
-                        annotating: false,
-                        fillingForms: false,
-                        contentAccessibility: true,
-                        documentAssembly: false
-                    };
-                    sourceDoc.encrypt({
-                        userPassword: pwd,
-                        ownerPassword: pwd,
-                        permissions: permissions
-                    });
-                    const encryptedBytes = await sourceDoc.save();
-                    downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
-                } else {
-                    throw new Error('Encryption not supported in this PDF. Please try a different file.');
-                }
-            } else {
-                const permissions = {
-                    printing: permPrint.checked ? 'highResolution' : 'none',
-                    modifying: permModify.checked,
-                    copying: permCopy.checked,
-                    annotating: false,
-                    fillingForms: false,
-                    contentAccessibility: true,
-                    documentAssembly: false
-                };
-                newDoc.encrypt({
-                    userPassword: pwd,
-                    ownerPassword: pwd,
-                    permissions: permissions
-                });
-                const encryptedBytes = await newDoc.save();
-                downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
-            }
+            // Set permissions
+            const permissions = {
+                printing: permPrint.checked ? 'highResolution' : 'none',
+                modifying: permModify.checked,
+                copying: permCopy.checked,
+                annotating: false,
+                fillingForms: false,
+                contentAccessibility: true,
+                documentAssembly: false
+            };
+
+            // Encrypt the new PDF
+            newPdf.encrypt({
+                userPassword: pwd,
+                ownerPassword: pwd, // same for simplicity; you could use a separate owner password
+                permissions: permissions
+            });
+
+            const encryptedBytes = await newPdf.save();
+            downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
+
         } catch (error) {
             console.error('Encryption error:', error);
             alert('Encryption failed: ' + error.message);

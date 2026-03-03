@@ -8,13 +8,34 @@
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
+    <!-- New header menu -->
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="all-tools.html">All Tools</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
     <main class="blog-post" style="max-width: 800px; margin: 2rem auto; padding: 1rem;">
+        <div style="margin-bottom: 2rem;">
+            <a href="index.html" class="back-btn">← Back to Blog</a>
+        </div>
         <h1>Merging PDFs Online – Why You Should Avoid Uploading Sensitive Files</h1>
         <p class="post-meta">Published on March 3, 2026 | 📁 PDF, Privacy, Security</p>
 
         <p>Merging multiple PDFs into one document is a common task. Whether it's combining invoices, merging research papers, or consolidating contracts, a good PDF merger saves time and hassle.</p>
 
-        <p>But here's the problem: most online PDF mergers <strong>require you to upload your files to a server</strong>. That means your confidential documents – contracts, financial statements, personal data – are sitting on someone else's computer, potentially at risk of being hacked, leaked, or misused [citation:4].</p>
+        <p>But here's the problem: most online PDF mergers <strong>require you to upload your files to a server</strong>. That means your confidential documents – contracts, financial statements, personal data – are sitting on someone else's computer, potentially at risk of being hacked, leaked, or misused.</p>
 
         <p>In this guide, we'll explore the risks and introduce a privacy‑first alternative that keeps your files safe.</p>
 
@@ -26,20 +47,20 @@
             <li><strong>Legal liability:</strong> If you're handling client documents, uploading them may violate confidentiality agreements.</li>
             <li><strong>File size limits:</strong> Most free services restrict file sizes, forcing you to pay for larger documents.</li>
         </ul>
-        <p>A 2024 study showed that 100 million Americans had their medical records leaked in a single breach – many from unsecured file uploads [citation:8]. Don't let your documents be next.</p>
+        <p>A 2024 study showed that 100 million Americans had their medical records leaked in a single breach – many from unsecured file uploads. Don't let your documents be next.</p>
 
         <h2>The Privacy‑First Alternative: Client‑Side PDF Merging</h2>
-        <p>What if you could merge PDFs without uploading them anywhere? That's exactly how ConvertPDF works. All processing happens locally in your browser, using the <code>pdf-lib</code> library [citation:4][citation:9].</p>
+        <p>What if you could merge PDFs without uploading them anywhere? That's exactly how ConvertPDF works. All processing happens locally in your browser, using the <code>pdf-lib</code> library.</p>
 
         <h2>How to Merge PDFs Privately with ConvertPDF</h2>
         <ol>
-            <li>Go to <a href="https://convert-pdf-tool.netlify.app/pages/mergepdf.html">ConvertPDF's Merge PDFs tool</a>.</li>
+            <li>Go to <a href="../pages/mergepdf.html">ConvertPDF's Merge PDFs tool</a>.</li>
             <li>Upload the PDFs you want to combine (select multiple files at once).</li>
             <li>Reorder them using the up/down arrows – your files stay on your device the whole time.</li>
             <li>Click "Merge & download".</li>
             <li>Your merged PDF is generated instantly and downloaded directly.</li>
         </ol>
-        <p>That's it. No upload, no server, no privacy risk [citation:4].</p>
+        <p>That's it. No upload, no server, no privacy risk.</p>
 
         <h2>What About Other PDF Operations?</h2>
         <p>ConvertPDF offers a full suite of client‑side tools, all privacy‑first:</p>
@@ -55,15 +76,81 @@
         <p>Imagine you're a freelancer with 12 monthly invoices you need to send to your accountant. Instead of emailing 12 separate files, you merge them into one PDF. With ConvertPDF, you do it in 30 seconds – and your client's sensitive financial data never leaves your computer.</p>
 
         <h2>Technical How‑It‑Works</h2>
-        <p>ConvertPDF uses the <code>pdf-lib</code> library to process PDFs entirely in the browser. When you select files, they're read into memory using the File API, merged locally, and then downloaded as a new Blob. No data is ever transmitted over the network [citation:4][citation:9].</p>
+        <p>ConvertPDF uses the <code>pdf-lib</code> library to process PDFs entirely in the browser. When you select files, they're read into memory using the File API, merged locally, and then downloaded as a new Blob. No data is ever transmitted over the network.</p>
 
         <p>You can even verify this yourself: open your browser's Developer Tools (F12), go to the Network tab, and watch – no requests to external servers.</p>
 
         <div class="cta-box" style="background: #f0f7ff; padding: 2rem; border-radius: 20px; text-align: center; margin: 2rem 0;">
             <h3>Merge Your PDFs Privately</h3>
             <p>Combine multiple PDFs in seconds – no uploads, no servers, 100% private.</p>
-            <a href="https://convert-pdf-tool.netlify.app/pages/mergepdf.html" class="button" style="background: #1e2b4f; color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; display: inline-block; margin-top: 1rem;">Start Merging Now</a>
+            <a href="../pages/mergepdf.html" class="button" style="background: #1e2b4f; color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; display: inline-block; margin-top: 1rem;">Start Merging Now</a>
+        </div>
+
+        <!-- Extended description above footer -->
+        <div class="content-section" style="margin-top: 3rem;">
+            <h2>Why Privacy Matters for PDFs</h2>
+            <p>
+                Your documents are personal – whether they're financial records, legal contracts, or family photos.
+                When you use an online tool that uploads files, you're giving away control. ConvertPDF was built
+                to give that control back to you. All our tools, including merging, are 100% client‑side.
+            </p>
+            <p>
+                For more privacy tips, read our <a href="password-protect-pdf-guide.html">guide to PDF password protection</a>.
+            </p>
         </div>
     </main>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>📄 ConvertPDF</h4>
+            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+            <div class="social-links">
+                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                <a href="#" title="Twitter (coming soon)">🐦</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                <li><a href="pages/qrmaker.html">QR Generator</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <p>Have questions or feedback? We'd love to hear from you.</p>
+            <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
+    </div>
+</footer>
+    <script src="../utils.js"></script>
+    <!-- AdSense & Analytics moved to bottom -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7FVBKG4BEH');
+    </script>
 </body>
 </html>

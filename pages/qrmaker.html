@@ -7,63 +7,100 @@
     <title>QR Code Generator – ConvertPDF</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" href="../data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7FVBKG4BEH');
-    </script>
 </head>
 <body>
+    <!-- New header menu -->
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="all-tools.html">All Tools</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 <main>
     <div class="app-container">
         <div style="margin-bottom: 2rem;">
             <a href="../index.html" class="back-btn">← Back to Home</a>
         </div>
 
-        <div class="content-section" style="margin-top: 0;">
-            <h2>QR Code Generator</h2>
-            <p>Create custom QR codes with your own colors, logo, and error correction level. Download as high‑quality PNG or vector SVG – perfect for marketing, business cards, and links.</p>
-
-            <h3>Features</h3>
-            <ul>
-                <li><strong>Custom colors:</strong> Choose foreground and background colors to match your brand.</li>
-                <li><strong>Logo embedding:</strong> Upload a logo to appear in the center of the QR code (error correction must be high enough).</li>
-                <li><strong>Error correction:</strong> Select from L, M, Q, H levels for better scanning reliability.</li>
-                <li><strong>Multiple sizes:</strong> From small (200px) to print quality (1024px).</li>
-                <li><strong>PNG or SVG:</strong> Raster for web, vector for print.</li>
-            </ul>
-
-            <h3>How to Create a QR Code</h3>
-            <ol>
-                <li>Enter the text or URL you want to encode.</li>
-                <li>Adjust size, error correction, and colors as desired.</li>
-                <li>Optionally upload a logo (square, small images work best).</li>
-                <li>Click <strong>"Generate QR Code"</strong> – a preview appears.</li>
-                <li>Click <strong>"Download QR Code"</strong> to save as PNG or SVG.</li>
-            </ol>
-
-            <p>After generating, you can also <a href="img2png.html">convert the QR to PNG</a> if needed.</p>
-
-            <p><em>All processing is client‑side – your data stays private.</em></p>
-        </div>
-
         <div id="toolContainer" class="tool-panel"></div>
+
+        <!-- Extended description above footer -->
+        <div class="content-section" style="margin-top: 3rem;">
+            <h2>QR Code Generator – Custom Codes, Full Privacy</h2>
+            <p>
+                From marketing campaigns to contactless menus, QR codes are everywhere. ConvertPDF’s QR generator
+                lets you create custom codes with your brand colors, logos, and error correction – all in your
+                browser, with no data sent to any server.
+            </p>
+            <h3>Why It’s Different</h3>
+            <p>
+                <strong>Fully customizable:</strong> Choose foreground/background colors, add a central logo, and
+                pick error correction level (L to H). <strong>Multiple formats:</strong> Download as PNG (web) or
+                SVG (print – infinitely scalable). <strong>No size limits:</strong> Encode long URLs or text without
+                worrying about server restrictions. <strong>Private:</strong> The data you encode stays on your
+                device – no third party sees it.
+            </p>
+            <p>
+                After generating, you can <a href="img2png.html">convert the QR to PNG</a> for easier sharing, or
+                <a href="img2pdf.html">embed it in a PDF</a>.
+            </p>
+        </div>
     </div>
 </main>
 
-<footer style="text-align: center; padding: 2rem; border-top: 1px solid #d0ddeb; margin-top: 3rem;">
-    <a href="../index.html">Home</a> |
-    <a href="../about.html">About</a> |
-    <a href="../contact.html">Contact</a> |
-    <a href="../privacy.html">Privacy</a> |
-    <a href="../terms.html">Terms</a> |
-    <a href="../blog/">Blog</a>
-    <p style="margin-top:1rem;">&copy; 2026 ConvertPDF. All rights reserved.</p>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>📄 ConvertPDF</h4>
+            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+            <div class="social-links">
+                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                <a href="#" title="Twitter (coming soon)">🐦</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                <li><a href="pages/qrmaker.html">QR Generator</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <p>Have questions or feedback? We'd love to hear from you.</p>
+            <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
+    </div>
 </footer>
 
 <script src="../utils.js"></script>
@@ -72,6 +109,14 @@
     document.addEventListener('DOMContentLoaded', function() {
         renderqrmaker(document.getElementById('toolContainer'));
     });
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7FVBKG4BEH');
 </script>
 </body>
 </html>

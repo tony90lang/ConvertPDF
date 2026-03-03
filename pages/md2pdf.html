@@ -7,63 +7,97 @@
     <title>Markdown to PDF Converter – ConvertPDF</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" href="../data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7FVBKG4BEH');
-    </script>
 </head>
 <body>
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="../index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../all-tools.html">All Tools</a></li>
+                <li><a href="../blog/index.html">Blog</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="../privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
 <main>
     <div class="app-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> > <a href="../all-tools.html">Tools</a> > Markdown to PDF
+        </div>
+
         <div style="margin-bottom: 2rem;">
             <a href="../index.html" class="back-btn">← Back to Home</a>
         </div>
 
-        <!-- Descriptive content added here -->
-        <div class="content-section" style="margin-top: 0;">
-            <h2>Markdown to PDF Converter</h2>
-            <p>Turn your Markdown documents into beautifully formatted PDFs – perfect for technical documentation, research papers, coding notes, and more. Unlike other converters, this tool runs entirely in your browser: your files never leave your device, ensuring complete privacy.</p>
-
-            <h3>Key Features</h3>
-            <ul>
-                <li><strong>LaTeX math support:</strong> Write complex equations with <code>$...$</code> (inline) or <code>$$...$$</code> (display) – rendered using KaTeX.</li>
-                <li><strong>Syntax highlighting:</strong> Code blocks are highlighted with Prism.js, supporting 270+ languages.</li>
-                <li><strong>Custom page breaks:</strong> Insert <code>\newpage</code> or <code>&lt;!-- pagebreak --&gt;</code> in your Markdown to control pagination.</li>
-                <li><strong>Multiple page sizes:</strong> Choose A4, Letter, or Legal, and portrait or landscape orientation.</li>
-                <li><strong>Lightweight & fast:</strong> All processing happens locally – no server delays, no file size limits.</li>
-            </ul>
-
-            <h3>How to Use</h3>
-            <ol>
-                <li>Upload your <code>.md</code> file using the button below.</li>
-                <li>Select page size and orientation.</li>
-                <li>Click <strong>"Print / Save as PDF"</strong> – a print preview opens with your formatted content.</li>
-                <li>Use the browser's print dialog to save as PDF.</li>
-            </ol>
-
-            <p>After conversion, you can also <a href="pdf2jpg.html">extract images</a> from the resulting PDF or <a href="qrmaker.html">generate a QR code</a> for your document.</p>
-
-            <p><em>Privacy note: All processing is client‑side. Your files never leave your device – we don't see or store them.</em></p>
-        </div>
-
         <div id="toolContainer" class="tool-panel"></div>
+
+        <!-- Extended description -->
+        <div class="content-section" style="margin-top: 3rem;">
+            <h2>Markdown to PDF – Technical Documentation, Beautifully Rendered</h2>
+            <p>ConvertPDF’s Markdown to PDF tool is built for developers, researchers, and writers who need precise control over their documents. Unlike server‑based converters that upload your files, everything happens locally in your browser – your notes, code, and LaTeX equations never leave your device.</p>
+            <h3>Why This Tool Stands Out</h3>
+            <p><strong>Full LaTeX math support:</strong> Write inline math with <code>$...$</code> or display equations with <code>$$...$$</code>. KaTeX renders them instantly, producing publication‑ready formulas.<br>
+               <strong>Syntax highlighting for 270+ languages:</strong> Code blocks are automatically highlighted using Prism.js – choose from a variety of themes.<br>
+               <strong>Custom page breaks:</strong> Insert <code>\newpage</code> or <code>&lt;!-- pagebreak --&gt;</code> anywhere in your Markdown to control pagination – ideal for books or long reports.<br>
+               <strong>No file size limits:</strong> Because we never upload, you can convert documents hundreds of pages long without worrying about server restrictions.</p>
+            <h3>Real‑World Uses</h3>
+            <p>Academics use it to turn LaTeX‑heavy lecture notes into PDFs for students. Developers generate API documentation from Markdown. Writers create e‑books with precise chapter breaks. And because it’s private, you can safely convert proprietary code or confidential research.</p>
+            <p>After conversion, you can further process your PDF – <a href="pdf2jpg.html">extract images</a> or <a href="pdfencrypt.html">add a password</a> – all without ever uploading a file.</p>
+        </div>
     </div>
 </main>
 
-<footer style="text-align: center; padding: 2rem; border-top: 1px solid #d0ddeb; margin-top: 3rem;">
-    <a href="../index.html">Home</a> |
-    <a href="../about.html">About</a> |
-    <a href="../contact.html">Contact</a> |
-    <a href="../privacy.html">Privacy</a> |
-    <a href="../terms.html">Terms</a> |
-    <a href="../blog/">Blog</a>
-    <p style="margin-top:1rem;">&copy; 2026 ConvertPDF. All rights reserved.</p>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>📄 ConvertPDF</h4>
+            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+            <div class="social-links">
+                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                <a href="#" title="Twitter (coming soon)">🐦</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="md2pdf.html">Markdown to PDF</a></li>
+                <li><a href="docx2pdf.html">DOCX to PDF</a></li>
+                <li><a href="img2pdf.html">Images to PDF</a></li>
+                <li><a href="mergepdf.html">Merge PDFs</a></li>
+                <li><a href="pdfencrypt.html">Password Protect</a></li>
+                <li><a href="qrmaker.html">QR Generator</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="../blog/index.html">Blog</a></li>
+                <li><a href="../about.html">About Us</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="../privacy.html">Privacy Policy</a></li>
+                <li><a href="../terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <p>Have questions or feedback? We'd love to hear from you.</p>
+            <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="../privacy.html">Privacy</a> | <a href="../terms.html">Terms</a> | <a href="../sitemap.xml">Sitemap</a></p>
+    </div>
 </footer>
 
 <script src="../utils.js"></script>
@@ -72,6 +106,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         rendermd2pdf(document.getElementById('toolContainer'));
     });
+</script>
+
+<!-- AdSense & Analytics -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7FVBKG4BEH');
 </script>
 </body>
 </html>

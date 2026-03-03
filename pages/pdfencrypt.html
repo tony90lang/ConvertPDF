@@ -7,60 +7,100 @@
     <title>PDF Password Protector – ConvertPDF</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" href="../data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7FVBKG4BEH');
-    </script>
 </head>
 <body>
+    <!-- New header menu -->
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="all-tools.html">All Tools</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 <main>
     <div class="app-container">
         <div style="margin-bottom: 2rem;">
             <a href="../index.html" class="back-btn">← Back to Home</a>
         </div>
 
-        <div class="content-section" style="margin-top: 0;">
-            <h2>PDF Password Protector</h2>
-            <p>Add strong AES‑256 encryption to your PDF files with a custom password. Control what users can do – printing, copying, or modifying – while keeping your documents secure.</p>
-
-            <h3>Why Encrypt PDFs?</h3>
-            <ul>
-                <li><strong>Confidentiality:</strong> Only those with the password can open the file.</li>
-                <li><strong>Permissions:</strong> Restrict printing, copying, or editing even after the file is opened.</li>
-                <li><strong>Peace of mind:</strong> Ideal for contracts, financial reports, and personal documents.</li>
-            </ul>
-
-            <h3>How It Works</h3>
-            <ol>
-                <li>Upload your PDF using the file picker.</li>
-                <li>Enter a password (and confirm it).</li>
-                <li>Set permissions: allow or disallow printing, copying, and modifying.</li>
-                <li>Click <strong>"Encrypt & Download"</strong> – your protected PDF is ready.</li>
-            </ol>
-
-            <p>All encryption happens in your browser using the <code>pdf-lib</code> library. Your file never leaves your device.</p>
-
-            <p>After encrypting, you may also want to <a href="mergepdf.html">merge</a> it with other files.</p>
-        </div>
-
         <div id="toolContainer" class="tool-panel"></div>
+
+        <!-- Extended description above footer -->
+        <div class="content-section" style="margin-top: 3rem;">
+            <h2>PDF Password Protection – Strong Encryption, No Compromises</h2>
+            <p>
+                When you share confidential documents – contracts, financial statements, legal briefs – a simple
+                PDF without a password is a risk. ConvertPDF adds AES‑256 encryption to your PDFs directly in your
+                browser. Your file never touches a server.
+            </p>
+            <h3>Features That Matter</h3>
+            <p>
+                <strong>Two‑layer protection:</strong> Set an open password to restrict viewing, and a permissions
+                password to control printing, copying, and editing. <strong>Real‑time password strength meter:</strong>
+                Ensure your password is strong enough. <strong>Granular permissions:</strong> Allow printing but
+                disallow copying, or block all modifications – you decide. <strong>Client‑side only:</strong> No
+                one but you ever sees the file or the password.
+            </p>
+            <p>
+                After encryption, you can still <a href="mergepdf.html">merge</a> the protected PDF or
+                <a href="pdf2jpg.html">extract images</a> – but only if you have the password.
+            </p>
+        </div>
     </div>
 </main>
 
-<footer style="text-align: center; padding: 2rem; border-top: 1px solid #d0ddeb; margin-top: 3rem;">
-    <a href="../index.html">Home</a> |
-    <a href="../about.html">About</a> |
-    <a href="../contact.html">Contact</a> |
-    <a href="../privacy.html">Privacy</a> |
-    <a href="../terms.html">Terms</a> |
-    <a href="../blog/">Blog</a>
-    <p style="margin-top:1rem;">&copy; 2026 ConvertPDF. All rights reserved.</p>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>📄 ConvertPDF</h4>
+            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+            <div class="social-links">
+                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                <a href="#" title="Twitter (coming soon)">🐦</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                <li><a href="pages/qrmaker.html">QR Generator</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <p>Have questions or feedback? We'd love to hear from you.</p>
+            <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
+    </div>
 </footer>
 
 <script src="../utils.js"></script>
@@ -69,6 +109,14 @@
     document.addEventListener('DOMContentLoaded', function() {
         renderpdfencrypt(document.getElementById('toolContainer'));
     });
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7FVBKG4BEH');
 </script>
 </body>
 </html>

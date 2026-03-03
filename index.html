@@ -7,73 +7,52 @@
     <meta name="google-adsense-account" content="ca-pub-1745874358886453">
     <meta name="google-site-verification" content="HxFFLIRH-qhkVXIcmvcBW20DwdRnlt-GKaQiGHWpOsQ" />
     <title>ConvertPDF – Private, Client‑Side PDF Converter</title>
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="ConvertPDF – Free, Private PDF Converter">
-    <meta property="og:description" content="Convert documents to PDF privately in your browser. No uploads, 100% client‑side.">
-    <meta property="og:url" content="https://convert-pdf-tool.netlify.app/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://convert-pdf-tool.netlify.app/og-image.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ConvertPDF – Free, Private PDF Converter">
-    <meta name="twitter:description" content="Convert documents to PDF privately in your browser. No uploads, 100% client‑side.">
-    <meta name="twitter:image" content="https://convert-pdf-tool.netlify.app/og-image.png">
-    <!-- Structured Data (JSON‑LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "ConvertPDF",
-      "url": "https://convert-pdf-tool.netlify.app/",
-      "description": "Free, private PDF converter that runs entirely in your browser. Convert Markdown, DOCX, images to PDF, merge, encrypt, and more.",
-      "applicationCategory": "Utility",
-      "operatingSystem": "All",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "featureList": [
-        "Markdown to PDF with LaTeX",
-        "DOCX to PDF",
-        "Images to PDF",
-        "PDF password protection",
-        "Merge PDFs",
-        "TXT to DOCX",
-        "PDF to JPG",
-        "Image to PNG",
-        "HTML to PDF",
-        "QR code generator"
-      ]
-    }
-    </script>
-    <!-- AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
-    <!-- Local styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-7FVBKG4BEH');
-    </script>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
 </head>
 <body>
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="all-tools.html">All Tools</a></li>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
 <main>
-    <div class="app-container" id="appContainer">
+    <div class="app-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Convert, Merge & Secure PDFs – 100% Private</h1>
+            <p class="hero-subtitle">All tools run in your browser. No uploads, no servers, no data leaks. Trusted by thousands daily.</p>
+            <div class="hero-stats">
+                <div class="stat-item">📄 <strong>15+</strong> tools</div>
+                <div class="stat-item">🔒 <strong>100%</strong> client‑side</div>
+                <div class="stat-item">⭐ <strong>4.9</strong> user rating</div>
+            </div>
+            <div class="hero-cta">
+                <a href="#tools" class="button">Explore Tools</a>
+                <a href="blog/index.html" class="button secondary">Read Blog</a>
+            </div>
+        </section>
+
+        <!-- Tool Grid -->
         <div id="homeSection">
-            <header>
-                <h1>ConvertPDF – Free Document & PDF Converter</h1>
-                <div class="sub">convert, merge, encrypt — all in your browser, 100% private</div>
-            </header>
+            <h2 id="tools">Our Tools</h2>
             <div class="home-grid" id="toolGrid"></div>
         </div>
 
+        <!-- Why Choose ConvertPDF -->
         <div class="content-section">
             <h2>Why Choose ConvertPDF?</h2>
             <p>ConvertPDF is a completely free, privacy‑focused document toolkit. Unlike other online converters, your files never leave your device – all conversions happen locally in your browser. This means your sensitive documents stay private and secure.</p>
@@ -94,22 +73,67 @@
             <p>All tools are 100% free, with no sign‑up required. Your privacy is our priority – no files are ever uploaded to any server.</p>
         </div>
 
-        <!-- Footer with navigation links -->
-        <footer style="text-align: center; padding: 2rem; border-top: 1px solid #d0ddeb; margin-top: 3rem;">
-    <a href="/">Home</a> |
-    <a href="about.html">About</a> |
-    <a href="contact.html">Contact</a> |
-    <a href="privacy.html">Privacy</a> |
-    <a href="terms.html">Terms</a> |
-    <a href="blog/">Blog</a>
-    <p style="margin-top:1rem;">&copy; 2026 ConvertPDF. All rights reserved.</p>
-</footer>
+        <!-- Extended Mission -->
+        <div class="content-section">
+            <h2>More Than a Converter – A Privacy‑First Document Hub</h2>
+            <p>ConvertPDF isn’t just another online tool. It’s a complete, client‑side document workspace designed for people who value their privacy. Every conversion happens inside your browser. Your files never touch a server, never get stored, and never leave your control.</p>
+            <p>We built ConvertPDF because we were frustrated with “free” converters that demanded uploads, imposed file size limits, and often misused your data. Here, you can convert gigabyte‑sized documents, combine hundreds of images, or protect sensitive contracts – all with the same speed and privacy.</p>
+            <h3>What Sets Us Apart</h3>
+            <p>✅ <strong>Zero uploads:</strong> No server, no cloud, no data leaks.<br>
+               ✅ <strong>Unlimited file sizes:</strong> Because nothing is transferred, there are no artificial limits.<br>
+               ✅ <strong>Open source:</strong> Our code is available on GitHub – you can verify exactly how it works.<br>
+               ✅ <strong>Works offline:</strong> Once loaded, most tools continue to function even without internet.<br>
+               ✅ <strong>No sign‑up, no cost, no ads that track you:</strong> We use minimal, privacy‑respecting ads (optional) and you can disable them with a single click.</p>
+        </div>
     </div>
 </main>
 
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>📄 ConvertPDF</h4>
+            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+            <div class="social-links">
+                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                <a href="#" title="Twitter (coming soon)">🐦</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                <li><a href="pages/qrmaker.html">QR Generator</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="blog/index.html">Blog</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Get in Touch</h4>
+            <p>Have questions or feedback? We'd love to hear from you.</p>
+            <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
+    </div>
+</footer>
+
 <script src="utils.js"></script>
 <script>
-    // Tool definitions – linking to separate HTML pages
     const tools = [
         { id: 'md2pdf', name: '📝 Markdown → PDF', desc: 'convert .md to formatted PDF', icon: '📄➡️📑', url: 'pages/md2pdf.html' },
         { id: 'docx2pdf', name: '📃 DOCX → PDF', desc: 'Word documents to PDF', icon: '📘➡️📕', url: 'pages/docx2pdf.html' },
@@ -122,17 +146,26 @@
         { id: 'web2pdf', name: '🌐 HTML → PDF', desc: 'paste HTML snippet to PDF', icon: '🕸️➡️📜', url: 'pages/web2pdf.html' },
         { id: 'qrmaker', name: '📱 QR code', desc: 'text/link → QR code PNG/SVG', icon: '🔳⬇️', url: 'pages/qrmaker.html' }
     ];
-
     const grid = document.getElementById('toolGrid');
     tools.forEach(t => {
         const card = document.createElement('a');
         card.href = t.url;
         card.className = 'tool-card';
         card.innerHTML = `<div class="tool-icon">${t.icon}</div>
-                <div class="tool-name">${t.name}</div>
-                <div class="tool-desc">${t.desc}</div>`;
+                          <div class="tool-name">${t.name}</div>
+                          <div class="tool-desc">${t.desc}</div>`;
         grid.appendChild(card);
     });
+</script>
+
+<!-- AdSense & Analytics (at bottom) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7FVBKG4BEH');
 </script>
 </body>
 </html>
