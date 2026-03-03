@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Create Custom QR Codes with Logos – ConvertPDF Blog</title>
+    <meta name="description"
+        content="Learn how to create branded QR codes with custom colors, logos, and error correction. A complete guide to professional QR code design.">
+    <meta name="keywords"
+        content="custom QR code, QR code with logo, branded QR code, QR code generator, QR code design, QR code colors">
+    <meta name="author" content="ConvertPDF">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon"
+        href="../data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../all-tools.html">All Tools</a></li>
+                    <li><a href="index.html" class="active">Blog</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../privacy.html">Privacy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="app-container">
+            <div style="margin-bottom: 2rem;">
+                <a href="index.html" class="back-btn">← Back to Blog</a>
+            </div>
+
+            <div class="blog-post">
+                <h1>How to Create Custom QR Codes with Logos</h1>
+                <p class="post-meta">Published on March 3, 2026 | 📁 QR Codes, Design</p>
+
+                <section>
+                    <h2>Introduction</h2>
+                    <p>
+                        QR codes are everywhere – restaurant menus, product packaging, event tickets, business cards,
+                        and marketing materials. But while generic black‑and‑white QR codes are functional, they miss an
+                        opportunity for branding. A custom QR code with your logo and brand colors not only looks more
+                        professional but also increases scan rates by building trust with your audience.
+                    </p>
+                    <p>
+                        In this guide, we'll walk you through creating custom QR codes that incorporate logos, brand
+                        colors, and optimal error correction settings. You'll learn the technical principles behind QR
+                        customization and practical tips for producing codes that are both beautiful and reliable.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Understanding QR Code Error Correction</h2>
+                    <p>
+                        Before customizing your QR code's appearance, you need to understand error correction – the
+                        feature that makes visual customization possible in the first place. QR codes include redundant
+                        data that allows scanners to read them even when parts of the code are damaged or obscured.
+                    </p>
+                    <p>
+                        There are four error correction levels, each allowing a different percentage of the code to be
+                        unreadable while still scanning successfully:
+                    </p>
+                    <p>
+                        <strong>Level L (Low):</strong> 7% error correction. Maximum data density, minimum redundancy.
+                        Use only for QR codes that will always be displayed in perfect conditions, like on screens.
+                    </p>
+                    <p>
+                        <strong>Level M (Medium):</strong> 15% error correction. The default for most QR generators. A
+                        good balance between data capacity and reliability.
+                    </p>
+                    <p>
+                        <strong>Level Q (Quartile):</strong> 25% error correction. Recommended for QR codes that will be
+                        printed, potentially at small sizes, or displayed in environments where partial obscuring is
+                        possible.
+                    </p>
+                    <p>
+                        <strong>Level H (High):</strong> 30% error correction. Essential for QR codes with logos
+                        overlaid, because the logo covers part of the code. This level ensures the code remains
+                        scannable even with up to 30% of its data blocks obscured.
+                    </p>
+                    <p>
+                        When adding a logo to your QR code, always use Level H error correction. The logo will cover
+                        approximately 10–15% of the QR code area, and Level H provides enough redundancy to compensate.
+                        Using lower error correction levels with a logo risks creating codes that fail to scan on
+                        certain devices.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Choosing the Right Colors</h2>
+                    <p>
+                        Custom colors transform a utilitarian QR code into a branded asset. However, color choices must
+                        balance aesthetics with scannability. QR scanners work by detecting contrast between the dark
+                        modules (the square dots) and the light background.
+                    </p>
+                    <p>
+                        <strong>Maintain high contrast:</strong> The foreground color should be significantly darker
+                        than the background. A dark blue on white works well; a light yellow on white does not. Aim for
+                        a minimum contrast ratio of 4:1 between the module color and the background.
+                    </p>
+                    <p>
+                        <strong>Dark modules on light backgrounds:</strong> While it's technically possible to invert a
+                        QR code (white modules on a dark background), not all scanners handle inverted codes reliably.
+                        Stick with the conventional dark‑on‑light pattern for maximum compatibility.
+                    </p>
+                    <p>
+                        <strong>Avoid gradient fills on modules:</strong> Each module needs to be clearly
+                        distinguishable as either "dark" or "light." Gradient fills can create ambiguous areas that
+                        confuse scanners. If you want a gradient effect, apply it to the background while keeping
+                        modules a solid color.
+                    </p>
+                    <p>
+                        <strong>Brand color suggestions:</strong> Use your brand's primary color for the QR modules and
+                        white or your brand's lightest neutral for the background. For example, a tech company with a
+                        navy blue brand color could use navy modules on a white background for a clean, professional
+                        look that's immediately recognizable.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Adding a Logo: Best Practices</h2>
+                    <p>
+                        A centered logo is the most impactful visual customization you can make to a QR code. The logo
+                        appears in the center of the code, partially covering the data modules while relying on error
+                        correction to maintain scannability.
+                    </p>
+                    <p>
+                        <strong>Size matters:</strong> Your logo should cover no more than 15–20% of the QR code's total
+                        area. For a 300×300 pixel QR code, the logo should be approximately 60×60 to 75×75 pixels. Going
+                        larger risks making the code unscannable.
+                    </p>
+                    <p>
+                        <strong>Use a clean background:</strong> Place your logo on a small white or light‑colored
+                        square behind it. This white "quiet zone" around the logo creates clean separation between the
+                        logo and the QR modules, improving both aesthetics and scan reliability.
+                    </p>
+                    <p>
+                        <strong>Simple logos work best:</strong> Detailed, complex logos with fine text or intricate
+                        patterns may become unrecognizable at the small sizes typical in QR codes. Use your icon,
+                        monogram, or simplified brand mark rather than your full wordmark logo.
+                    </p>
+                    <p>
+                        <strong>Test thoroughly:</strong> After adding your logo, test the QR code with at least three
+                        different scanning apps on both iOS and Android devices. Test at the smallest size you plan to
+                        use, and under various lighting conditions. If any scanner fails to read the code, reduce the
+                        logo size or increase the error correction level.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Optimal Sizing and Print Guidelines</h2>
+                    <p>
+                        The physical size of your QR code determines whether it scans reliably in the real world. Each
+                        module in a QR code needs to be large enough for a camera to distinguish it from adjacent
+                        modules.
+                    </p>
+                    <p>
+                        For print materials, aim for a minimum QR code size of 2cm × 2cm (about 0.8 inches). For
+                        billboards or signage viewed from a distance, the code needs to be proportionally larger. A
+                        general rule is that for every 10 feet of scanning distance, the QR code should be 1 inch in
+                        size.
+                    </p>
+                    <p>
+                        Always include a white "quiet zone" of at least four modules' width around all sides of the QR
+                        code. This blank space helps scanners identify where the code begins and ends. Without it,
+                        background colors or adjacent design elements can interfere with scanning.
+                    </p>
+                    <p>
+                        When saving your QR code file, choose SVG format for print materials. SVG is a vector format
+                        that scales to any size without losing sharpness. For digital use (websites, emails, social
+                        media), PNG at a minimum of 500×500 pixels ensures crisp rendering on all devices including
+                        high‑DPI screens.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Creating Your Custom QR Code with ConvertPDF</h2>
+                    <p>
+                        ConvertPDF's QR Code Generator makes custom QR creation straightforward. Enter your URL or text
+                        content, select your foreground and background colors using the color pickers, choose your error
+                        correction level (Level H for codes with logos), and generate your code.
+                    </p>
+                    <p>
+                        The tool produces QR codes in both PNG and SVG formats, giving you maximum flexibility for both
+                        digital and print use. All generation happens in your browser, so your content (URLs, contact
+                        information, or any other data encoded in the QR code) is never sent to any server.
+                    </p>
+                    <p>
+                        This privacy aspect is particularly important for QR codes containing private URLs, pre‑launch
+                        campaign links, or internal company resources that shouldn't be indexed or discovered by third
+                        parties before you're ready.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Conclusion</h2>
+                    <p>
+                        Custom QR codes bridge the gap between function and design. By choosing appropriate colors,
+                        adding your logo with proper error correction, and following print guidelines, you can create
+                        branded codes that reinforce your visual identity while remaining perfectly scannable. The key
+                        is balancing aesthetics with technical requirements – and testing thoroughly before deploying.
+                    </p>
+                    <p>
+                        Ready to create your branded QR code? Try our <a href="../pages/qrmaker.html">QR Code
+                            Generator</a> – it's free, customizable, and completely private.
+                    </p>
+                </section>
+
+                <div class="cta-box">
+                    <h3>Create Custom QR Codes</h3>
+                    <p>Design branded QR codes with colors and custom settings – free and private.</p>
+                    <a href="../pages/qrmaker.html" class="button">Generate QR Code →</a>
+                </div>
+            </div>
+
+            <div class="content-section" style="margin-top: 3rem;">
+                <h2>More Resources</h2>
+                <p>
+                    Check out our other guides on <a href="extract-images-from-pdfs.html">extracting images from
+                        PDFs</a>,
+                    <a href="client-side-pdf-encryption.html">client‑side PDF encryption</a>, and
+                    <a href="avoid-uploading-pdfs-online.html">privacy risks of online tools</a>.
+                </p>
+                <p>
+                    All our tools are free, private, and open source. <a href="../index.html">Try them now</a>.
+                </p>
+            </div>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>📄 ConvertPDF</h4>
+                <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+                <div class="social-links">
+                    <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                    <a href="mailto:anantdemanna289@gmail.com" title="Email">📧</a>
+                    <a href="#" title="Twitter (coming soon)">🐦</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="../pages/md2pdf.html">Markdown to PDF</a></li>
+                    <li><a href="../pages/docx2pdf.html">DOCX to PDF</a></li>
+                    <li><a href="../pages/img2pdf.html">Images to PDF</a></li>
+                    <li><a href="../pages/mergepdf.html">Merge PDFs</a></li>
+                    <li><a href="../pages/pdfencrypt.html">Password Protect</a></li>
+                    <li><a href="../pages/qrmaker.html">QR Generator</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="../blog/index.html">Blog</a></li>
+                    <li><a href="../about.html">About Us</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../privacy.html">Privacy Policy</a></li>
+                    <li><a href="../terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <p>Have questions or feedback? We'd love to hear from you.</p>
+                <p><a href="mailto:anantdemanna289@gmail.com">anantdemanna289@gmail.com</a></p>
+                <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="../privacy.html">Privacy</a> | <a
+                    href="../terms.html">Terms</a> | <a href="../sitemap.xml">Sitemap</a></p>
+        </div>
+    </footer>
+
+    <script src="../utils.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453"
+        crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FVBKG4BEH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-7FVBKG4BEH');
+    </script>
+</body>
+
+</html>

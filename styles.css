@@ -9,8 +9,8 @@
     --accent: #3498db;
     --accent-light: #5faee3;
     --accent-dark: #2980b9;
-    --text-dark: #2c3e50;
-    --text-light: #5a6a85;
+    --text-dark: #1e293b;
+    --text-light: #475569;
     --bg-main: #f5f7fa;
     --bg-white: #ffffff;
     --bg-offwhite: #f0f3f7;
@@ -425,6 +425,7 @@ button:disabled, .button:disabled {
     margin: 2rem 0;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-light);
+    min-height: 200px;
 }
 
 .tool-header {
