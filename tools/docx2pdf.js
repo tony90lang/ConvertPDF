@@ -28,8 +28,15 @@ async function renderdocx2pdf(container) {
                 <p>We use Mammoth.js to preserve tables, images, and headings as closely as possible.</p>
             </details>
         </div>
-        <div class="flex-row"><input type="file" id="docxFile" accept=".docx"></div>
-        <div class="orientation-selector">
+        <div id="docxDropZone" class="drop-zone" style="border: 2px dashed var(--border-medium); padding: 2rem; text-align: center; border-radius: var(--radius-md); background: var(--bg-offwhite); cursor: pointer; transition: all 0.2s ease; margin-bottom: 1rem;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">📄➕⬇️</div>
+            <p>Drag and drop a .docx file here</p>
+            <p class="note">or click to browse files</p>
+            <input type="file" id="docxFile" accept=".docx" style="display: none;">
+        </div>
+        <div id="docxStats" style="display:none; text-align:right; margin-bottom: 1rem; color: var(--text-light); font-size: 0.9rem;">
+            File Size: <span id="docxSize">0 Bytes</span>
+        </div>
             <label>📐 Page size: <select id="docxPageSize"><option value="a4">A4</option><option value="letter">Letter</option></select></label>
             <label>🔄 Orientation: <select id="docxOrientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
         </div>
@@ -39,11 +46,20 @@ async function renderdocx2pdf(container) {
     `;
 
     const fileIn = document.getElementById('docxFile');
+    const docxDropZone = document.getElementById('docxDropZone');
+    const docxStats = document.getElementById('docxStats');
+    const docxSize = document.getElementById('docxSize');
     const previewDiv = document.getElementById('docxPreview');
     const sizeSel = document.getElementById('docxPageSize');
     const orientSel = document.getElementById('docxOrientation');
     const detectHeadings = document.getElementById('detectHeadings');
     const printBtn = document.getElementById('printDocxBtn');
+
+    // Setup drag and drop
+    docxDropZone.addEventListener('click', () => fileIn.click());
+    if (typeof setupDropZone === 'function') {
+        setupDropZone('docxDropZone', 'docxFile');
+    }
 
     const docxPrintStyles = `
         <style>
@@ -71,27 +87,62 @@ async function renderdocx2pdf(container) {
     fileIn.addEventListener('change', async () => {
         const f = fileIn.files[0];
         if (!f) return;
+
+        docxStats.style.display = 'block';
+        docxSize.textContent = typeof formatFileSize === 'function' ? formatFileSize(f.size) : f.size + " bytes";
+
+        previewDiv.innerHTML = '<div style="text-align:center; padding: 2rem;"><span style="font-size: 2rem;">⌛</span><br>Converting DOCX to HTML for preview...</div>';
+
         try {
             const buf = await f.arrayBuffer();
             const result = await mammoth.convertToHtml({ arrayBuffer: buf });
+
+            // Mammoth warnings
+            if (result.messages && result.messages.length > 0) {
+                console.warn("Mammoth conversion warnings:", result.messages);
+            }
+
             let html = enhanceHeadings(result.value);
             previewDiv.innerHTML = docxPrintStyles + `<div class="docx-body">${html}</div>`;
-        } catch (e) { previewDiv.innerHTML = `<p style="color:red;">Error: ${e.message}</p>`; }
+            window.currentDocxHtml = html;
+        } catch (e) {
+            previewDiv.innerHTML = `<div style="color:#e74c3c; padding:1rem; border:1px solid #fadbd8; background:#fdedec; border-radius:8px;">Error converting file: ${e.message}</div>`;
+            if (window.showToast) showToast('Failed to read DOCX file.', 'error');
+        }
     });
 
     printBtn.addEventListener('click', async () => {
         const f = fileIn.files[0];
-        if (!f) { alert('Select a DOCX file'); return; }
+        if (!f || !window.currentDocxHtml) {
+            if (window.showToast) showToast('Please select and convert a DOCX file first.', 'warning');
+            else alert('Select a DOCX file');
+            return;
+        }
+
         printBtn.disabled = true; printBtn.innerHTML = '⏳ Preparing...';
+
         try {
-            const buf = await f.arrayBuffer();
-            const result = await mammoth.convertToHtml({ arrayBuffer: buf });
-            let html = enhanceHeadings(result.value);
-            const fullHtml = `<!DOCTYPE html><html><head><title>${f.name} - Print</title>${docxPrintStyles}</head><body><div class="docx-body">${html}</div><script>window.onload=()=>setTimeout(()=>window.print(),500);<\/script></body></html>`;
+            const html = window.currentDocxHtml;
+            const fullHtml = `<!DOCTYPE html><html><head><title>${f.name} - Print</title>${docxPrintStyles}
+<style>
+@page { size: ${sizeSel.value} ${orientSel.value}; margin: 2.54cm; }
+</style>
+</head><body><div class="docx-body">${html}</div><script>window.onload=()=>setTimeout(()=>window.print(),500);<\/script></body></html>`;
             const win = window.open('', '_blank');
-            if (!win) { alert('Pop‑up blocked'); printBtn.disabled = false; printBtn.innerHTML = '🖨️ Print / Save as PDF'; return; }
+            if (!win) {
+                if (window.showToast) showToast('Pop‑up blocked. Allow pop-ups to print/save.', 'error');
+                else alert('Pop‑up blocked');
+                printBtn.disabled = false;
+                printBtn.innerHTML = '🖨️ Print / Save as PDF';
+                return;
+            }
             win.document.write(fullHtml); win.document.close();
             setTimeout(() => { printBtn.disabled = false; printBtn.innerHTML = '🖨️ Print / Save as PDF'; }, 3000);
-        } catch (e) { alert('Error: '+e.message); printBtn.disabled = false; printBtn.innerHTML = '🖨️ Print / Save as PDF'; }
+        } catch (e) {
+            if (window.showToast) showToast('Error: ' + e.message, 'error');
+            else alert('Error: ' + e.message);
+            printBtn.disabled = false;
+            printBtn.innerHTML = '🖨️ Print / Save as PDF';
+        }
     });
 }

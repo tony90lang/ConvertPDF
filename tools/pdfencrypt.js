@@ -25,13 +25,14 @@ async function renderpdfencrypt(container) {
             </details>
             <details>
                 <summary>What encryption is used?</summary>
-                <p>We use standard PDF encryption (AES‑256) via PDF‑Lib.</p>
+                <p>We use standard PDF encryption (AES‑256) via PDF‑Lib and the pdf-lib-encrypt fork.</p>
             </details>
         </div>
         <div style="display:flex; flex-direction:column; gap:1rem; max-width:500px;">
             <input type="file" id="pdfToEncrypt" accept=".pdf">
-            <input type="password" id="pdfPassword" placeholder="Enter password">
-            <input type="password" id="pdfConfirmPassword" placeholder="Confirm password">
+            <input type="password" id="pdfPassword" placeholder="Enter user password (to open)">
+            <input type="password" id="pdfConfirmPassword" placeholder="Confirm user password">
+            <input type="password" id="pdfOwnerPassword" placeholder="Enter owner password (optional)">
             <div class="permissions-grid" style="display:flex; gap:1rem; flex-wrap:wrap;">
                 <label><input type="checkbox" id="permPrint" checked> Allow Printing</label>
                 <label><input type="checkbox" id="permCopy" checked> Allow Copying</label>
@@ -45,6 +46,7 @@ async function renderpdfencrypt(container) {
     const pdfFile = document.getElementById('pdfToEncrypt');
     const pdfPassword = document.getElementById('pdfPassword');
     const pdfConfirm = document.getElementById('pdfConfirmPassword');
+    const pdfOwnerPassword = document.getElementById('pdfOwnerPassword');
     const permPrint = document.getElementById('permPrint');
     const permCopy = document.getElementById('permCopy');
     const permModify = document.getElementById('permModify');
@@ -71,16 +73,23 @@ async function renderpdfencrypt(container) {
         const file = pdfFile.files[0];
         const pwd = pdfPassword.value;
         const confirm = pdfConfirm.value;
+        const ownerPwd = pdfOwnerPassword.value || pwd;
 
         if (!file) { alert('Please select a PDF file.'); return; }
-        if (!pwd) { alert('Please enter a password.'); return; }
-        if (pwd !== confirm) { alert('Passwords do not match.'); return; }
-        if (pwd.length < 6) { alert('Password must be at least 6 characters.'); return; }
+        if (!pwd) { alert('Please enter a user password.'); return; }
+        if (pwd !== confirm) { alert('User passwords do not match.'); return; }
+        if (pwd.length < 6) { alert('User password must be at least 6 characters.'); return; }
 
         encryptBtn.disabled = true;
         encryptBtn.innerHTML = '⏳ Encrypting...';
 
         try {
+            // First try loading the fork
+            try {
+                await loadScript('https://cdn.jsdelivr.net/npm/@nicolo-ribaudo/pdf-lib-encrypt-fork/dist/pdf-lib-encrypt.min.js');
+            } catch (e) {
+                console.warn('Failed to load pdf-lib-encrypt-fork, encryption may not work as expected', e);
+            }
             if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Please refresh the page.');
             const { PDFDocument } = PDFLib;
 
@@ -112,19 +121,27 @@ async function renderpdfencrypt(container) {
                 documentAssembly: false
             };
 
-            // Encrypt the new PDF
-            newPdf.encrypt({
-                userPassword: pwd,
-                ownerPassword: pwd, // same for simplicity; you could use a separate owner password
-                permissions: permissions
-            });
+            // Encrypt the new PDF handling the case where encrypt method comes from fork vs native
+            if (typeof newPdf.encrypt === 'function') {
+                newPdf.encrypt({
+                    userPassword: pwd,
+                    ownerPassword: ownerPwd,
+                    permissions: permissions
+                });
+            } else {
+                throw new Error("Unable to encrypt. PDF-lib encryption patch failed to load.");
+            }
 
             const encryptedBytes = await newPdf.save();
             downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
 
         } catch (error) {
             console.error('Encryption error:', error);
-            alert('Encryption failed: ' + error.message);
+            if (window.showToast) {
+                showToast('Encryption failed: ' + error.message, 'error');
+            } else {
+                alert('Encryption failed: ' + error.message);
+            }
         } finally {
             encryptBtn.disabled = false;
             encryptBtn.innerHTML = '🔒 Encrypt & Download';

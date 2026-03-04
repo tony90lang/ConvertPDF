@@ -28,8 +28,11 @@ async function renderimg2pdf(container) {
                 <p>JPG and PNG are fully supported. Other formats may be converted automatically.</p>
             </details>
         </div>
-        <div class="flex-row">
-            <input type="file" id="imgFiles" accept="image/*" multiple>
+        <div id="imgPdfDropZone" class="drop-zone" style="border: 2px dashed var(--border-medium); padding: 2rem; text-align: center; border-radius: var(--radius-md); background: var(--bg-offwhite); cursor: pointer; transition: all 0.2s ease; margin-bottom: 1rem;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">🖼️➕📄</div>
+            <p>Drag and drop images here (JPG, PNG, WebP)</p>
+            <p class="note">or click to browse files</p>
+            <input type="file" id="imgFiles" accept="image/*" multiple style="display: none;">
         </div>
         <div class="orientation-selector">
             <label>📐 Page size: 
@@ -45,9 +48,20 @@ async function renderimg2pdf(container) {
                     <option value="landscape">Landscape</option>
                 </select>
             </label>
+            <label>📏 Margin: 
+                <select id="imgMargin">
+                    <option value="0">No margin (0px)</option>
+                    <option value="20">Small (20px)</option>
+                    <option value="50">Medium (50px)</option>
+                    <option value="100">Large (100px)</option>
+                </select>
+            </label>
         </div>
         <div id="imagePreviewList" class="file-list"></div>
-        <button id="convertImgBtn" class="primary">📸→📁 Generate PDF</button>
+        <div id="imgProgressContainer" style="display:none; width: 100%; background-color: #e0e0e0; border-radius: 4px; margin-bottom: 1rem;">
+          <div id="imgProgressBar" style="width: 0%; height: 6px; background-color: var(--accent); border-radius: 4px; transition: width 0.2s;"></div>
+        </div>
+        <button id="convertImgBtn" class="primary" disabled>📸→📁 Generate PDF</button>
         <div class="preview-box" id="imgPreviewBox" style="display:none;">
             <div class="preview-title">Generated PDF Preview</div>
             <div id="imgPreviewPlaceholder">PDF preview will appear here after generation.</div>
@@ -56,14 +70,24 @@ async function renderimg2pdf(container) {
     `;
 
     const input = document.getElementById('imgFiles');
+    const dropZone = document.getElementById('imgPdfDropZone');
     const previewList = document.getElementById('imagePreviewList');
     const sizeSel = document.getElementById('imgPageSize');
     const orientSel = document.getElementById('imgOrientation');
+    const marginSel = document.getElementById('imgMargin');
     const convertBtn = document.getElementById('convertImgBtn');
     const down = document.getElementById('downloadImgPdf');
     const previewBox = document.getElementById('imgPreviewBox');
     const previewPlaceholder = document.getElementById('imgPreviewPlaceholder');
+    const progressContainer = document.getElementById('imgProgressContainer');
+    const progressBar = document.getElementById('imgProgressBar');
     let filesArray = [];
+
+    // Setup drag and drop
+    dropZone.addEventListener('click', () => input.click());
+    if (typeof setupDropZone === 'function') {
+        setupDropZone('imgPdfDropZone', 'imgFiles');
+    }
 
     function renderPreviewList() {
         previewList.innerHTML = '';
@@ -86,63 +110,123 @@ async function renderimg2pdf(container) {
             const upBtn = document.createElement('button');
             upBtn.textContent = '↑';
             upBtn.className = 'move-up';
+            upBtn.title = 'Move Up';
             upBtn.disabled = index === 0;
             upBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (index > 0) {
-                    [filesArray[index-1], filesArray[index]] = [filesArray[index], filesArray[index-1]];
+                    [filesArray[index - 1], filesArray[index]] = [filesArray[index], filesArray[index - 1]];
                     renderPreviewList();
                 }
             });
             const downBtn = document.createElement('button');
             downBtn.textContent = '↓';
             downBtn.className = 'move-down';
-            downBtn.disabled = index === filesArray.length-1;
+            downBtn.title = 'Move Down';
+            downBtn.disabled = index === filesArray.length - 1;
             downBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (index < filesArray.length-1) {
-                    [filesArray[index], filesArray[index+1]] = [filesArray[index+1], filesArray[index]];
+                if (index < filesArray.length - 1) {
+                    [filesArray[index], filesArray[index + 1]] = [filesArray[index + 1], filesArray[index]];
                     renderPreviewList();
                 }
             });
+            const delBtn = document.createElement('button');
+            delBtn.textContent = '❌';
+            delBtn.className = 'remove-file';
+            delBtn.title = 'Remove';
+            delBtn.style.color = '#e74c3c';
+            delBtn.style.borderColor = '#fadbd8';
+            delBtn.style.background = '#fdedec';
+            delBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                filesArray.splice(index, 1);
+                renderPreviewList();
+
+                // Update file input
+                const dt = new DataTransfer();
+                filesArray.forEach(f => dt.items.add(f));
+                input.files = dt.files;
+            });
             actions.appendChild(upBtn);
             actions.appendChild(downBtn);
+            actions.appendChild(delBtn);
             li.appendChild(thumb);
             li.appendChild(nameSpan);
             li.appendChild(actions);
             previewList.appendChild(li);
         });
+        convertBtn.disabled = filesArray.length === 0;
     }
 
     input.addEventListener('change', () => {
-        filesArray = Array.from(input.files);
-        renderPreviewList();
-        // hide previous preview box
-        previewBox.style.display = 'none';
-        down.disabled = true;
+        if (input.files.length > 0) {
+            const newFiles = Array.from(input.files);
+            filesArray = [...filesArray, ...newFiles];
+            renderPreviewList();
+            previewBox.style.display = 'none';
+            down.disabled = true;
+        }
     });
+
+    // Helper to convert non-standard images (like WebP) to JPEG format via canvas
+    function convertToJpegBytes(file) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob(blob => {
+                    blob.arrayBuffer().then(resolve).catch(reject);
+                    URL.revokeObjectURL(url);
+                }, 'image/jpeg', 0.95);
+            };
+            img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
+            img.src = url;
+        });
+    }
 
     convertBtn.addEventListener('click', async () => {
         if (filesArray.length === 0) {
-            alert('Please select at least one image.');
+            if (window.showToast) showToast('Please select at least one image.', 'warning');
+            else alert('Please select at least one image.');
             return;
         }
         convertBtn.disabled = true;
         convertBtn.innerHTML = '⏳ Generating PDF...';
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '0%';
         previewBox.style.display = 'block';
-        previewPlaceholder.innerHTML = 'Rendering pages...';
+        previewPlaceholder.innerHTML = 'Converting images...';
 
         try {
             const { PDFDocument } = PDFLib;
             const pdfDoc = await PDFDocument.create();
+            const margin = parseInt(marginSel.value, 10);
 
-            for (let file of filesArray) {
-                const imgBytes = await file.arrayBuffer();
+            for (let i = 0; i < filesArray.length; i++) {
+                const file = filesArray[i];
+                convertBtn.innerHTML = `⏳ Processing image ${i + 1} of ${filesArray.length}...`;
+                progressBar.style.width = `${(i / filesArray.length) * 100}%`;
+
+                let imgBytes;
                 let image;
-                if (file.type === 'image/png') {
-                    image = await pdfDoc.embedPng(imgBytes);
-                } else {
+
+                // convert WebP or other unsupported types to JPEG first
+                if (file.type === 'image/webp' || (!file.type.includes('png') && !file.type.includes('jpeg') && !file.type.includes('jpg'))) {
+                    imgBytes = await convertToJpegBytes(file);
                     image = await pdfDoc.embedJpg(imgBytes);
+                } else {
+                    imgBytes = await file.arrayBuffer();
+                    if (file.type === 'image/png') {
+                        image = await pdfDoc.embedPng(imgBytes);
+                    } else {
+                        image = await pdfDoc.embedJpg(imgBytes);
+                    }
                 }
                 const dims = image.scale(1);
                 let orientation = orientSel.value;
@@ -155,14 +239,22 @@ async function renderimg2pdf(container) {
                 if (orientation === 'portrait' && stdW > stdH) [stdW, stdH] = [stdH, stdW];
 
                 const page = pdfDoc.addPage([stdW, stdH]);
-                const scaled = image.scaleToFit(stdW, stdH);
+
+                // Account for margins
+                const contentW = stdW - (margin * 2);
+                const contentH = stdH - (margin * 2);
+
+                const scaled = image.scaleToFit(contentW, contentH);
                 page.drawImage(image, {
-                    x: (stdW - scaled.width) / 2,
-                    y: (stdH - scaled.height) / 2,
+                    x: margin + (contentW - scaled.width) / 2,
+                    y: margin + (contentH - scaled.height) / 2,
                     width: scaled.width,
                     height: scaled.height,
                 });
             }
+
+            progressBar.style.width = '100%';
+            convertBtn.innerHTML = '💾 Saving...';
 
             const pdfBytes = await pdfDoc.save();
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -176,12 +268,20 @@ async function renderimg2pdf(container) {
 
             convertBtn.disabled = false;
             convertBtn.innerHTML = '📸→📁 Generate PDF';
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressBar.style.width = '0%';
+            }, 2000);
+
+            if (window.showToast) showToast('PDF generated successfully!');
         } catch (error) {
             console.error('PDF generation error:', error);
-            alert('Failed to generate PDF: ' + error.message);
+            if (window.showToast) showToast('Failed to generate PDF: ' + error.message, 'error');
+            else alert('Failed to generate PDF: ' + error.message);
             previewPlaceholder.innerHTML = 'Error generating PDF.';
             convertBtn.disabled = false;
             convertBtn.innerHTML = '📸→📁 Generate PDF';
+            progressContainer.style.display = 'none';
         }
     });
 

@@ -6,7 +6,7 @@ function downloadBlob(blob, filename) {
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
-    URL.revokeObjectURL(link.href);
+    setTimeout(() => URL.revokeObjectURL(link.href), 100);
 }
 
 // ---------- SEO HELPERS ----------
@@ -67,4 +67,77 @@ function loadStylesheet(href) {
         link.onerror = () => reject(new Error(`Failed to load stylesheet: ${href}`));
         document.head.appendChild(link);
     });
+}
+
+// ---------- TOAST NOTIFICATIONS ----------
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Force reflow
+    toast.offsetHeight;
+
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// ---------- FILE SIZE FORMATTER ----------
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// ---------- DRAG AND DROP HELPER ----------
+function setupDropZone(dropZoneId, fileInputId) {
+    const dropZone = document.getElementById(dropZoneId);
+    const fileInput = document.getElementById(fileInputId);
+
+    if (!dropZone || !fileInput) return;
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        dropZone.classList.add('active');
+    }
+
+    function unhighlight(e) {
+        dropZone.classList.remove('active');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        if (files.length > 0) {
+            fileInput.files = files;
+            // Trigger change event manually
+            fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
 }
