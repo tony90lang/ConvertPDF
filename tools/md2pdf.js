@@ -1,5 +1,6 @@
-// md2pdf.js
+﻿// md2pdf.js
 async function rendermd2pdf(container) {
+    try {
     await Promise.all([
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js'),
         loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js'),
@@ -282,4 +283,8 @@ async function rendermd2pdf(container) {
             printBtn.innerHTML = '🖨️ Generate PDF';
         }
     });
+    } catch (___err) {
+        console.error('rendermd2pdf error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }

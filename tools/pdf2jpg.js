@@ -1,5 +1,6 @@
-// pdf2jpg.js
+﻿// pdf2jpg.js
 async function renderpdf2jpg(container) {
+    try {
     await Promise.all([
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'),
         loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js')
@@ -224,4 +225,8 @@ async function renderpdf2jpg(container) {
             downloadBlob(content, 'pdf-pages.zip');
         }
     });
+    } catch (___err) {
+        console.error('renderpdf2jpg error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }

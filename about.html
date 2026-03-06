@@ -1,142 +1,405 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
+
+    <!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About ConvertPDF – Our Mission, Technology & Privacy Commitment</title>
-    <meta name="description" content="Learn about ConvertPDF: a free, private, client-side PDF tool built by a student developer. No uploads, open source, privacy first.">
+    <meta name="description"
+        content="Learn about ConvertPDF: a free, private, client-side PDF tool built by a student developer. No uploads, open source, privacy first.">
+        <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About ConvertPDF – Our Mission &amp; Privacy Commitment">
+    <meta property="og:description" content="Free, private, client-side PDF converter. No uploads, open source.">
+    <meta property="og:url" content="https://convert-pdf-tool.netlify.app/about.html">
+    <meta property="og:site_name" content="ConvertPDF">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="About ConvertPDF">
+    <meta name="twitter:description" content="Free, private, client-side PDF converter. No uploads, open source.">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://convert-pdf-tool.netlify.app/about.html">
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📄%3C/text%3E%3C/svg%3E">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📄%3C/text%3E%3C/svg%3E">
 </head>
+
 <body>
     <!-- New header menu -->
-<header class="site-header">
-    <div class="header-container">
-        <div class="logo">
-            <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-tools.html">All Tools</a></li>
+                    <li><a href="blog/index.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="all-tools.html">All Tools</a></li>
-                <li><a href="blog/index.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="privacy.html">Privacy</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<main>
-    <div class="app-container">
-        <div style="margin-bottom: 2rem;">
-            <a href="index.html" class="back-btn">← Back to Home</a>
-        </div>
-        
-        <div class="content-section" style="max-width: 900px; margin: 2rem auto;">
-            <h1>About ConvertPDF: Privacy-First Document Conversion</h1>
-            <p><strong>Last updated:</strong> March 2026</p>
-            
-            <h2>Our Story</h2>
-            <p>ConvertPDF was born from a simple frustration. As a first-year engineering student, I frequently needed to convert documents—Markdown notes to PDF, Word files to PDF, images to PDF—but every online converter I tried required uploading my files to some unknown server. How could I trust my research notes, my assignments, or my personal documents to a website that might store, analyze, or even sell them?</p>
-            
-            <p>That question bothered me. I started researching and discovered that many "free" converters actually monetize user data or impose strict file size limits to push paid subscriptions. I thought: there has to be a better way.</p>
-            
-            <p>So I built it. ConvertPDF is a completely free, open-source document toolkit that runs entirely in your browser. When you use ConvertPDF, your files never leave your device—they're processed locally using JavaScript libraries, then downloaded directly. No servers, no uploads, no data leaks.</p>
-            
-            <h2>Our Technology</h2>
-            <p>ConvertPDF leverages powerful open-source libraries to deliver professional-quality conversions:</p>
-            <ul>
-                <li><strong>PDF generation and manipulation:</strong> <code>pdf-lib</code> for creating, merging, and encrypting PDFs</li>
-                <li><strong>Word document conversion:</strong> <code>mammoth.js</code> for DOCX to HTML, <code>docx</code> library for creating formatted DOCX files</li>
-                <li><strong>Markdown rendering:</strong> <code>marked</code> with <code>KaTeX</code> for LaTeX math and <code>Prism.js</code> for syntax highlighting</li>
-                <li><strong>Image processing:</strong> Native browser Canvas API for conversions and resizing</li>
-                <li><strong>PDF rendering:</strong> <code>pdf.js</code> for extracting pages as images</li>
-                <li><strong>QR code generation:</strong> <code>qrcode</code> library with custom styling</li>
-            </ul>
-            <p>All processing happens client-side, meaning your files stay on your computer. You can even disconnect from the internet after the page loads, and most tools will continue to work.</p>
-            
-            <h2>Our Privacy Commitment</h2>
-            <p>Privacy isn't just a feature at ConvertPDF—it's the entire foundation. Here's what we promise:</p>
-            <ul>
-                <li><strong>No file uploads:</strong> Your documents never leave your browser. We don't have servers that receive your files, so we can't see them, store them, or share them.</li>
-                <li><strong>No tracking (except anonymized analytics):</strong> We use Google Analytics with anonymized IP addresses to understand which tools are popular and how to improve. You can opt out via browser settings.</li>
-                <li><strong>No hidden data collection:</strong> We don't collect emails, require sign-ups, or ask for personal information.</li>
-                <li><strong>Open source transparency:</strong> Our entire codebase is <a href="https://github.com/tony90lang/ConvertPDF">available on GitHub</a>. Anyone can inspect it, verify our claims, or contribute improvements.</li>
-            </ul>
-            
-            <h2>Who We Serve</h2>
-            <p>ConvertPDF is used by a diverse community:</p>
-            <ul>
-                <li><strong>Students:</strong> Converting lecture notes, research papers, and assignments</li>
-                <li><strong>Developers:</strong> Generating documentation, creating PDFs from Markdown, producing QR codes for testing</li>
-                <li><strong>Freelancers and small businesses:</strong> Merging invoices, password-protecting contracts, combining scanned receipts</li>
-                <li><strong>Writers and journalists:</strong> Turning drafts into shareable PDFs, extracting images from source documents</li>
-                <li><strong>Everyday users:</strong> Creating photo albums as PDFs, converting images to PNG for web use, generating QR codes for events</li>
-            </ul>
-            
-            <h2>Our Mission</h2>
-            <p>We believe that essential document tools should be free, private, and accessible to everyone. No paywalls, no sign-ups, no surveillance. ConvertPDF is our contribution to a more open and trustworthy web.</p>
-            
-            <p>If you find ConvertPDF useful, please share it with others. If you have ideas for improvement, we'd love to hear from you via our <a href="contact.html">contact page</a> or GitHub repository.</p>
-            
-            <p><em>— The ConvertPDF Team (one passionate developer)</em></p>
-            
-            <p><a href="index.html">← Back to ConvertPDF</a></p>
-        </div>
-        
-        <!-- Extended mission statement (already in your version) -->
-        <div class="content-section" style="margin-top: 3rem;">
-            <h2>Our Mission: Your Privacy Comes First</h2>
-            <p>At ConvertPDF, we believe that your documents belong to you—not to some server in the cloud. That's why we built every tool to run entirely in your browser. No uploads, no data mining, no hidden fees. Just fast, reliable conversions that respect your privacy.</p>
-            <p>Unlike many "free" converters that sell your data or impose file size limits, ConvertPDF gives you unlimited use of all features without ever asking for a sign-up. Our code is open source, so you (or any security researcher) can verify that we truly do what we promise.</p>
-            <p>Thank you for trusting us with your documents. If you have any questions or suggestions, please <a href="contact.html">reach out</a>.</p>
-        </div>
-    </div>
-</main>
-<footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-col">
-            <h4>📄 ConvertPDF</h4>
-            <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
-            <div class="social-links">
-                <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
-                <a href="mailto:convertpdf.contact@gmail.com" title="Email">📧</a>
-                <a href="#" title="Twitter (coming soon)">🐦</a>
+    </header>
+    <main>
+        <div class="app-container">
+            <div style="margin-bottom: 2rem;">
+                <a href="index.html" class="back-btn">← Back to Home</a>
+            </div>
+
+            <div class="content-section" style="max-width: 900px; margin: 2rem auto;">
+                <h1>About ConvertPDF: Privacy-First Document Conversion</h1>
+                <p><strong>Last updated:</strong> March 2026</p>
+
+                <h2>Our Story</h2>
+                <p>ConvertPDF was born from a simple frustration. As a first-year engineering student, I frequently
+                    needed to convert documents—Markdown notes to PDF, Word files to PDF, images to PDF—but every online
+                    converter I tried required uploading my files to some unknown server. How could I trust my research
+                    notes, my assignments, or my personal documents to a website that might store, analyze, or even sell
+                    them?</p>
+
+                <p>That question bothered me. I started researching and discovered that many "free" converters actually
+                    monetize user data or impose strict file size limits to push paid subscriptions. I thought: there
+                    has to be a better way.</p>
+
+                <p>So I built it. ConvertPDF is a completely free, open-source document toolkit that runs entirely in
+                    your browser. When you use ConvertPDF, your files never leave your device—they're processed locally
+                    using JavaScript libraries, then downloaded directly. No servers, no uploads, no data leaks.</p>
+
+                <h2>Our Technology</h2>
+                <p>ConvertPDF leverages powerful open-source libraries to deliver professional-quality conversions:</p>
+                <ul>
+                    <li><strong>PDF generation and manipulation:</strong> <code>pdf-lib</code> for creating, merging,
+                        and encrypting PDFs</li>
+                    <li><strong>Word document conversion:</strong> <code>mammoth.js</code> for DOCX to HTML,
+                        <code>docx</code> library for creating formatted DOCX files</li>
+                    <li><strong>Markdown rendering:</strong> <code>marked</code> with <code>KaTeX</code> for LaTeX math
+                        and <code>Prism.js</code> for syntax highlighting</li>
+                    <li><strong>Image processing:</strong> Native browser Canvas API for conversions and resizing</li>
+                    <li><strong>PDF rendering:</strong> <code>pdf.js</code> for extracting pages as images</li>
+                    <li><strong>QR code generation:</strong> <code>qrcode</code> library with custom styling</li>
+                </ul>
+                <p>All processing happens client-side, meaning your files stay on your computer. You can even disconnect
+                    from the internet after the page loads, and most tools will continue to work.</p>
+
+                <h2>Our Privacy Commitment</h2>
+                <p>Privacy isn't just a feature at ConvertPDF—it's the entire foundation. Here's what we promise:</p>
+                <ul>
+                    <li><strong>No file uploads:</strong> Your documents never leave your browser. We don't have servers
+                        that receive your files, so we can't see them, store them, or share them.</li>
+                    <li><strong>No tracking (except anonymized analytics):</strong> We use Google Analytics with
+                        anonymized IP addresses to understand which tools are popular and how to improve. You can opt
+                        out via browser settings.</li>
+                    <li><strong>No hidden data collection:</strong> We don't collect emails, require sign-ups, or ask
+                        for personal information.</li>
+                    <li><strong>Open source transparency:</strong> Our entire codebase is <a
+                            href="https://github.com/tony90lang/ConvertPDF">available on GitHub</a>. Anyone can inspect
+                        it, verify our claims, or contribute improvements.</li>
+                </ul>
+
+                <h2>Who We Serve</h2>
+                <p>ConvertPDF is used by a diverse community:</p>
+                <ul>
+                    <li><strong>Students:</strong> Converting lecture notes, research papers, and assignments</li>
+                    <li><strong>Developers:</strong> Generating documentation, creating PDFs from Markdown, producing QR
+                        codes for testing</li>
+                    <li><strong>Freelancers and small businesses:</strong> Merging invoices, password-protecting
+                        contracts, combining scanned receipts</li>
+                    <li><strong>Writers and journalists:</strong> Turning drafts into shareable PDFs, extracting images
+                        from source documents</li>
+                    <li><strong>Everyday users:</strong> Creating photo albums as PDFs, converting images to PNG for web
+                        use, generating QR codes for events</li>
+                </ul>
+
+                <h2>Our Mission</h2>
+                <p>We believe that essential document tools should be free, private, and accessible to everyone. No
+                    paywalls, no sign-ups, no surveillance. ConvertPDF is our contribution to a more open and
+                    trustworthy web.</p>
+
+                <p>If you find ConvertPDF useful, please share it with others. If you have ideas for improvement, we'd
+                    love to hear from you via our <a href="contact.html">contact page</a> or GitHub repository.</p>
+
+                <p><em>— The ConvertPDF Team (one passionate developer)</em></p>
+
+                <p><a href="index.html">← Back to ConvertPDF</a></p>
+            </div>
+
+            <!-- Extended mission statement (already in your version) -->
+            <div class="content-section" style="margin-top: 3rem;">
+                <h2>Our Mission: Your Privacy Comes First</h2>
+                <p>At ConvertPDF, we believe that your documents belong to you—not to some server in the cloud. That's
+                    why we built every tool to run entirely in your browser. No uploads, no data mining, no hidden fees.
+                    Just fast, reliable conversions that respect your privacy.</p>
+                <p>Unlike many "free" converters that sell your data or impose file size limits, ConvertPDF gives you
+                    unlimited use of all features without ever asking for a sign-up. Our code is open source, so you (or
+                    any security researcher) can verify that we truly do what we promise.</p>
+                <p>Thank you for trusting us with your documents. If you have any questions or suggestions, please <a
+                        href="contact.html">reach out</a>.</p>
             </div>
         </div>
-        <div class="footer-col">
-            <h4>Tools</h4>
-            <ul>
-                <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
-                <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
-                <li><a href="pages/img2pdf.html">Images to PDF</a></li>
-                <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
-                <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
-                <li><a href="pages/qrmaker.html">QR Generator</a></li>
-            </ul>
+    </main>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>📄 ConvertPDF</h4>
+                <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+                <div class="social-links">
+                    <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                    <a href="mailto:convertpdf.contact@gmail.com" title="Email">📧</a>
+                    <a href="#" title="Twitter (coming soon)">🐦</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                    <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                    <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                    <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                    <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                    <li><a href="pages/qrmaker.html">QR Generator</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog/index.html">Blog</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <p>Have questions or feedback? We'd love to hear from you.</p>
+                <p><a href="mailto:convertpdf.contact@gmail.com">convertpdf.contact@gmail.com</a></p>
+                <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+            </div>
         </div>
-        <div class="footer-col">
-            <h4>Resources</h4>
-            <ul>
-                <li><a href="blog/index.html">Blog</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="privacy.html">Privacy Policy</a></li>
-                <li><a href="terms.html">Terms of Service</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a
+                    href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
         </div>
-        <div class="footer-col">
-            <h4>Get in Touch</h4>
-            <p>Have questions or feedback? We'd love to hear from you.</p>
-            <p><a href="mailto:convertpdf.contact@gmail.com">convertpdf.contact@gmail.com</a></p>
-            <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
-    </div>
-</footer>
-<!-- scripts -->
+    </footer>
+    <!-- scripts -->
+    <script src="utils.js"></script>
+    <script src="components.js"></script>
 </body>
+
+</html>.Groups[1].Value + @"
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About ConvertPDF – Our Mission &amp; Privacy Commitment">
+    <meta property="og:description" content="Free, private, client-side PDF converter. No uploads, open source.">
+    <meta property="og:url" content="https://convert-pdf-tool.netlify.app/about.html">
+    <meta property="og:site_name" content="ConvertPDF">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="About ConvertPDF">
+    <meta name="twitter:description" content="Free, private, client-side PDF converter. No uploads, open source.">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://convert-pdf-tool.netlify.app/about.html">
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About ConvertPDF – Our Mission &amp; Privacy Commitment">
+    <meta property="og:description" content="Free, private, client-side PDF converter. No uploads, open source.">
+    <meta property="og:url" content="https://convert-pdf-tool.netlify.app/about.html">
+    <meta property="og:site_name" content="ConvertPDF">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="About ConvertPDF">
+    <meta name="twitter:description" content="Free, private, client-side PDF converter. No uploads, open source.">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://convert-pdf-tool.netlify.app/about.html">
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+"@
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📄%3C/text%3E%3C/svg%3E">
+</head>
+
+<body>
+    <!-- New header menu -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html" title="ConvertPDF - Home">📄 ConvertPDF</a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-tools.html">All Tools</a></li>
+                    <li><a href="blog/index.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="app-container">
+            <div style="margin-bottom: 2rem;">
+                <a href="index.html" class="back-btn">← Back to Home</a>
+            </div>
+
+            <div class="content-section" style="max-width: 900px; margin: 2rem auto;">
+                <h1>About ConvertPDF: Privacy-First Document Conversion</h1>
+                <p><strong>Last updated:</strong> March 2026</p>
+
+                <h2>Our Story</h2>
+                <p>ConvertPDF was born from a simple frustration. As a first-year engineering student, I frequently
+                    needed to convert documents—Markdown notes to PDF, Word files to PDF, images to PDF—but every online
+                    converter I tried required uploading my files to some unknown server. How could I trust my research
+                    notes, my assignments, or my personal documents to a website that might store, analyze, or even sell
+                    them?</p>
+
+                <p>That question bothered me. I started researching and discovered that many "free" converters actually
+                    monetize user data or impose strict file size limits to push paid subscriptions. I thought: there
+                    has to be a better way.</p>
+
+                <p>So I built it. ConvertPDF is a completely free, open-source document toolkit that runs entirely in
+                    your browser. When you use ConvertPDF, your files never leave your device—they're processed locally
+                    using JavaScript libraries, then downloaded directly. No servers, no uploads, no data leaks.</p>
+
+                <h2>Our Technology</h2>
+                <p>ConvertPDF leverages powerful open-source libraries to deliver professional-quality conversions:</p>
+                <ul>
+                    <li><strong>PDF generation and manipulation:</strong> <code>pdf-lib</code> for creating, merging,
+                        and encrypting PDFs</li>
+                    <li><strong>Word document conversion:</strong> <code>mammoth.js</code> for DOCX to HTML,
+                        <code>docx</code> library for creating formatted DOCX files</li>
+                    <li><strong>Markdown rendering:</strong> <code>marked</code> with <code>KaTeX</code> for LaTeX math
+                        and <code>Prism.js</code> for syntax highlighting</li>
+                    <li><strong>Image processing:</strong> Native browser Canvas API for conversions and resizing</li>
+                    <li><strong>PDF rendering:</strong> <code>pdf.js</code> for extracting pages as images</li>
+                    <li><strong>QR code generation:</strong> <code>qrcode</code> library with custom styling</li>
+                </ul>
+                <p>All processing happens client-side, meaning your files stay on your computer. You can even disconnect
+                    from the internet after the page loads, and most tools will continue to work.</p>
+
+                <h2>Our Privacy Commitment</h2>
+                <p>Privacy isn't just a feature at ConvertPDF—it's the entire foundation. Here's what we promise:</p>
+                <ul>
+                    <li><strong>No file uploads:</strong> Your documents never leave your browser. We don't have servers
+                        that receive your files, so we can't see them, store them, or share them.</li>
+                    <li><strong>No tracking (except anonymized analytics):</strong> We use Google Analytics with
+                        anonymized IP addresses to understand which tools are popular and how to improve. You can opt
+                        out via browser settings.</li>
+                    <li><strong>No hidden data collection:</strong> We don't collect emails, require sign-ups, or ask
+                        for personal information.</li>
+                    <li><strong>Open source transparency:</strong> Our entire codebase is <a
+                            href="https://github.com/tony90lang/ConvertPDF">available on GitHub</a>. Anyone can inspect
+                        it, verify our claims, or contribute improvements.</li>
+                </ul>
+
+                <h2>Who We Serve</h2>
+                <p>ConvertPDF is used by a diverse community:</p>
+                <ul>
+                    <li><strong>Students:</strong> Converting lecture notes, research papers, and assignments</li>
+                    <li><strong>Developers:</strong> Generating documentation, creating PDFs from Markdown, producing QR
+                        codes for testing</li>
+                    <li><strong>Freelancers and small businesses:</strong> Merging invoices, password-protecting
+                        contracts, combining scanned receipts</li>
+                    <li><strong>Writers and journalists:</strong> Turning drafts into shareable PDFs, extracting images
+                        from source documents</li>
+                    <li><strong>Everyday users:</strong> Creating photo albums as PDFs, converting images to PNG for web
+                        use, generating QR codes for events</li>
+                </ul>
+
+                <h2>Our Mission</h2>
+                <p>We believe that essential document tools should be free, private, and accessible to everyone. No
+                    paywalls, no sign-ups, no surveillance. ConvertPDF is our contribution to a more open and
+                    trustworthy web.</p>
+
+                <p>If you find ConvertPDF useful, please share it with others. If you have ideas for improvement, we'd
+                    love to hear from you via our <a href="contact.html">contact page</a> or GitHub repository.</p>
+
+                <p><em>— The ConvertPDF Team (one passionate developer)</em></p>
+
+                <p><a href="index.html">← Back to ConvertPDF</a></p>
+            </div>
+
+            <!-- Extended mission statement (already in your version) -->
+            <div class="content-section" style="margin-top: 3rem;">
+                <h2>Our Mission: Your Privacy Comes First</h2>
+                <p>At ConvertPDF, we believe that your documents belong to you—not to some server in the cloud. That's
+                    why we built every tool to run entirely in your browser. No uploads, no data mining, no hidden fees.
+                    Just fast, reliable conversions that respect your privacy.</p>
+                <p>Unlike many "free" converters that sell your data or impose file size limits, ConvertPDF gives you
+                    unlimited use of all features without ever asking for a sign-up. Our code is open source, so you (or
+                    any security researcher) can verify that we truly do what we promise.</p>
+                <p>Thank you for trusting us with your documents. If you have any questions or suggestions, please <a
+                        href="contact.html">reach out</a>.</p>
+            </div>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>📄 ConvertPDF</h4>
+                <p>Free, private, client‑side PDF tools. No uploads, no sign‑up, no limits.</p>
+                <div class="social-links">
+                    <a href="https://github.com/tony90lang/ConvertPDF" target="_blank" title="GitHub">⌨️</a>
+                    <a href="mailto:convertpdf.contact@gmail.com" title="Email">📧</a>
+                    <a href="#" title="Twitter (coming soon)">🐦</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="pages/md2pdf.html">Markdown to PDF</a></li>
+                    <li><a href="pages/docx2pdf.html">DOCX to PDF</a></li>
+                    <li><a href="pages/img2pdf.html">Images to PDF</a></li>
+                    <li><a href="pages/mergepdf.html">Merge PDFs</a></li>
+                    <li><a href="pages/pdfencrypt.html">Password Protect</a></li>
+                    <li><a href="pages/qrmaker.html">QR Generator</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="blog/index.html">Blog</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <p>Have questions or feedback? We'd love to hear from you.</p>
+                <p><a href="mailto:convertpdf.contact@gmail.com">convertpdf.contact@gmail.com</a></p>
+                <p><a href="https://github.com/tony90lang/ConvertPDF" target="_blank">GitHub Repository</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ConvertPDF. All rights reserved. | <a href="privacy.html">Privacy</a> | <a
+                    href="terms.html">Terms</a> | <a href="sitemap.xml">Sitemap</a></p>
+        </div>
+    </footer>
+    <!-- scripts -->
+    <script src="utils.js"></script>
+    <script src="components.js"></script>
+</body>
+
 </html>

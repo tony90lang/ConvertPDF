@@ -1,5 +1,6 @@
-// txt2docx.js
+﻿// txt2docx.js
 async function rendertxt2docx(container) {
+    try {
     await loadScript('https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.min.js');
 
     container.innerHTML = '';
@@ -181,4 +182,8 @@ async function rendertxt2docx(container) {
     });
 
     downloadBtn.addEventListener('click', () => { if (currentDocxBlob) downloadBlob(currentDocxBlob, 'text-to-word.docx'); });
+    } catch (___err) {
+        console.error('rendertxt2docx error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }

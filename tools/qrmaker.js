@@ -1,5 +1,6 @@
-// qrmaker.js
+﻿// qrmaker.js
 async function renderqrmaker(container) {
+    try {
     await loadScript('https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js');
 
     container.innerHTML = '';
@@ -338,4 +339,8 @@ async function renderqrmaker(container) {
             }
         }
     });
+    } catch (___err) {
+        console.error('renderqrmaker error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }

@@ -1,5 +1,6 @@
-// img2pdf.js
+﻿// img2pdf.js
 async function renderimg2pdf(container) {
+    try {
     await loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js');
 
     container.innerHTML = '';
@@ -290,4 +291,8 @@ async function renderimg2pdf(container) {
             downloadBlob(window.currentPdfBlob, 'combined-images.pdf');
         }
     });
+    } catch (___err) {
+        console.error('renderimg2pdf error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }

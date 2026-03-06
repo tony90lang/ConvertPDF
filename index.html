@@ -6,7 +6,23 @@
     <meta name="description" content="Free online PDF converter: turn Markdown, DOCX, images into PDF. Merge, encrypt, and more – all in your browser. No uploads, 100% private.">
     <meta name="google-adsense-account" content="ca-pub-1745874358886453">
     <meta name="google-site-verification" content="HxFFLIRH-qhkVXIcmvcBW20DwdRnlt-GKaQiGHWpOsQ" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ConvertPDF – Private, Client-Side PDF Converter">
+    <meta property="og:description" content="Free online PDF converter: Markdown, DOCX, images to PDF. Merge, encrypt, and more – all in your browser. No uploads, 100% private.">
+    <meta property="og:url" content="https://convert-pdf-tool.netlify.app/">
+    <meta property="og:site_name" content="ConvertPDF">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ConvertPDF – Private, Client-Side PDF Converter">
+    <meta name="twitter:description" content="Free PDF tools: Markdown, DOCX, images to PDF, merge, encrypt. All client-side, no uploads.">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://convert-pdf-tool.netlify.app/">
     <title>ConvertPDF – Private, Client‑Side PDF Converter</title>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📄%3C/text%3E%3C/svg%3E">
 </head>
@@ -133,30 +149,8 @@
 </footer>
 
 <script src="utils.js"></script>
-<script>
-    const tools = [
-        { id: 'md2pdf', name: '📝 Markdown → PDF', desc: 'convert .md to formatted PDF', icon: '📄➡️📑', url: 'pages/md2pdf.html' },
-        { id: 'docx2pdf', name: '📃 DOCX → PDF', desc: 'Word documents to PDF', icon: '📘➡️📕', url: 'pages/docx2pdf.html' },
-        { id: 'img2pdf', name: '🖼️ Images → PDF', desc: 'JPG/PNG to single PDF', icon: '🌠➡️📇', url: 'pages/img2pdf.html' },
-        { id: 'pdfencrypt', name: '🔐 PDF password', desc: 'protect PDF with encryption', icon: '🔒📎', url: 'pages/pdfencrypt.html' },
-        { id: 'mergepdf', name: '🧩 Merge PDFs', desc: 'combine multiple PDF files', icon: '🔗📚', url: 'pages/mergepdf.html' },
-        { id: 'txt2docx', name: '📄 TXT → DOCX', desc: 'plain text to Word file', icon: '📋➡️📙', url: 'pages/txt2docx.html' },
-        { id: 'pdf2jpg', name: '📸 PDF → JPG', desc: 'extract pages as images', icon: '📑➡️🌄', url: 'pages/pdf2jpg.html' },
-        { id: 'img2png', name: '🎨 Any image → PNG', desc: 'convert to PNG format', icon: '🖼️➡️📸', url: 'pages/img2png.html' },
-        { id: 'web2pdf', name: '🌐 HTML → PDF', desc: 'paste HTML snippet to PDF', icon: '🕸️➡️📜', url: 'pages/web2pdf.html' },
-        { id: 'qrmaker', name: '📱 QR code', desc: 'text/link → QR code PNG/SVG', icon: '🔳⬇️', url: 'pages/qrmaker.html' }
-    ];
-    const grid = document.getElementById('toolGrid');
-    tools.forEach(t => {
-        const card = document.createElement('a');
-        card.href = t.url;
-        card.className = 'tool-card';
-        card.innerHTML = `<div class="tool-icon">${t.icon}</div>
-                          <div class="tool-name">${t.name}</div>
-                          <div class="tool-desc">${t.desc}</div>`;
-        grid.appendChild(card);
-    });
-</script>
+<script src="script.js"></script>
+<script src="components.js"></script>
 
 <!-- AdSense & Analytics (at bottom) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1745874358886453" crossorigin="anonymous"></script>

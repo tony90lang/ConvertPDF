@@ -1,5 +1,6 @@
-// docx2pdf.js
+﻿// docx2pdf.js
 async function renderdocx2pdf(container) {
+    try {
     await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
 
     container.innerHTML = '';
@@ -145,4 +146,8 @@ async function renderdocx2pdf(container) {
             printBtn.innerHTML = '🖨️ Print / Save as PDF';
         }
     });
+    } catch (___err) {
+        console.error('renderdocx2pdf error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }

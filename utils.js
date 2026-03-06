@@ -71,18 +71,28 @@ function loadStylesheet(href) {
 
 // ---------- TOAST NOTIFICATIONS ----------
 function showToast(message, type = 'success') {
+    // Use the container injected by components.js; fall back to creating one
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        container.setAttribute('aria-live', 'polite');
+        document.body.appendChild(container);
+    }
+
+    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
     const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span class="toast-icon">${icons[type] || '✅'}</span><span>${message}</span>`;
+    container.appendChild(toast);
 
-    // Force reflow
+    // Force reflow then animate in
     toast.offsetHeight;
-
     toast.classList.add('show');
 
     setTimeout(() => {
-        toast.classList.remove('show');
+        toast.classList.add('removing');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }

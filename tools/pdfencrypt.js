@@ -1,16 +1,17 @@
-// pdfencrypt.js - Fixed encryption with pdf-lib v1.17.1
+﻿// pdfencrypt.js - Fixed encryption with pdf-lib-plus-encrypt fork
 async function renderpdfencrypt(container) {
-    await loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js');
+    try {
+        await loadScript('https://cdn.jsdelivr.net/npm/pdf-lib-plus-encrypt@1.1.0/dist/pdf-lib.min.js');
 
-    container.innerHTML = '';
-    const area = document.createElement('div');
-    area.className = 'area';
-    container.appendChild(area);
+        container.innerHTML = '';
+        const area = document.createElement('div');
+        area.className = 'area';
+        container.appendChild(area);
 
-    updateMetaDescription("Protect your PDFs with a password. Set permissions for printing, copying, and modifying. 100% private, no uploads.");
-    updatePageTitle("PDF Password Protector");
+        updateMetaDescription("Protect your PDFs with a password. Set permissions for printing, copying, and modifying. 100% private, no uploads.");
+        updatePageTitle("PDF Password Protector");
 
-    area.innerHTML = `
+        area.innerHTML = `
         <h3>🔐 Protect PDF with Password</h3>
         <p class="tool-description">
             Protect your PDFs with a password. Set permissions for printing, copying, or modifying.
@@ -43,108 +44,106 @@ async function renderpdfencrypt(container) {
         </div>
     `;
 
-    const pdfFile = document.getElementById('pdfToEncrypt');
-    const pdfPassword = document.getElementById('pdfPassword');
-    const pdfConfirm = document.getElementById('pdfConfirmPassword');
-    const pdfOwnerPassword = document.getElementById('pdfOwnerPassword');
-    const permPrint = document.getElementById('permPrint');
-    const permCopy = document.getElementById('permCopy');
-    const permModify = document.getElementById('permModify');
-    const encryptBtn = document.getElementById('encryptPdfBtn');
-    const strengthDiv = document.getElementById('passwordStrength');
+        const pdfFile = document.getElementById('pdfToEncrypt');
+        const pdfPassword = document.getElementById('pdfPassword');
+        const pdfConfirm = document.getElementById('pdfConfirmPassword');
+        const pdfOwnerPassword = document.getElementById('pdfOwnerPassword');
+        const permPrint = document.getElementById('permPrint');
+        const permCopy = document.getElementById('permCopy');
+        const permModify = document.getElementById('permModify');
+        const encryptBtn = document.getElementById('encryptPdfBtn');
+        const strengthDiv = document.getElementById('passwordStrength');
 
-    // Password strength meter
-    pdfPassword.addEventListener('input', () => {
-        const pwd = pdfPassword.value;
-        let strength = 0;
-        if (pwd.length >= 8) strength++;
-        if (/[a-z]/.test(pwd)) strength++;
-        if (/[A-Z]/.test(pwd)) strength++;
-        if (/[0-9]/.test(pwd)) strength++;
-        if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
-        const msgs = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
-        const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
-        const index = Math.min(strength, msgs.length - 1);
-        strengthDiv.textContent = `Password Strength: ${msgs[index]}`;
-        strengthDiv.style.color = colors[index];
-    });
+        // Password strength meter
+        pdfPassword.addEventListener('input', () => {
+            const pwd = pdfPassword.value;
+            let strength = 0;
+            if (pwd.length >= 8) strength++;
+            if (/[a-z]/.test(pwd)) strength++;
+            if (/[A-Z]/.test(pwd)) strength++;
+            if (/[0-9]/.test(pwd)) strength++;
+            if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
+            const msgs = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+            const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
+            const index = Math.min(strength, msgs.length - 1);
+            strengthDiv.textContent = `Password Strength: ${msgs[index]}`;
+            strengthDiv.style.color = colors[index];
+        });
 
-    encryptBtn.addEventListener('click', async () => {
-        const file = pdfFile.files[0];
-        const pwd = pdfPassword.value;
-        const confirm = pdfConfirm.value;
-        const ownerPwd = pdfOwnerPassword.value || pwd;
+        encryptBtn.addEventListener('click', async () => {
+            const file = pdfFile.files[0];
+            const pwd = pdfPassword.value;
+            const confirm = pdfConfirm.value;
+            const ownerPwd = pdfOwnerPassword.value || pwd;
 
-        if (!file) { alert('Please select a PDF file.'); return; }
-        if (!pwd) { alert('Please enter a user password.'); return; }
-        if (pwd !== confirm) { alert('User passwords do not match.'); return; }
-        if (pwd.length < 6) { alert('User password must be at least 6 characters.'); return; }
+            if (!file) { alert('Please select a PDF file.'); return; }
+            if (!pwd) { alert('Please enter a user password.'); return; }
+            if (pwd !== confirm) { alert('User passwords do not match.'); return; }
+            if (pwd.length < 6) { alert('User password must be at least 6 characters.'); return; }
 
-        encryptBtn.disabled = true;
-        encryptBtn.innerHTML = '⏳ Encrypting...';
+            encryptBtn.disabled = true;
+            encryptBtn.innerHTML = '⏳ Encrypting...';
 
-        try {
-            // First try loading the fork
             try {
-                await loadScript('https://cdn.jsdelivr.net/npm/@nicolo-ribaudo/pdf-lib-encrypt-fork/dist/pdf-lib-encrypt.min.js');
-            } catch (e) {
-                console.warn('Failed to load pdf-lib-encrypt-fork, encryption may not work as expected', e);
-            }
-            if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Please refresh the page.');
-            const { PDFDocument } = PDFLib;
+                if (typeof PDFLib === 'undefined') throw new Error('PDF library not loaded. Please refresh the page.');
+                const { PDFDocument } = PDFLib;
 
-            // Load the PDF
-            const arrayBuf = await file.arrayBuffer();
-            let pdfDoc;
-            try {
-                pdfDoc = await PDFDocument.load(arrayBuf, { ignoreEncryption: true });
-            } catch (loadErr) {
-                if (loadErr.message && loadErr.message.toLowerCase().includes('password')) {
-                    throw new Error('This PDF is already encrypted. Please remove the password first.');
+                // Load the PDF
+                const arrayBuf = await file.arrayBuffer();
+                let pdfDoc;
+                try {
+                    pdfDoc = await PDFDocument.load(arrayBuf, { ignoreEncryption: true });
+                } catch (loadErr) {
+                    if (loadErr.message && loadErr.message.toLowerCase().includes('password')) {
+                        throw new Error('This PDF is already encrypted. Please remove the password first.');
+                    }
+                    throw new Error('Invalid or corrupted PDF file.');
                 }
-                throw new Error('Invalid or corrupted PDF file.');
+
+                // Create a new PDF and copy all pages (this is necessary to apply encryption)
+                const newPdf = await PDFDocument.create();
+                const copiedPages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                copiedPages.forEach(page => newPdf.addPage(page));
+
+                // Set permissions
+                const permissions = {
+                    printing: permPrint.checked ? 'highResolution' : 'none',
+                    modifying: permModify.checked,
+                    copying: permCopy.checked,
+                    annotating: false,
+                    fillingForms: false,
+                    contentAccessibility: true,
+                    documentAssembly: false
+                };
+
+                // Encrypt the new PDF handling the case where encrypt method comes from fork vs native
+                if (typeof newPdf.encrypt === 'function') {
+                    newPdf.encrypt({
+                        userPassword: pwd,
+                        ownerPassword: ownerPwd,
+                        permissions: permissions
+                    });
+                } else {
+                    throw new Error("Unable to encrypt. PDF-lib encryption patch failed to load.");
+                }
+
+                const encryptedBytes = await newPdf.save();
+                downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
+
+            } catch (error) {
+                console.error('Encryption error:', error);
+                if (window.showToast) {
+                    showToast('Encryption failed: ' + error.message, 'error');
+                } else {
+                    alert('Encryption failed: ' + error.message);
+                }
+            } finally {
+                encryptBtn.disabled = false;
+                encryptBtn.innerHTML = '🔒 Encrypt & Download';
             }
-
-            // Create a new PDF and copy all pages (this is necessary to apply encryption)
-            const newPdf = await PDFDocument.create();
-            const copiedPages = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-            copiedPages.forEach(page => newPdf.addPage(page));
-
-            // Set permissions
-            const permissions = {
-                printing: permPrint.checked ? 'highResolution' : 'none',
-                modifying: permModify.checked,
-                copying: permCopy.checked,
-                annotating: false,
-                fillingForms: false,
-                contentAccessibility: true,
-                documentAssembly: false
-            };
-
-            // Encrypt the new PDF handling the case where encrypt method comes from fork vs native
-            if (typeof newPdf.encrypt === 'function') {
-                newPdf.encrypt({
-                    userPassword: pwd,
-                    ownerPassword: ownerPwd,
-                    permissions: permissions
-                });
-            } else {
-                throw new Error("Unable to encrypt. PDF-lib encryption patch failed to load.");
-            }
-
-            const encryptedBytes = await newPdf.save();
-            downloadBlob(new Blob([encryptedBytes]), `protected-${file.name}`);
-
-        } catch (error) {
-            console.error('Encryption error:', error);
-            if (window.showToast) {
-                showToast('Encryption failed: ' + error.message, 'error');
-            } else {
-                alert('Encryption failed: ' + error.message);
-            }
-        } finally {
-            encryptBtn.disabled = false;
-            encryptBtn.innerHTML = '🔒 Encrypt & Download';
-        }
-    });
+        });
+    } catch (___err) {
+        console.error('renderpdfencrypt error:', ___err);
+        container.innerHTML = '<div class="warning">⚠️ Tool failed to load: ' + ___err.message + '. Please check your internet connection and refresh.</div>';
+    }
 }
